@@ -9,8 +9,6 @@ import { AuthInterceptor } from "../interceptors/auth.interceptor";
     declarations: [
         //components
       
-        
-
     ],
     imports: [
         CommonModule,

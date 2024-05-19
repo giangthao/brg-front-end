@@ -37,6 +37,8 @@ export class LoginComponent implements OnInit {
         Validators.compose([Validators.required, Validators.minLength(3)])
       ),
     });
+
+    
   }
 
   ngOnInit(): void {}
@@ -74,6 +76,7 @@ export class LoginComponent implements OnInit {
           }
         } else {
           this.isLogged = false;
+         console.log(this.authService.isLoggedIn()) 
           this.errorMessage =
             'You do not to access the system. Please contact the admin.';
         }
@@ -81,6 +84,7 @@ export class LoginComponent implements OnInit {
 
       complete: () => {
         console.log('Complete');
+        
       },
       error: (error: any) => {
         console.log(error);

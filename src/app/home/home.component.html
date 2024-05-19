@@ -1,8 +1,21 @@
 
-
 <div>
     <div>Navigation</div>
-    <div>Sidebar</div>
+    <div>
+       <h3>Sidebar</h3>
+       <ul>
+          <li>
+            <a routerLink="/config/dataset">Dataset</a>
+          </li>
+          <li>
+            <a routerLink="/config/rule">Rule</a>
+          </li>
+          <li>
+            <a routerLink="/config/deployed-history">Deployed History</a>
+          </li>
+       </ul>
+    </div>
+    <button *ngIf="isLoggedIn()" (click)="logout()" >Logout</button>
     <div class="content">
         <router-outlet></router-outlet>
     </div>

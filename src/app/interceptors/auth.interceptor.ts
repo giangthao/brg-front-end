@@ -9,16 +9,19 @@ import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 import { Injectable } from '@angular/core';
+import { RoleService } from '../services/role.service';
+import { Router } from '@angular/router';
+import { RouteConstant } from '../constant/route.constant';
 
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  private isRefreshing: boolean = false;
-  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(
-    null
-  );
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService, 
+    private roleService: RoleService, 
+    private router: Router) {}
+
 
   intercept(
     req: HttpRequest<any>,
@@ -45,6 +48,9 @@ export class AuthInterceptor implements HttpInterceptor {
             }),
             catchError((error: any) => {
               this.authService.logout();
+              this.roleService.clearRole();
+              this.router.navigate([RouteConstant.LOGIN])
+
               return throwError(error);
             })
           );

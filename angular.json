@@ -71,8 +71,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular-version-eleven:build"
-           
+            "browserTarget": "angular-version-eleven:build",
+             "port" : 4302
           },
         
           "configurations": {

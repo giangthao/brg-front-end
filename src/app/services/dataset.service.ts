@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from "src/environments/environment";
-import { Dataset } from "../home/modules/dataset-management/upload-file/upload-file.component";
+import { Dataset, DatasetValue } from "../home/modules/dataset-management/upload-file/upload-file.component";
 import { datasetList } from "../home/modules/dataset-management/upload-file/mockdata";
 
 @Injectable({
@@ -42,6 +42,13 @@ export class DatasetService{
         };
     }
 
+    updateDataValueById(id: number, newDataValue: DatasetValue[]) {
+        const dataset = datasetList.find(item => item.id === id);
+        if(dataset) {
+            dataset.listDatasetValue = newDataValue;
+        }
+    }
+
     isErrorDatasetValue(input: string, fields: string[]) : boolean {
        
        if(fields[0] === 'CELL') {
@@ -55,8 +62,8 @@ export class DatasetService{
          return this.checkValueDataset(input, fields)
        }
        else if(fields.length === 1) {
-        console.log(fields)
-        console.log(this.REGEX.test(input))
+       // console.log(fields)
+       // console.log(this.REGEX.test(input))
         return !this.REGEX.test(input);
        }
        return false;

@@ -1,0 +1,142 @@
+<div class="pop-up">
+  <div class="pop-up__content">
+    <div class="header">
+      <h2>Add Dataset Value</h2>
+      <span class="close" onkeydown="" (click)="handleClosePopUp()"
+        >&times;</span
+      >
+    </div>
+
+    <div class="body">
+      <h3>Name: {{ datasetEdit.name }}</h3>
+      <p>Fields: {{ datasetEdit.format }}</p>
+      <p>Range input: {{ datasetEdit.isRangeInput }}</p>
+      <div>
+        <button style="background-color: cadetblue">
+          <label [htmlFor]="'upload-file'">Upload file</label>
+        </button>
+        <input
+          hidden
+          id="upload-file"
+          type="file"
+          (change)="onFileChange($event)"
+        />
+        <a href="#" (click)="downloadFileWithErrors()" *ngIf="fileName">
+          {{ fileName }}</a
+        >
+        <div style="color: red; font-size: 12px" *ngIf="errorMessageUploadFile">
+          {{ errorMessageUploadFile }}
+        </div>
+      </div>
+      <form [formGroup]="formValues" (ngSubmit)="onSubmit($event)">
+        <div formArrayName="inputs">
+          <div
+            *ngFor="let control of inputs.controls; let i = index"
+            [formGroupName]="i"
+            (keydown.enter)="onEnter($event)"
+          >
+            <ng-container *ngIf="!datasetEdit.isRangeInput; else rangeTemplate">
+              <div class="form-group">
+                <span>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</span>
+                <input
+                  formControlName="value"
+                  class="form-input"
+                  placeholder="Value"
+                />
+                <span
+                  style="cursor: pointer; padding: 3px"
+                  onkeydown=""
+                  (click)="removeFormGroup(i)"
+                  >-</span
+                >
+              </div>
+              <div
+                *ngIf="!isValidValue(control.value.value)"
+                class="form-error"
+              >
+                Wrong format
+              </div>
+            </ng-container>
+            <ng-template #rangeTemplate>
+              <div class="form-group">
+                <span>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</span>
+                <input
+                  class="form-input"
+                  formControlName="from"
+                  placeholder="From"
+                />
+                <input
+                  class="form-input"
+                  formControlName="to"
+                  placeholder="To"
+                />
+                <span
+                  style="cursor: pointer; padding: 3px"
+                  onkeydown=""
+                  (click)="removeFormGroup(i)"
+                  >-</span
+                >
+              </div>
+
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                "
+              >
+                <div
+                  *ngIf="!isValidValue(control.value.from)"
+                  class="form-error"
+                >
+                  Wrong From format
+                </div>
+                <div *ngIf="!isValidValue(control.value.to)" class="form-error">
+                  Wrong To format
+                </div>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+   
+        <div
+          style="display: flex; gap: 4px; flex-wrap: wrap"
+          *ngIf="this.totalPages > 0"
+          class="pagination"
+        >
+          <span
+            style="cursor: pointer"
+            (click)="previousPage()"
+            *ngIf="currentPage !== 1"
+            onkeydown=""
+          >
+            Previous
+          </span>
+          <div *ngFor="let page of getPageNumbers()">
+            <span
+              style="cursor: pointer"
+              (click)="pageClick(page)"
+              [class.current-page]="page === currentPage"
+              onkeydown=""
+            >
+              {{ page }}
+            </span>
+          </div>
+          <span
+            style="cursor: pointer"
+            (click)="nextPage()"
+            *ngIf="currentPage < totalPages"
+            onkeydown=""
+          >
+            Next
+        </span>
+        </div>
+        <div class="actions">
+          <button *ngIf="!isDisableButtonSubmit()" type="submit" >Submit</button>
+          <button (click)="handleClosePopUp()">Cancel</button>
+        </div>
+    </form>
+      
+    </div>
+  </div>
+</div>

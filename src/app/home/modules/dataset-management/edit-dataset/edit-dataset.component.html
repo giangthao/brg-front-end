@@ -1,5 +1,18 @@
+<app-add-dataset-value
+  [datasetEdit]="datasetEdit"
+  (closePopUp)="handleClosePopUp($event)"
+  (newValues)="handleEmitNewDatasetValue($event)"
+  *ngIf="showPopUp"
+></app-add-dataset-value>
+
 <h3>Edit dataset: {{ datasetEdit.name }}</h3>
 <p>Format: {{ datasetEdit.format }}</p>
+<button
+  style="background-color: aquamarine; cursor: pointer"
+  (click)="openPopUp()"
+>
+  Add Value
+</button>
 <div class="filter">
   <form [formGroup]="filterForm" (keydown.enter)="submitForm($event)">
     <div class="form-control">
@@ -107,8 +120,10 @@
       >
         <td>{{ value.id }}</td>
 
-        <td class="row-value"   *ngIf="datasetEdit.isRangeInput">
-         <span onkeydown="" (click)="startEditing(value, 'FROM')"> {{ value.from }}</span>
+        <td class="row-value" *ngIf="datasetEdit.isRangeInput">
+          <span onkeydown="" (click)="startEditing(value, 'FROM')">
+            {{ value.from }}</span
+          >
           <div
             class="row-editor"
             [class.error]="!isValidDatasetValue()"
@@ -137,8 +152,10 @@
             </div>
           </div>
         </td>
-        <td class="row-value"  *ngIf="datasetEdit.isRangeInput">
-          <span onkeydown="" (click)="startEditing(value, 'TO')">{{ value.to }}</span>
+        <td class="row-value" *ngIf="datasetEdit.isRangeInput">
+          <span onkeydown="" (click)="startEditing(value, 'TO')">{{
+            value.to
+          }}</span>
           <div
             class="row-editor"
             [class.error]="!isValidDatasetValue()"
@@ -167,8 +184,10 @@
             </div>
           </div>
         </td>
-        <td class="row-value"  *ngIf="!datasetEdit.isRangeInput">
-         <span  onkeydown="" (click)="startEditing(value, 'VALUE')"> {{ value.value }}</span>
+        <td class="row-value" *ngIf="!datasetEdit.isRangeInput">
+          <span onkeydown="" (click)="startEditing(value, 'VALUE')">
+            {{ value.value }}</span
+          >
           <div
             class="row-editor"
             [class.error]="!isValidDatasetValue()"
@@ -180,7 +199,14 @@
               (keydown.enter)="saveEditedValue()"
               (keydown.escape)="cancelEditing()"
             />
-            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: nowrap;">
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                flex-wrap: nowrap;
+              "
+            >
               <button
                 *ngIf="isValidDatasetValue()"
                 (click)="applyNewValue(value, 'VALUE')"
@@ -236,7 +262,20 @@
   </div>
 </div>
 
-<div style="margin-top: 50px; display: flex; align-items: center; justify-content: center;">
-   <button style="cursor: pointer;" (click)="cancel()">Cancel</button>
-   <button style="cursor: pointer;" *ngIf="!checkArraysEqual()"  (click)="saveDatasetValue()">Save</button>
+<div
+  style="
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  "
+>
+  <button style="cursor: pointer" (click)="cancel()">Cancel</button>
+  <button
+    style="cursor: pointer"
+    *ngIf="!checkArraysEqual()"
+    (click)="saveDatasetValue()"
+  >
+    Save
+  </button>
 </div>

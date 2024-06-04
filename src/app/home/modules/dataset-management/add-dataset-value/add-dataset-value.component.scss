@@ -1,0 +1,89 @@
+.pop-up {
+    //display: none; /* Hide the popup by default */
+    position: fixed; /* Position the popup relative to the viewport */
+    z-index: 1; /* Ensure the popup is on top of other content */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden; /* Enable scrolling if needed */
+    background-color: rgba(0, 0, 0, 0.4); /* Black background with opacity */
+    
+    
+  }
+  
+  .pop-up__content {
+    border-radius: 6px;
+    background-color: white;
+    margin: 60px auto; /* Center the popup vertically and horizontally */
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px; /* Set maximum width for the popup */
+   // position: relative;
+    min-height: 600px;
+    
+  }
+  
+  .close {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.header{
+    padding: 24px 24px 8px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    border-bottom: 1px solid #e1e1e1;;
+
+    h2{
+        font-size: 1.7rem;
+        line-height: 1.6;
+    }
+}
+
+.body{
+    padding: 12px 24px;
+}
+
+.form-group{
+    margin: 4px 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    height: 40px;
+}
+
+.form-input{
+    flex: 1;
+    height: 100%;
+    padding: 0 6px;
+    border: 1px solid #e1e1e1;
+
+}
+
+.actions{
+    display: flex;
+    margin-top: 10px;
+    gap: 6px;
+    align-items: center;
+    justify-content: flex-end;
+
+    button{
+         cursor: pointer;
+    }
+}
+
+.form-error{
+    margin-top: 16px;
+    font-size: 1.2rem;
+    color: red;
+    margin-bottom: 6px;
+}
+
+.current-page{
+    color: blue;
+}

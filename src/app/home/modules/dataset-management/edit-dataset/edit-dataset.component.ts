@@ -41,6 +41,14 @@ export class EditDatasetComponent implements OnInit, OnDestroy {
 
   newDatasetValue: DatasetValue[] = [];
 
+  showPopUp: boolean = false;
+  closed = false;
+
+  handleClosePopUp(closed: boolean) {
+    this.showPopUp = false;
+    this.closed = closed;
+  }
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -129,6 +137,15 @@ export class EditDatasetComponent implements OnInit, OnDestroy {
 
     this.paginateData(); // Initialize pagination on load
     this.calculateTotalPages(); // Calculate total pages on load
+  }
+
+  handleEmitNewDatasetValue(datasetValues: DatasetValue[]) {
+    console.log(this.datasetEdit.listDatasetValue);
+    this.filteredData = datasetValues;
+    
+
+    this.paginateData();
+    this.calculateTotalPages();
   }
 
   startEditing(item: DatasetValue, type? : string) {
@@ -308,7 +325,6 @@ export class EditDatasetComponent implements OnInit, OnDestroy {
     this.calculateTotalPages();
   }
 
-  
 
   applyFilter(value: any) {}
 
@@ -432,7 +448,6 @@ export class EditDatasetComponent implements OnInit, OnDestroy {
     this.filteredData = deepCopy(this.datasetEdit.listDatasetValue);
     this.paginateData();
     this.calculateTotalPages();
-
     
   }
 
@@ -440,6 +455,11 @@ export class EditDatasetComponent implements OnInit, OnDestroy {
     this.filteredData = deepCopy(this.datasetEdit.listDatasetValue);
     this.paginateData();
     this.calculateTotalPages();
+  }
+
+  openPopUp() {
+    this.showPopUp = true;
+
   }
 
  

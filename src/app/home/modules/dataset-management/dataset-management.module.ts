@@ -4,6 +4,7 @@ import { ShareModule } from "src/app/share/share.module";
 import { UploadFileComponent } from "./upload-file/upload-file.component";
 import { EditDatasetComponent } from "./edit-dataset/edit-dataset.component";
 import { RouterModule } from "@angular/router";
+import { AddDatasetValueComponent } from "./add-dataset-value/add-dataset-value.component";
 
 
 
@@ -11,7 +12,8 @@ import { RouterModule } from "@angular/router";
     declarations: [
         DatasetManagementComponent,
         UploadFileComponent,
-        EditDatasetComponent
+        EditDatasetComponent,
+        AddDatasetValueComponent
     ],
     imports: [
         ShareModule,
@@ -22,7 +24,8 @@ import { RouterModule } from "@angular/router";
         ShareModule,
         UploadFileComponent,
         EditDatasetComponent,
-        RouterModule
+        RouterModule,
+        AddDatasetValueComponent
     ]
 })
 export class DatasetManagementModule{

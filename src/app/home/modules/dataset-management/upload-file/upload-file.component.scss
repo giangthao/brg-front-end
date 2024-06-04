@@ -1,0 +1,122 @@
+.upload-file {
+   margin-top: 40px;
+
+   .form-wrapper {
+      max-height: 56vh;
+      overflow-y: scroll;
+   }
+   &__btn {
+      margin-left: auto;
+      display: flex;
+   }
+   &__label {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: #ccc;
+      border-radius: 6px;
+      cursor: pointer;
+   }
+   &__icon {
+      width: 16px;
+   }
+
+   &__text {
+      font-weight: 600;
+      font-size: 1.5rem;
+   }
+
+   .form-group {
+      //   background-color: red;
+      margin: 30px 0 !important;
+   }
+
+   .form-content {
+      // background-color: blue;
+      margin: 12px 0;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+   }
+
+   .form-control {
+      flex: 1;
+
+      input {
+         height: 52px;
+         width: 100%;
+         border: 1px solid #e1e1e1;
+         border-radius: 8px;
+         padding: 0 12px;
+      }
+   }
+
+   .error {
+      color: red;
+      font-size: 1.4rem;
+      margin-top: 6px;
+   }
+}
+
+.list-dataset {
+   margin-top: 20px;
+   &__heading {
+      font-size: 1.7rem;
+      font-weight: 500;
+      text-decoration: underline;
+   }
+   &__table {
+      margin-top: 24px;
+      border: 1px solid #eee;
+      width: 100%;
+
+      tr:nth-child(odd) {
+         background-color: #f4f4f4;
+      }
+
+      th {
+         text-align: left;
+         color: #333;
+         font-weight: 500;
+      }
+
+      td {
+         font-size: 1.5rem;
+         font-weight: 400;
+      }
+
+      th,
+      td {
+         padding: 8px 12px;
+         border-top: 1px solid #eee;
+      }
+
+      &-actions {
+         display: flex;
+         align-items: center;
+         gap: 8px;
+      }
+   }
+}
+
+.edit-btn {
+   padding: 0;
+   cursor: pointer;
+   font-size: 1.5rem;
+   font-weight: 400;
+
+   &:hover {
+      text-decoration: underline;
+   }
+}
+
+.delete-btn {
+   color: red;
+   font-size: 1.5rem;
+   font-weight: 400;
+
+   &:hover {
+      text-decoration: underline;
+   }
+}

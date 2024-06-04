@@ -1,0 +1,124 @@
+@import url('/assets/fonts-switter/stylesheet.css');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+}
+
+* {
+   box-sizing: border-box;
+   margin: 0;
+}
+
+html {
+   font-size: 62.5%;
+
+   --mat-form-field-filled-with-label-container-padding-top: 10px;
+}
+
+body {
+   font-size: 1.6rem;
+   font-family: 'Switzer', sans-serif;
+}
+input {
+   background-color: transparent;
+   border: none;
+   outline: none;
+   font-family: inherit;
+}
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+   -webkit-appearance: none;
+   margin: 0;
+}
+input[type='number'] {
+   -moz-appearance: textfield; /* Firefox */
+}
+
+/* Sroll bar */
+html ::-webkit-scrollbar {
+   border-radius: 0px;
+   width: 8px;
+}
+
+html ::-webkit-scrollbar-thumb {
+   border-radius: 4px;
+   background-color: rgba(22, 24, 35, 0.06);
+}
+
+html ::-webkit-scrollbar-track {
+   border-radius: 0px;
+   background-color: rgba(0, 0, 0, 0);
+}
+
+// CUSTIOM STYLES OF MATERIAL
+
+.custom-slider {
+   width: 320px;
+}
+.custom-slider .mdc-slider__track {
+   // background-color: #b2f8f6 !important;
+}
+
+.custom-slider .mdc-slider__track--active_fill {
+   border-color: #31c3e0 !important;
+}
+
+.custom-slider .mdc-slider__track--inactive {
+   background-color: #ca9a9a !important;
+}
+
+.custom-slider .mdc-slider__thumb-knob {
+   background-color: #31c3e0 !important;
+   border-color: #31c3e0 !important;
+}
+.custom-slider .mdc-slider__thumb--focused {
+   //  background-color: red !important;
+}
+
+.custom-date-picker {
+   margin-bottom: -22px;
+   .mat-mdc-form-field-infix {
+      width: 100px;
+   }
+   .mat-mdc-form-field-focus-overlay {
+      background-color: transparent;
+   }
+
+   .mat-mdc-form-field-infix {
+      background-color: red;
+      min-height: 36px;
+      padding-top: 10px;
+      padding-bottom: 8px;
+      margin-bottom: -10px;
+   }
+
+   .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-text-field__input {
+      caret-color: #000;
+   }
+   .mat-mdc-icon-button svg,
+   .mat-mdc-icon-button img {
+      ///  width: 18px;
+      //height: 18px;
+   }
+   .mat-mdc-icon-button.mat-mdc-button-base {
+      --mdc-icon-button-state-layer-size: 34px;
+      background-color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+   }
+}
+
+.custom-date-picker .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+   background-color: var(--white);
+   border: none;
+}
+
+.custom-date-picker .mdc-text-field--filled .mdc-floating-label--float-above {
+   transform: translateY(0);
+}
+
+// CUSTOM GOOGLE MAP
+.map-container {
+   border-radius: 8px !important;
+}

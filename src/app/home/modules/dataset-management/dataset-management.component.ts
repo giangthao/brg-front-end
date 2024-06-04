@@ -18,15 +18,15 @@ export class DatasetManagementComponent implements OnInit {
   constructor(private datasetService: DatasetService, private router: Router) {}
 
   ngOnInit(): void {
-    this.datasetService.getDataset().subscribe({
-      next: (response: any) => {
-        console.log(response);
-      },
-      complete: () => {},
-      error: (error: any) => {
-        console.log(error);
-        this.router.navigate([RouteConstant.LOGIN])
-      },
-    });
+    // this.datasetService.getDataset().subscribe({
+    //   next: (response: any) => {
+    //     console.log(response);
+    //   },
+    //   complete: () => {},
+    //   error: (error: any) => {
+    //     console.log(error);
+    //     //this.router.navigate([RouteConstant.LOGIN])
+    //   },
+    // });
   }
 }

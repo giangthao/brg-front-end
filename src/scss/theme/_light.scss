@@ -1,0 +1,150 @@
+html {
+      // commom
+      --logo-color: #ff7b29;
+      --white: #fff; 
+      --heading-text-color: #2d3134;
+      --desct-text-color: #676a6c;
+
+      // header
+      --header-button-bg-color: #31c3e0;
+      --header-title-nav: #676a6c;
+      --header-title-nav-active: #2d3134;
+      --header-overlay-bg-color: #00000066;
+
+      //introduction - homepage
+      --introduction-heading-color: #2d3134;
+      --introduction-praragraph-desc: #676a6c;
+      --introduction-button-first-box-sahdow: 0px 30px 30px -18px rgba(229, 89, 54, 0.16);
+      --introduction-button-second-color: #4d4f56;
+      --introduction-button-second-bg-color: #f9f9f9;
+      --introduction-button-second-box-shadow: 0px 30px 30px -18px #6a5f5b29;
+      --introduction-line-color: #1f1a1e;
+      --introduction-total-trip-card-box-shadow: 0px 50px 100px -25px rgba(0, 0, 0, 0.1);
+      --introduction-total-trip-card-title-color: #0d1e3f;
+      --introduction-total-trip-card-desc-color: #aeb4cf;
+      --introduction-stats-card-icon-box-shadow: 10px 3px 17px 0px rgb(143 139 138 / 16%);
+      --introduction-stats-card-number-color: #0a192d;
+      --introduction-stats-card-type-color: #777f8b;
+
+      // best destinaton - home page:
+      --best-destination-star-box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.2);
+      --best-destination-text-box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+      --top-destination-location-text-color: #dadada;
+      --top-destination-masony-before-item-bg-color: linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(36, 36, 40, 0.59) 100%
+      );
+
+      // button component
+      --buttton-primary-box-shadow: 0px 30px 30px -18px rgba(229, 89, 54, 0.16);
+
+      // tour-card component
+      --tour-card-box-shadow: 0px 17px 55px 0px rgba(96, 100, 100, 0.05);
+      --tour-card-box-shadow-hover: 0px 24px 55px 0px rgba(51, 56, 56, 0.06);
+      --tour-card-name-color: #1f1d63;
+      --tour-card-desc-color: #676a6c;
+
+      //tour
+      --tour-bg-color: linear-gradient(31deg, #fccbbc 0%, #e6effe 100%);
+      --tour-height-bg-color: 120px;
+
+      //form serach
+      --form-search-box-shadow: 0px 40px 100px #02020214;
+      --form-search-input-text-color: #0a192d;
+      --form-search-input-plaholder-color: #697280;
+
+      // filter component
+      --filter-component-border-color: #ddd;
+      --filter-component-hover-border-color: #ccc;
+      --filter-component-choosen-bg-color: #f0faff;
+      --filter-component-button-color: #0a192d;
+
+      // filter-popper
+      --filter-popper-item-text-color: #18191b;
+      --filter-popper-item-hover-bg-color: #ecf4f880;
+      --filter-popper-alter-text-color: #665e5e;
+      --filter-popper-location-header-border-color: #ddd: 
+
+
+      //filter icons
+      --filter-x-icon: brightness(0) saturate(100%) invert(30%) sepia(0%) saturate(7444%) hue-rotate(88deg) brightness(97%)
+      contrast(75%);
+      --filter-budget-icon: brightness(0) saturate(100%) invert(8%) sepia(36%) saturate(1272%) hue-rotate(176deg) brightness(96%)
+      contrast(99%);
+      --filter-location-icon:  brightness(0) saturate(100%) invert(8%) sepia(36%) saturate(1272%) hue-rotate(176deg) brightness(96%)
+      contrast(99%);
+      --filter-like-icon: brightness(0) saturate(100%) invert(59%) sepia(0%) saturate(1630%) hue-rotate(176deg)
+      brightness(93%) contrast(86%);
+      --filter-like-icon-hover: brightness(0) saturate(100%) invert(49%) sepia(91%) saturate(586%) hue-rotate(338deg)
+      brightness(100%) contrast(103%);
+      --filter-personal-walking: brightness(0) saturate(100%) invert(49%) sepia(91%) saturate(586%) hue-rotate(338deg)
+      brightness(100%) contrast(103%);
+      --filter-star-icons: brightness(0) saturate(100%) invert(76%) sepia(94%) saturate(607%) hue-rotate(352deg)
+      brightness(99%) contrast(96%);
+      --filter-icon-in-slider-image: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(2%) hue-rotate(244deg)
+      brightness(106%) contrast(101%);
+
+      // tour component
+      --tour-component-name-color: #2d3134;
+      --tour-component-details-span-text-color: #8a8a8a;
+      --tour-component-span-bg-color: #e1e1e1;
+      --tour-component-agency-name: #737979;
+      
+      // agency popper
+      --agency-popper-name-color: #0a192d;
+      --acengy-popper-box-shadow: 0px 20px 48px rgba(0, 0, 0, 0.2);
+      --agency-popper-location-text-color: var(var(--tour-component-details-span-text-color));
+      --agency-popper-top-box-shadow: 8px -20px 48px rgba(0, 0, 0, 0.2);
+
+      //calender compoent
+      --calender-icon-filter: brightness(0) saturate(100%) invert(37%) sepia(96%) saturate(0%) hue-rotate(127deg) brightness(95%)
+      contrast(98%);
+      --calender-text-color: #8b89898c;
+      --calender-days-of-week-color: #676a6c;
+      --calender-day-number-color: #2d3134;
+      --caldender-day-hover-bg-color: #f0fffd;
+      --calender-day-inactive: #ddd;
+
+      //slider-images
+      --slider-image-bg-color: #221d1dfc;
+      --slider-image-border-color: #ccc;
+      --silder-image-boder-color-active: #52c0be;
+
+      //breadcrums
+      --breadcrums-title-color: #33383d;
+      --breadcrums-icon-color: brightness(0) saturate(100%) invert(16%) sepia(13%) saturate(574%) hue-rotate(169deg)
+      brightness(91%) contrast(81%);
+
+
+      // tour-detail-compoent
+      --tour-details-type-color: #33383d;
+      --tour-details-separate-color: #717171;
+      --tour-details-status-bg-color: #e1e1e1;
+      --tour-details-status-text-color: #827e7e;
+      --tour-details-desc-text: #0a0a0a;
+      --tour-details-group-price-border-color: #ddd;
+      --tour-details-group-prive-label-text-color: #a0a0a0;
+      --tour-details-check-border-color: #f1f1f1;
+      --tour-details-checl-border-active-color: #d1f6fc;
+      --tour-details-icon-filter: brightness(0) saturate(100%) invert(16%) sepia(4%) saturate(17%) hue-rotate(72deg)
+      brightness(95%) contrast(87%);
+      --tour-details-check-value-text-color: #333;
+      --tour-details-separate-color: #ccc;
+
+      // schedule-acivity
+      --schedule-activity-icon-filter: brightness(0) saturate(100%) invert(5%) sepia(29%) saturate(4272%) hue-rotate(234deg)
+      brightness(99%) contrast(91%);
+      --schedule-activity-label-color:#1b1a1a;
+      --schedule-activity-desc-color: #646262;
+
+      // toggle button
+      --toggle-button-bg-color: #e3e3e3;
+      --toggle-button-box-shadow: 0 3px 5px rgba($color: #000000, $alpha: 0.4);
+      
+
+      //check-variable-form
+      --check-variable-form-text-color: #403737;
+      --check-variable-control-border-color: #ddd;
+     
+}

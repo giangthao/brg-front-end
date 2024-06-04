@@ -1,0 +1,242 @@
+<h3>Edit dataset: {{ datasetEdit.name }}</h3>
+<p>Format: {{ datasetEdit.format }}</p>
+<div class="filter">
+  <form [formGroup]="filterForm" (keydown.enter)="submitForm($event)">
+    <div class="form-control">
+      <input formControlName="value" placeholder="Search value" />
+    </div>
+    <div class="form-select">
+      <div class="result-selected">
+        <span
+          *ngIf="selectedValues.includes('Select Fields'); else selectedResult"
+          >Select Fields</span
+        >
+        <ng-template #selectedResult>
+          <div style="display: flex; gap: 8px">
+            <span
+              style="
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+                background-color: #ddd;
+                padding: 3px 6px;
+                border-radius: 2px;
+              "
+              *ngFor="let selected of selectedValues; let i = index"
+            >
+              <span>{{ selected }}</span>
+              <span
+                class="remove-selected"
+                onkeypress=""
+                (click)="removeSelected(selected, i)"
+              >
+                <img
+                  style="width: 9px"
+                  alt=""
+                  src="../../../../../assets/images/icons/x.svg"
+                />
+              </span>
+            </span>
+          </div>
+        </ng-template>
+
+        <div
+          style="padding: 0 4px; cursor: pointer"
+          (click)="toggleShowFormSelectFields()"
+          onkeydown=""
+        >
+          <img
+            style="width: 12px"
+            alt=""
+            src="../../../../../assets/images/icons/arrow-down.svg"
+          />
+        </div>
+      </div>
+      <div
+        formArrayName="selectedFields"
+        class="list-selected"
+        [class.show]="showFormSelectFields"
+      >
+        <span
+          *ngFor="let field of getSelectedFields().controls; let i = index"
+          [formGroupName]="i"
+        >
+          <input
+            type="checkbox"
+            formControlName="checkbox"
+            [id]="FIELDS_CONSTANTS[i]"
+          />
+          <label [htmlFor]="FIELDS_CONSTANTS[i]" [style]="'flex: 1'">{{
+            FIELDS_CONSTANTS[i]
+          }}</label>
+        </span>
+      </div>
+    </div>
+    <div class="form-control">
+      <input formControlName="username" placeholder="Search username" />
+    </div>
+    <div class="form-datetime-picker">
+      <input
+        formControlName="startTime"
+        type="datetime-local"
+        id=""
+        name="startDate"
+      />
+      <input
+        formControlName="endTime"
+        type="datetime-local"
+        id=""
+        name="endDate"
+      />
+    </div>
+  </form>
+</div>
+
+<div class="value-list">
+  <table class="value-list__table">
+    <thead class="value-list__table-row">
+      <th *ngFor="let columHeading of headerTable">
+        {{ columHeading.name }}
+      </th>
+    </thead>
+    <tbody *ngIf="filteredData.length > 0; else noData">
+      <!-- Row 1 -->
+      <tr
+        *ngFor="let value of paginatedData; let indx = index"
+        class="value-list__table-row"
+      >
+        <td>{{ value.id }}</td>
+
+        <td class="row-value"   *ngIf="datasetEdit.isRangeInput">
+         <span onkeydown="" (click)="startEditing(value, 'FROM')"> {{ value.from }}</span>
+          <div
+            class="row-editor"
+            [class.error]="!isValidDatasetValue()"
+            *ngIf="isEditing && value === editedItem && typeEdit === 'FROM'"
+          >
+            <input
+              type="text"
+              [(ngModel)]="editedValue"
+              (keydown.enter)="saveEditedFromValue()"
+              (keydown.escape)="cancelEditing()"
+            />
+            <div class="btns">
+              <button
+                *ngIf="isValidDatasetValue()"
+                (click)="applyNewValue(value, 'FROM')"
+                style="text-decoration: underline; cursor: pointer"
+              >
+                Apply
+              </button>
+              <button
+                (click)="cancelEditing()"
+                style="text-decoration: underline; cursor: pointer"
+              >
+                Discard
+              </button>
+            </div>
+          </div>
+        </td>
+        <td class="row-value"  *ngIf="datasetEdit.isRangeInput">
+          <span onkeydown="" (click)="startEditing(value, 'TO')">{{ value.to }}</span>
+          <div
+            class="row-editor"
+            [class.error]="!isValidDatasetValue()"
+            *ngIf="isEditing && value === editedItem && typeEdit === 'TO'"
+          >
+            <input
+              type="text"
+              [(ngModel)]="editedValue"
+              (keydown.enter)="saveEditedToValue()"
+              (keydown.escape)="cancelEditing()"
+            />
+            <div class="btns">
+              <button
+                *ngIf="isValidDatasetValue()"
+                (click)="applyNewValue(value, 'TO')"
+                style="text-decoration: underline; cursor: pointer"
+              >
+                Apply
+              </button>
+              <button
+                (click)="cancelEditing()"
+                style="text-decoration: underline; cursor: pointer"
+              >
+                Discard
+              </button>
+            </div>
+          </div>
+        </td>
+        <td class="row-value"  *ngIf="!datasetEdit.isRangeInput">
+         <span  onkeydown="" (click)="startEditing(value, 'VALUE')"> {{ value.value }}</span>
+          <div
+            class="row-editor"
+            [class.error]="!isValidDatasetValue()"
+            *ngIf="isEditing && value === editedItem && typeEdit === 'VALUE'"
+          >
+            <input
+              type="text"
+              [(ngModel)]="editedValue"
+              (keydown.enter)="saveEditedValue()"
+              (keydown.escape)="cancelEditing()"
+            />
+            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: nowrap;">
+              <button
+                *ngIf="isValidDatasetValue()"
+                (click)="applyNewValue(value, 'VALUE')"
+                style="text-decoration: underline; cursor: pointer"
+              >
+                Apply
+              </button>
+              <button
+                (click)="cancelEditing()"
+                style="text-decoration: underline; cursor: pointer"
+              >
+                Discard
+              </button>
+            </div>
+          </div>
+        </td>
+
+        <td>{{ value.updatedBy }}</td>
+        <td>{{ formatDateTimeToString(value.updatedAt) }}</td>
+        <td class="value-list__table-actions">
+          <button class="edit-btn" (click)="startEditing(value)">Edit</button>
+          <button class="delete-btn" (click)="deleteDatasetValue(value)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+    <ng-template #noData>
+      <span>No results</span>
+    </ng-template>
+  </table>
+
+  <div
+    style="
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 20px;
+    "
+    *ngIf="totalPages > 1"
+    class="pagging"
+  >
+    <div
+      class="page-number"
+      [class.current-page]="pageNumber === currentPage"
+      *ngFor="let pageNumber of totalPagesArray()"
+      onkeydown=""
+      (click)="onPageChange(pageNumber)"
+    >
+      {{ pageNumber }}
+    </div>
+  </div>
+</div>
+
+<div style="margin-top: 50px; display: flex; align-items: center; justify-content: center;">
+   <button style="cursor: pointer;" (click)="cancel()">Cancel</button>
+   <button style="cursor: pointer;" *ngIf="!checkArraysEqual()"  (click)="saveDatasetValue()">Save</button>
+</div>

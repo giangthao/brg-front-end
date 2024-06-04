@@ -7,7 +7,7 @@ import { AuthInterceptor } from "../interceptors/auth.interceptor";
 
 @NgModule({
     declarations: [
-        //components
+       
       
     ],
     imports: [
@@ -24,8 +24,7 @@ import { AuthInterceptor } from "../interceptors/auth.interceptor";
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
-        HttpClientModule
-      
+        HttpClientModule,
     ]
 })
 export class ShareModule{

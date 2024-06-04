@@ -1,0 +1,86 @@
+@use '../abstract/' as abstract;
+
+.button {
+      cursor: pointer;
+      flex-shrink: 0;
+      text-align: center;
+      font-size: 1.8rem;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: 0.18px;
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+
+      @include abstract.breakpoint(md) {
+            font-size: 1.6rem;
+            padding: 18px 20px;
+      }
+      &.primary {
+            color: var(--white);
+            border-radius: 12px;
+            background: var(--logo-color);
+            box-shadow: var(--buttton-primary-box-shadow);
+      }
+
+      &.small {
+            border-radius: 8px;
+            border: 1px solid var(--header-button-bg-color);
+            padding: 12px 16px;
+            color: var(--header-button-bg-color);
+            font-family: 'Inter', sans-serif;
+            font-size: 1.4rem;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 1;
+            transition: background-color color;
+            transition-duration: 0.3s;
+
+            &:hover {
+                  background-color: var(--header-button-bg-color);
+                  color: var(--white);
+            }
+      }
+
+      &.medium {
+            background-color: var(--header-button-bg-color);
+            color: var(--white);
+            font-family: 'Inter', sans-serif;
+            font-size: 1.6rem;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 1.4;
+            padding: 14px 32px;
+            border-radius: 99px;
+
+            @include abstract.breakpoint(md) {
+                  padding: 12px 24px;
+                  font-size: 1.5rem;
+            }
+      }
+
+      &.round {
+            border-radius: 99px;
+      }
+
+      &.underline {
+            text-decoration: underline;
+            padding: 12px 16px;
+            color: var(--header-button-bg-color);
+            font-family: 'Inter', sans-serif;
+            font-size: 1.5rem;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 1;
+      }
+
+      &-icon {
+            &.arrow-left {
+                  width: 16px;
+                  rotate: 130deg;
+                  filter: brightness(0) saturate(100%) invert(58%) sepia(68%) saturate(434%) hue-rotate(142deg)
+                        brightness(99%) contrast(99%);
+            }
+      }
+}

@@ -1,0 +1,89 @@
+<main class="container">
+   <h1 style="margin-top: 30px">Upload file</h1>
+
+   <div *ngIf="datasetEdit" class="upload-file">
+      <div>
+         <div>Edit datataset: {{ datasetEdit.name }}</div>
+      </div>
+      <form class="form-wrapper" [formGroup]="valueDatasetForm">
+         <div formArrayName="inputList" class="form-group">
+            <div *ngFor="let inputGroup of inputList.controls; let i = index">
+               <ng-container [ngSwitch]="isRangeControl(getFormGroup(inputGroup))">
+                  <!-- isRange == true -->
+                  <div *ngSwitchCase="true" class="form-content" [formGroup]="getFormGroup(inputGroup)">
+                     <span>{{ i + 1 }}</span>
+                     <div class="form-control">
+                        <label style="margin-bottom: 8px; display: inline-block" for="value-from">From:</label>
+                        <input id="value-from" placeholder="Dataset value...." type="text" formControlName="from" />
+                        <div *ngIf="inputGroup.get('from')?.invalid" class="error">Invalid "From" value.</div>
+                     </div>
+
+                     <div class="form-control">
+                        <label style="margin-bottom: 8px; display: inline-block" for="value-to">To:</label>
+                        <input id="value-to" placeholder="Dataset value...." type="text" formControlName="to" />
+                        <div *ngIf="inputGroup.get('to')?.invalid" class="error">Invalid "To" value.</div>
+                     </div>
+                     <button (click)="removeInput(i)">remove</button>
+                  </div>
+                  <!-- isRange == false  -->
+                  <div *ngSwitchCase="false" class="form-content" [formGroup]="getFormGroup(inputGroup)">
+                     <span>{{ i + 1 }}</span>
+                     <div class="form-control">
+                        <input placeholder="Dataset value..." type="text" formControlName="value" />
+                        <div *ngIf="inputGroup.get('value')?.invalid" class="error">Invalid value.</div>
+                     </div>
+                     <button (click)="removeInput(i)">remove</button>
+                  </div>
+               </ng-container>
+            </div>
+         </div>
+      </form>
+
+      <button (click)="resetFileInput()" class="upload-file__btn">
+         <label class="upload-file__label" for="upload-file">
+            <img alt="icon" class="upload-file__icon" src="../../../assets/images/icons/upload.svg" />
+            <span class="upload-file__text">Upload dataset value</span>
+         </label>
+      </button>
+      <input
+         #fileInput
+         hidden
+         (change)="onFileSelected($event, datasetEdit.isRangeInput)"
+         class="upload-file__input"
+         name="uploaf-file"
+         id="upload-file"
+         type="file"
+      />
+
+      <div>
+         <h2 style="font-size: 1.6rem; color: blueviolet">List dataset value from uploaded file:</h2>
+      </div>
+   </div>
+
+   <div class="list-dataset">
+      <h2 class="list-dataset__heading">List dataset</h2>
+
+      <table class="list-dataset__table">
+         <thead class="list-dataset__table-row">
+            <th *ngFor="let columHeading of headerTable">
+               {{ columHeading.col }}
+            </th>
+         </thead>
+         <tbody>
+            <!-- Row 1 -->
+            <tr *ngFor="let dataset of listDataset" class="list-dataset__table-row">
+               <td>{{ dataset.id }}</td>
+               <td>{{ dataset.name }}</td>
+               <td>{{ getFields(dataset) }}</td>
+               <td>{{ dataset.isRangeInput }}</td>
+               <td>{{ dataset.updatedBy}}</td>
+               <td>{{ formatDateTimeToString(dataset.updatedAt)}}</td>
+               <td class="list-dataset__table-actions">
+                  <button class="edit-btn" (click)="goToEditPage(dataset.id)">Edit</button>
+                  <button class="delete-btn">Delete</button>
+               </td>
+            </tr>
+         </tbody>
+      </table>
+   </div>
+</main>

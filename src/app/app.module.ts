@@ -10,6 +10,7 @@ import { DeployedHistoryModule } from './home/modules/deployed-history-managemen
 import { LoginModule } from './login/login.module';
 
 
+
 @NgModule({
   declarations: [
     AppComponent
@@ -22,11 +23,21 @@ import { LoginModule } from './login/login.module';
     DatasetManagementModule,
     RuleManagementModule,
     DeployedHistoryModule,
-    LoginModule
+    LoginModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent],
   exports: [
+    BrowserModule,
+    AppRoutingModule,
+    ShareModule,
+    HomeModule,
+    DatasetManagementModule,
+    RuleManagementModule,
+    DeployedHistoryModule,
+    LoginModule,
+   
     
   ]
 })

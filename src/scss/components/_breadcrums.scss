@@ -1,0 +1,20 @@
+.breadcrums {
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      &__title {
+            color: var(--breadcrums-title-color);
+            font-family: 'Inter', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            line-height: 1.5;
+            cursor: pointer;
+      }
+
+      &__arrow-right img {
+            width: 6px;
+            filter: var(--breadcrums-icon-color);
+      }
+}

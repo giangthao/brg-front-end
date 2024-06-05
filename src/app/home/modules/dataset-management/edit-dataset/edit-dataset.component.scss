@@ -179,3 +179,74 @@
    border-color: red;
 }
 
+.form-group{
+  label{
+    font-size: 1.4rem;
+   
+  }
+
+ 
+
+}
+
+.form{
+
+  &__text-input{
+    margin-top: 6px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    width: 300px;
+    border: 1px solid #ddd;
+    padding: 0 4px;
+    border-radius: 6px;
+  }
+
+  &__select-dialog{
+    position: absolute;
+    left: 0;
+    top: calc(100% + 3px);
+    width: 100%;
+    padding: 10px 0;
+    background-color: #fff;
+   // border: 1px solid #d2d1d6;
+    border-radius: 4px;
+    max-height: 230px;
+    overflow: scroll;
+    box-shadow: 0 0 5px rgba($color: #000, $alpha: 0.2);
+
+    // opacity: 0;
+    // visibility: hidden;
+    // translate: 0 10px;
+    // transition: opacity, visibility, translate;
+    // transition-duration: 0.3s;
+  }
+
+  &__options-list{
+    
+    margin-top: 6px;
+    font-size: 15px;
+  }
+
+  &__option{
+    padding: 6px 20px;
+
+    &:not(&--current):hover{
+      background-color: #d2d1d6;
+      cursor: pointer;
+    }
+
+    &--current{
+      color: #fff;
+      background-color: red;
+    }
+  }
+
+  &__input:focus ~ &__select-dialog{
+    opacity: 1;
+    visibility: visible;
+    translate: 0 0;
+  }
+}
+

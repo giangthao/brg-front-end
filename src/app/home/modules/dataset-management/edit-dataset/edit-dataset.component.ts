@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, HostListener, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Dataset, DatasetValue } from '../upload-file/upload-file.component';
 import { DatasetService } from 'src/app/services/dataset.service';
@@ -53,7 +53,8 @@ export class EditDatasetComponent implements OnInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private datasetService: DatasetService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private eRef: ElementRef
   ) {
     this.filterForm = new FormGroup({
       value: new FormControl(''),
@@ -462,5 +463,40 @@ export class EditDatasetComponent implements OnInit, OnDestroy {
 
   }
 
- 
+  options : string[] =  ['Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5', 'Option 6', 'Option 7', 'Option 8'];
+  selectedOptions: string[] = [];
+  isOptionsVisible: boolean = false;
+
+  selectOption(option: string): void {
+    if (!this.selectedOptions.includes(option)) {
+      this.selectedOptions.push(option);
+      this.options = this.options.filter(opt => opt !== option);
+     // this.isOptionsVisible = false;
+    }
+  }
+
+  removeSelectedOption(option: string, event: Event): void {
+    event.stopImmediatePropagation();
+    this.selectedOptions = this.selectedOptions.filter(opt => opt !== option);
+    this.options.push(option);
+  }
+  toggleOptionsVisibility(event: Event): void {
+    event.stopPropagation(); // Prevent this click from propagating to the document
+    this.isOptionsVisible = !this.isOptionsVisible;
+  }
+
+  get displaySelectedOptions(): string[] {
+    return this.selectedOptions.slice(0, 3);
+  }
+
+  get extraSelectedOptionsCount(): number {
+    return this.selectedOptions.length > 3 ? this.selectedOptions.length - 3 : 0;
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickout(event: Event) {
+    if (!this.eRef.nativeElement.contains(event.target)) {
+      this.isOptionsVisible = false;
+    }
+  }
 }

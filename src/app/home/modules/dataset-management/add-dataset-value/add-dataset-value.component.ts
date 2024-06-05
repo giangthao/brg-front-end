@@ -355,4 +355,13 @@ export class AddDatasetValueComponent implements OnInit {
     }
     return errors;
   }
+
+
+  options : string[] =  ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
+  selectedOption: string | null = null;
+
+  selectOption(option: string): void {
+    this.selectedOption = option;
+    this.options = this.options.filter(opt => opt !== option);
+  }
 }

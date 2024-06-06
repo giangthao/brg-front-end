@@ -466,6 +466,8 @@ export class EditDatasetComponent implements OnInit, OnDestroy {
   options : string[] =  ['Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5', 'Option 6', 'Option 7', 'Option 8'];
   selectedOptions: string[] = [];
   isOptionsVisible: boolean = false;
+  isClickedInside: boolean = false;
+  private timeoutId: any | null = null;
 
   selectOption(option: string): void {
     if (!this.selectedOptions.includes(option)) {
@@ -483,6 +485,17 @@ export class EditDatasetComponent implements OnInit, OnDestroy {
   toggleOptionsVisibility(event: Event): void {
     event.stopPropagation(); // Prevent this click from propagating to the document
     this.isOptionsVisible = !this.isOptionsVisible;
+    this.isClickedInside = true;
+
+      // Clear any existing timeout
+      if (this.timeoutId !== null) {
+        clearTimeout(this.timeoutId);
+      }
+  
+      // Set a timeout to reset the border color after 1 second
+      this.timeoutId = setTimeout(() => {
+        this.isClickedInside = false;
+      }, 1000);
   }
 
   get displaySelectedOptions(): string[] {
@@ -497,6 +510,10 @@ export class EditDatasetComponent implements OnInit, OnDestroy {
   clickout(event: Event) {
     if (!this.eRef.nativeElement.contains(event.target)) {
       this.isOptionsVisible = false;
+      this.isClickedInside = false;
+      
     }
   }
+
+  
 }

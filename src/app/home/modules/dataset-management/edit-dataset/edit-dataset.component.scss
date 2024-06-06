@@ -204,6 +204,7 @@
   }
 
   &__select-dialog{
+    z-index: 4;
     position: absolute;
     left: 0;
     top: calc(100% + 3px);
@@ -248,5 +249,9 @@
     visibility: visible;
     translate: 0 0;
   }
+}
+
+.clicked{
+  border-color: red;
 }
 

@@ -16,7 +16,7 @@
 <div class="filter">
   <form [formGroup]="filterForm" (keydown.enter)="submitForm($event)">
     <div style="flex: 1" class="form-control">
-      <input formControlName="value" placeholder="Search value" />
+      <input style="width: 100%;" formControlName="value" placeholder="Search value" />
     </div>
     <!-- <div class="form-select">
       <div class="result-selected">
@@ -89,10 +89,10 @@
       <!-- <label for="fields">Fields*</label> -->
       <div
         appClickOutside
-        (clickOutside)="handlerClickOutside()" 
+        (clickOutside)="handlerClickOutside()"
         [ngClass]="{ clicked: isClickedInside }"
         class="form__text-input"
-        style="user-select: none;"
+        style="user-select: none"
       >
         <ul
           (click)="toggleOptionsVisibility($event)"
@@ -273,7 +273,19 @@
       </tr>
     </tbody>
     <ng-template #noData>
-      <span>No results</span>
+      <div>No results</div>
+      <button
+         (click)="clearFilter()"
+        style="
+          background: blue;
+          padding: 6px;
+          margin-top: 12px;
+          cursor: pointer;
+          color: #fff;
+        "
+      >
+        Clear Filter
+      </button>
     </ng-template>
   </table>
 

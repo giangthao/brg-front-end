@@ -2,15 +2,14 @@ import {
   Component,
   OnInit,
   Output,
-  EventEmitter,
-  OnChanges,
-  SimpleChanges,
+  EventEmitter
 } from '@angular/core';
 import { FormGroup, FormArray, FormControl, FormBuilder } from '@angular/forms';
 import { DatasetService } from 'src/app/services/dataset.service';
 import { Input } from '@angular/core';
 import { Dataset, DatasetValue } from '../list-dataset/list-dataset.component';
 import { ErrorCheckService } from 'src/app/services/error-check.service';
+
 
 @Component({
   selector: 'app-add-dataset-value',
@@ -39,6 +38,7 @@ export class AddDatasetValueComponent implements OnInit {
     this.formValues = new FormGroup({
       inputs: new FormArray([]),
     });
+
   }
 
   onFileChange(event: any) {
@@ -79,35 +79,14 @@ export class AddDatasetValueComponent implements OnInit {
             }
             return;
           }
-          this.originalContent = report.originalContent;
-          this.renderDatasetValueFromFileToUI();
+          //  this.originalContent = report.originalContent;
+          //this.renderDatasetValueFromFileToUI();
+          this.inputs.clear();
+          this.updateInputs(report.originalContent);
         });
     }
   }
 
-  renderDatasetValueFromFileToUI() {
-    this.calculateTotalPages();
-    this.currentPage = 1;
-    this.inputs.clear();
-    if (this.datasetEdit.isRangeInput) {
-      this.pagedData.forEach((value) => {
-        this.inputs.push(
-          this.fb.group({
-            from: new FormControl(value.from),
-            to: new FormControl(value.to),
-          })
-        );
-      });
-    } else {
-      this.pagedData.forEach((value) => {
-        this.inputs.push(
-          this.fb.group({
-            value: new FormControl(value.value),
-          })
-        );
-      });
-    }
-  }
 
   downloadFileWithErrors(): void {
     if (this.errorReport) {
@@ -127,27 +106,52 @@ export class AddDatasetValueComponent implements OnInit {
     return this.formValues.get('inputs') as FormArray;
   }
 
-  addInput(): void {
+  addInput(input: any): void {
     if (this.datasetEdit.isRangeInput) {
-      this.inputs.push(
-        this.fb.group({
-          from: new FormControl(null),
-          to: new FormControl(null),
-        })
-      );
+      const from = new FormControl(input?.from);
+      const to = new FormControl(input?.to);
+      const formGroup = new FormGroup({ from, to });
+      this.inputs.push(formGroup);
+      this.calculateTotalPages();
+      // Subscribe to the valueChanges observable of the new control
+      formGroup.valueChanges.subscribe((control) => {
+        const index = this.inputs.controls.indexOf(formGroup);
+        console.log(index); // (currentPage - 1) * itemsPerPage + i + 1 
+        
+        this.originalContent[index] = {
+          from: control.from,
+          to: control.to,
+        };
+      });
+
+      
     } else {
-      this.inputs.push(
-        this.fb.group({
-          value: new FormControl(null),
-        })
-      );
+      const value = new FormControl(input?.value);
+
+      const formGroup = new FormGroup({ value });
+      this.inputs.push(formGroup);
+      this.calculateTotalPages();
+
+      // Subscribe to the valueChanges observable of the new control
+      formGroup.valueChanges.subscribe((control) => {
+        const index = this.inputs.controls.indexOf(formGroup);
+        console.log(control.value)
+        this.originalContent[index] = {
+          value: control.value,
+        };
+
+        console.log( 
+          'adter add', this.originalContent)
+      });
+
+      
     }
   }
 
   onEnter(event: any) {
     event.preventDefault();
     if (event.key === 'Enter') {
-      this.addInput();
+      this.addInput({ value: null, from: null, to: null });
     }
   }
 
@@ -155,21 +159,69 @@ export class AddDatasetValueComponent implements OnInit {
     console.log(this.datasetEdit);
 
     // Khởi tạo với một điều khiển form
-    this.addInput();
+    //this.addInput();
+    this.originalContent.forEach((item) => {
+      console.log(item);
+      this.addInput(item);
+    });
+
+    this.addInput({ value: null, to: null, from: null });
+
+    // hao foix sự thay đổi của form values
+    this.formValues.valueChanges.subscribe((value) => {
+      console.log('form change subcription: ', value.inputs);
+
+      this.originalContent = value.inputs;
+      this.calculateTotalPages();
+      
+
+      console.log(this.originalContent);
+    });
+
+    
   }
 
   private calculateTotalPages(): void {
     this.totalPages = Math.ceil(
       this.originalContent.length / this.itemsPerPage
     );
+
+    console.log(this.totalPages)
   }
 
-  get pagedData(): any[] {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    return this.originalContent.slice(
-      startIndex,
-      startIndex + this.itemsPerPage
-    );
+  updateInputs(newInputs: any[]): void {
+    
+    newInputs.forEach((input) => this.addInput(input));
+    this.originalContent = newInputs;
+    this.calculateTotalPages();
+    
+  }
+
+  
+  get panigatedInputs(): FormArray {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    const controls = this.inputs.controls.slice(start, end);
+    return new FormArray(controls);
+  }
+  nextPage(): void {
+   
+    if (this.currentPage * this.itemsPerPage < this.inputs.length) {
+      this.currentPage = this.currentPage + 1;
+     
+    }
+   
+    
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+    
+      this.currentPage = this.currentPage - 1;
+      
+    }
+
+    
   }
 
   getPageNumbers(): number[] {
@@ -185,19 +237,9 @@ export class AddDatasetValueComponent implements OnInit {
   pageClick(pageNumber: number) {
     if (pageNumber >= 1 && pageNumber <= this.totalPages) {
       this.currentPage = pageNumber;
+      
     }
-  }
-
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-    }
-  }
-
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-    }
+    
   }
 
   isValidValue(input: any): boolean {
@@ -220,7 +262,7 @@ export class AddDatasetValueComponent implements OnInit {
     if (this.isDisableButtonSubmit() || this.countError().length > 0) return;
     let inputs: any[];
 
-   // if(this.originalContent.length > 0) return;
+    // if(this.originalContent.length > 0) return;
     if (this.datasetEdit.isRangeInput) {
       inputs = this.formValues.value.inputs.filter(
         (input: any) =>
@@ -284,7 +326,7 @@ export class AddDatasetValueComponent implements OnInit {
       );
     } else {
       inputs = this.formValues.value.inputs.filter(
-        (input: any) => input.value !== null && input.value.trim() !== ''
+        (input: any) => input.value !== undefined && input?.value !== null && input?.value.trim() !== ''
       );
     }
     // console.log(inputs);
@@ -296,19 +338,8 @@ export class AddDatasetValueComponent implements OnInit {
     }
   }
   removeFormGroup(index: number) {
-    if (this.originalContent.length > 0) {
-      this.originalContent = this.originalContent.filter(
-        (item, ind) => ind !== index
-      );
-
-      console.log(this.originalContent)
-    //   this.calculateTotalPages();
-    //   this.currentPage = 1;
-    this.renderDatasetValueFromFileToUI()
-    } else {
-      if (this.inputs.length > 1) {
-        this.inputs.removeAt(index);
-      }
+    if (this.inputs.length > 1) {
+      this.inputs.removeAt(index);
     }
   }
 
@@ -355,7 +386,4 @@ export class AddDatasetValueComponent implements OnInit {
     }
     return errors;
   }
-
-
- 
 }

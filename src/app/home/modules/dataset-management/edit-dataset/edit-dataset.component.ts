@@ -108,6 +108,7 @@ export class EditDatasetComponent implements OnInit, OnDestroy {
       }
 
       if (value?.username && value.username.trim() !== '') {
+        console.log(value.username)
         tmpList = tmpList.filter((item) =>
           item.updatedBy
             .toLowerCase()
@@ -498,9 +499,24 @@ export class EditDatasetComponent implements OnInit, OnDestroy {
   }
 
   handlerClickOutside() {
-    console.log('click outside');
+  //  console.log('click outside');
     this.isClickedInside = false;
     this.isOptionsVisible = false;
+  }
+
+  clearFilter(){
+    this.filterForm = new FormGroup({
+      value: new FormControl(''),
+      username: new FormControl(''),
+      selectedFields: new FormArray([]),
+      startTime: new FormControl(''),
+      endTime: new FormControl(''),
+    });
+
+    this.filteredData = this.datasetEdit.listDatasetValue;
+    this.currentPage = 1;
+    this.paginateData(); // Initialize pagination on load
+    this.calculateTotalPages(); // Calculate total pages on load
   }
 
   

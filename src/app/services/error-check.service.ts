@@ -76,7 +76,7 @@ export class ErrorCheckService {
             if (dataset.isRangeInput) {
                 const match = line.match(/from:\s*(\S+)\s*-to:\s*(\S+)/);
                 if (match && match[1] && match[2]) {
-                    values.push({ from: match[1], to: match[2] });
+                    values.push({ from: match[1], to: match[2], value: null });
                 }
                 else {
                     values.push(null)
@@ -85,7 +85,7 @@ export class ErrorCheckService {
             else {
                 const valueMatch = line.match(/value:\s*(\S+)\s*/);
                 if (valueMatch && valueMatch[1]) {
-                    values.push({ value: valueMatch[1] });
+                    values.push({ value: valueMatch[1] , from: null, to: null});
                 }
                 else {
                     values.push(null);

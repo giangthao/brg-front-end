@@ -29,32 +29,34 @@
         </div>
       </div>
       <form [formGroup]="formValues" (ngSubmit)="onSubmit($event)">
-        <div formArrayName="inputs">
+        <div style="height: 400px; overflow-y: auto;"  formArrayName="inputs">
           <div
             *ngFor="let control of inputs.controls; let i = index"
             [formGroupName]="i"
             (keydown.enter)="onEnter($event)"
           >
             <ng-container *ngIf="!datasetEdit.isRangeInput; else rangeTemplate">
-              <div class="form-group">
-                <span>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</span>
-                <input
-                  formControlName="value"
-                  class="form-input"
-                  placeholder="Value"
-                />
-                <span
-                  style="cursor: pointer; padding: 3px"
-                  onkeydown=""
-                  (click)="removeFormGroup(i)"
-                  >-</span
+              <div *ngIf="i >= (currentPage - 1) * itemsPerPage && i < (currentPage - 1) * itemsPerPage + itemsPerPage">
+                <div  class="form-group">
+                  <span>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</span>
+                  <input
+                    formControlName="value"
+                    class="form-input"
+                    placeholder="Value"
+                  />
+                  <span
+                    style="cursor: pointer; padding: 3px"
+                    onkeydown=""
+                    (click)="removeFormGroup(i)"
+                    >-</span
+                  >
+                </div>
+                <div
+                  *ngIf="!isValidValue(control.value.value)"
+                  class="form-error"
                 >
-              </div>
-              <div
-                *ngIf="!isValidValue(control.value.value)"
-                class="form-error"
-              >
-                Wrong format
+                  Wrong format
+                </div>
               </div>
             </ng-container>
             <ng-template #rangeTemplate>

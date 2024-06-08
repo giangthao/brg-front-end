@@ -6,6 +6,8 @@ import { PaginationService } from 'src/app/services/pagination.service';
 import { Router } from '@angular/router';
 import { RouteConstant } from 'src/app/constant/route.constant';
 import { DatasetService } from 'src/app/services/dataset.service';
+import { TogglePopUPService, PopUpStateEnum } from 'src/app/services/toggle-pop-up.service';
+
 
 export type Dataset = {
    id: number;
@@ -79,7 +81,8 @@ export class ListDatasetComponent {
       private fileReaderService: ReadFileService,
       private paginationService: PaginationService,
       private router: Router,
-      private datasetService: DatasetService
+      private datasetService: DatasetService,
+      private togglePopUpService: TogglePopUPService
    ) {
       this.listDataset = datasetList;
       this.valueDatasetForm = this.formBuilder.group({
@@ -338,5 +341,22 @@ export class ListDatasetComponent {
    formatDateTimeToString(date: string) {
       return this.datasetService.convertDateTimeUTCToString(date)
       
+   }
+
+   openPopUpAddNew(): void {
+      this.togglePopUpService.savePopupState({state: PopUpStateEnum.POP_UP_ADD_NEW_DATASET});
+   }
+
+   isOpenPopUpAddNew(): boolean {
+      const statePopup = this.togglePopUpService.getPopupState();
+      if(statePopup === null) {
+         return false;
+      }
+
+      if(statePopup.state === PopUpStateEnum.POP_UP_ADD_NEW_DATASET){
+         return true;
+      }
+      return false;
+
    }
 }

@@ -1,3 +1,5 @@
+<app-add-dataset *ngIf="isOpenPopUpAddNew()"></app-add-dataset>
+
 <main class="container">
    <h1 style="margin-top: 30px">Upload file</h1>
 
@@ -62,6 +64,7 @@
 
    <div class="list-dataset">
       <h2 class="list-dataset__heading">List dataset</h2>
+      <button (click)="openPopUpAddNew()" style="cursor: pointer; padding: 6px; text-decoration: underline;">Add New Dataset</button>
 
       <table class="list-dataset__table">
          <thead class="list-dataset__table-row">

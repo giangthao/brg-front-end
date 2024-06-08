@@ -5,15 +5,15 @@ import { ListDatasetComponent } from "./list-dataset/list-dataset.component";
 import { EditDatasetComponent } from "./edit-dataset/edit-dataset.component";
 import { RouterModule } from "@angular/router";
 import { AddDatasetValueComponent } from "./add-dataset-value/add-dataset-value.component";
-
-
+import { AddDatasetComponent } from "./add-dataset/add-dataset.component";
 
 @NgModule({
     declarations: [
         DatasetManagementComponent,
         ListDatasetComponent,
         EditDatasetComponent,
-        AddDatasetValueComponent
+        AddDatasetValueComponent,
+        AddDatasetComponent
     ],
     imports: [
         ShareModule,
@@ -25,7 +25,8 @@ import { AddDatasetValueComponent } from "./add-dataset-value/add-dataset-value.
         ListDatasetComponent,
         EditDatasetComponent,
         RouterModule,
-        AddDatasetValueComponent
+        AddDatasetValueComponent,
+        AddDatasetComponent
     ]
 })
 export class DatasetManagementModule{

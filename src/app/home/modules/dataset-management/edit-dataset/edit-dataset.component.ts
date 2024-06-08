@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, HostListener, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Dataset, DatasetValue } from '../upload-file/upload-file.component';
+import { Dataset, DatasetValue } from '../list-dataset/list-dataset.component';
 import { DatasetService } from 'src/app/services/dataset.service';
 import { deepCopy } from 'src/app/share/utils';
 
@@ -463,13 +463,14 @@ export class EditDatasetComponent implements OnInit, OnDestroy {
 
   }
 
-  options : string[] =  ['Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5', 'Option 6', 'Option 7', 'Option 8'];
+  options : string[] = this.FIELDS_CONSTANTS;
   selectedOptions: string[] = [];
   isOptionsVisible: boolean = false;
   isClickedInside: boolean = false;
-  private timeoutId: any | null = null;
+  
 
-  selectOption(option: string): void {
+  selectOption(option: string, event: Event): void {
+    event.stopImmediatePropagation();
     if (!this.selectedOptions.includes(option)) {
       this.selectedOptions.push(option);
       this.options = this.options.filter(opt => opt !== option);
@@ -485,17 +486,7 @@ export class EditDatasetComponent implements OnInit, OnDestroy {
   toggleOptionsVisibility(event: Event): void {
     event.stopPropagation(); // Prevent this click from propagating to the document
     this.isOptionsVisible = !this.isOptionsVisible;
-    this.isClickedInside = true;
-
-      // Clear any existing timeout
-      if (this.timeoutId !== null) {
-        clearTimeout(this.timeoutId);
-      }
-  
-      // Set a timeout to reset the border color after 1 second
-      this.timeoutId = setTimeout(() => {
-        this.isClickedInside = false;
-      }, 1000);
+    this.isClickedInside = !this.isClickedInside;
   }
 
   get displaySelectedOptions(): string[] {
@@ -506,13 +497,10 @@ export class EditDatasetComponent implements OnInit, OnDestroy {
     return this.selectedOptions.length > 3 ? this.selectedOptions.length - 3 : 0;
   }
 
-  @HostListener('document:click', ['$event'])
-  clickout(event: Event) {
-    if (!this.eRef.nativeElement.contains(event.target)) {
-      this.isOptionsVisible = false;
-      this.isClickedInside = false;
-      
-    }
+  handlerClickOutside() {
+    console.log('click outside');
+    this.isClickedInside = false;
+    this.isOptionsVisible = false;
   }
 
   

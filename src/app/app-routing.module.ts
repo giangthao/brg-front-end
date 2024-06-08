@@ -10,7 +10,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { RuleGuard } from './guards/rule.guard';
 import { DatasetGuard } from './guards/dataset.guard';
 import { EditDatasetComponent } from './home/modules/dataset-management/edit-dataset/edit-dataset.component';
-import { UploadFileComponent } from './home/modules/dataset-management/upload-file/upload-file.component';
+import { ListDatasetComponent } from './home/modules/dataset-management/list-dataset/list-dataset.component';
 
 const routes: Routes = [
   // { path: '', redirectTo: RouteConstant.LOGIN , pathMatch: "full" },
@@ -19,16 +19,33 @@ const routes: Routes = [
     component: HomeComponent,
     children: [
       {
+        path: '',
+        pathMatch: "full",
+        redirectTo: RouteConstant.CONFIG
+      },
+      {
+
         path: RouteConstant.CONFIG,
         // canActivate: [AuthGuard],
         children: [
+          {
+            path: '',
+            pathMatch: "full",
+            redirectTo: RouteConstant.DATASET
+
+          },
           {
             path: RouteConstant.DATASET,
             component: DatasetManagementComponent,
             // canActivate: [DatasetGuard],
             children: [
               {
-                path: 'list',   component: UploadFileComponent,
+                path: '',
+                pathMatch: 'full',
+                component: ListDatasetComponent
+              },
+              {
+                path: 'list',   component: ListDatasetComponent,
               },
               {
                 path: 'edit/:datasetId',

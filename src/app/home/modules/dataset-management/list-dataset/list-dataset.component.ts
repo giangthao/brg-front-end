@@ -28,11 +28,11 @@ export type DatasetValue = {
 };
 
 @Component({
-   selector: 'app-upload-file',
-   templateUrl: './upload-file.component.html',
-   styleUrls: ['./upload-file.component.scss'],
+   selector: 'app-list-dataset',
+   templateUrl: './list-dataset.component.html',
+   styleUrls: ['./list-dataset.component.scss'],
 })
-export class UploadFileComponent {
+export class ListDatasetComponent {
    listDataset: Dataset[];
 
    // Edit

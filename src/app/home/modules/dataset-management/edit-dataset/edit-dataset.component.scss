@@ -65,7 +65,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 18px;
+  gap: 10px;
 
   .form-control,
   .form-select,
@@ -192,7 +192,7 @@
 .form{
 
   &__text-input{
-    margin-top: 6px;
+   // margin-top: 6px;
     position: relative;
     display: flex;
     align-items: center;
@@ -201,6 +201,7 @@
     border: 1px solid #ddd;
     padding: 0 4px;
     border-radius: 6px;
+    cursor: pointer;
   }
 
   &__select-dialog{
@@ -252,6 +253,6 @@
 }
 
 .clicked{
-  border-color: red;
+  border-color:blue;
 }
 

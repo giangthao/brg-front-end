@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DatasetService } from './dataset.service';
-import { Dataset } from '../home/modules/dataset-management/upload-file/upload-file.component';
+import { Dataset } from '../home/modules/dataset-management/list-dataset/list-dataset.component';
 
 @Injectable({
     providedIn: 'root'

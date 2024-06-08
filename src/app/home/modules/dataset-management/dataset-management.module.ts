@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { DatasetManagementComponent } from "./dataset-management.component";
 import { ShareModule } from "src/app/share/share.module";
-import { UploadFileComponent } from "./upload-file/upload-file.component";
+import { ListDatasetComponent } from "./list-dataset/list-dataset.component";
 import { EditDatasetComponent } from "./edit-dataset/edit-dataset.component";
 import { RouterModule } from "@angular/router";
 import { AddDatasetValueComponent } from "./add-dataset-value/add-dataset-value.component";
@@ -11,7 +11,7 @@ import { AddDatasetValueComponent } from "./add-dataset-value/add-dataset-value.
 @NgModule({
     declarations: [
         DatasetManagementComponent,
-        UploadFileComponent,
+        ListDatasetComponent,
         EditDatasetComponent,
         AddDatasetValueComponent
     ],
@@ -22,7 +22,7 @@ import { AddDatasetValueComponent } from "./add-dataset-value/add-dataset-value.
     exports: [
         DatasetManagementComponent, 
         ShareModule,
-        UploadFileComponent,
+        ListDatasetComponent,
         EditDatasetComponent,
         RouterModule,
         AddDatasetValueComponent

@@ -1,4 +1,4 @@
-import { Dataset } from './upload-file.component';
+import { Dataset } from './list-dataset.component';
 
 export const datasetList: Dataset[] = [
   {

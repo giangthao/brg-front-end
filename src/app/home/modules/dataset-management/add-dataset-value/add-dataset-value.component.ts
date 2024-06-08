@@ -9,7 +9,7 @@ import {
 import { FormGroup, FormArray, FormControl, FormBuilder } from '@angular/forms';
 import { DatasetService } from 'src/app/services/dataset.service';
 import { Input } from '@angular/core';
-import { Dataset, DatasetValue } from '../upload-file/upload-file.component';
+import { Dataset, DatasetValue } from '../list-dataset/list-dataset.component';
 import { ErrorCheckService } from 'src/app/services/error-check.service';
 
 @Component({
@@ -357,11 +357,5 @@ export class AddDatasetValueComponent implements OnInit {
   }
 
 
-  options : string[] =  ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
-  selectedOption: string | null = null;
-
-  selectOption(option: string): void {
-    this.selectedOption = option;
-    this.options = this.options.filter(opt => opt !== option);
-  }
+ 
 }

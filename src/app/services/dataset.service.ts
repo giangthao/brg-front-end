@@ -2,8 +2,8 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from "src/environments/environment";
-import { Dataset, DatasetValue } from "../home/modules/dataset-management/upload-file/upload-file.component";
-import { datasetList } from "../home/modules/dataset-management/upload-file/mockdata";
+import { Dataset, DatasetValue } from "../home/modules/dataset-management/list-dataset/list-dataset.component";
+import { datasetList } from "../home/modules/dataset-management/list-dataset/mockdata";
 
 @Injectable({
     providedIn: 'root'

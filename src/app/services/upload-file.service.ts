@@ -6,7 +6,12 @@ import { Dataset } from '../home/modules/dataset-management/list-dataset/list-da
   providedIn: 'root',
 })
 export class UploadFileService {
-  constructor(private datasetService: DatasetService) {}
+  private worker: Worker;
+  constructor(private datasetService: DatasetService) {
+   // this.worker = new Worker( new URL('../file-worker.worker', import.meta.url) );
+   this.worker = new Worker('src/app/workers/file-worker.worker', {type: 'module'})
+    console.log(this.worker);
+  }
 
   async checkFileErrors(
     file: File,
@@ -17,7 +22,7 @@ export class UploadFileService {
       .split('\n')
       .map((line) => line.trim())
       .filter((line) => line.length > 0);
-    
+
     const processedLines = lines.map((line, index) => {
       const errors = this.findErrors(line, dataset);
       return errors.length ? `error ${line}` : line;
@@ -27,6 +32,25 @@ export class UploadFileService {
       originalContent: this.extractValues(lines, dataset),
       errorReport: processedLines.join('\n'),
     };
+    // console.log('call service');
+
+    // return new Promise((resolve, reject) => {
+    //   if (!this.worker) {
+    //     reject('Worker is not initialized.');
+    //     return;
+    //   }
+
+    //   this.worker.onmessage = ({ data }) => {
+    //     console.log('worker message:', data);
+    //     resolve(data);
+    //   };
+
+    //   this.worker.onerror = (error) => {
+    //     reject(error);
+    //   };
+
+    //   this.worker.postMessage({ file, dataset });
+    // });
   }
 
   private findErrors(line: string, dataset: Dataset): string[] {
@@ -86,16 +110,13 @@ export class UploadFileService {
     return values;
   }
 
-  downloadFileWithErrors( errorReport: string, fileName: string): void {
-      const blob = new Blob([errorReport], { type: 'text/plain' });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = fileName
-        ? `errors_${fileName}`
-        : 'file_with_errors.txt';
-      a.click();
-      window.URL.revokeObjectURL(url);
-    }
-   
+  downloadFileWithErrors(errorReport: string, fileName: string): void {
+    const blob = new Blob([errorReport], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName ? `errors_${fileName}` : 'file_with_errors.txt';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
 }

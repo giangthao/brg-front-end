@@ -6,81 +6,106 @@
         >&times;</span
       >
     </div>
-      <form class="body">
-        <!-- Dataset name and Field -->
-        <div style="display: flex; align-items: flex-start; gap: 8px" class="row">
-          <div style="flex: 1; display: flex;
-          flex-direction: column; align-items: flex-start;" >
-            <div >
-              <label style="font-size: 14px;" [htmlFor]="'name-dataset'">Dataset name*</label>
-              <input class="input" (input)="onChangeDatasetName($event)" id="name-dataset" placeholder="Dataset name" />
-            </div>
-            <div *ngIf="errorMessageName" style="color: red; font-size: 10px; margin-top: 8px;" class="error">{{errorMessageName}}</div>
+    <form class="body">
+      <!-- Dataset name and Field -->
+      <div style="display: flex; align-items: flex-start; gap: 8px" class="row">
+        <div
+          style="
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+          "
+        >
+          <div>
+            <label style="font-size: 14px" [htmlFor]="'name-dataset'"
+              >Dataset name*</label
+            >
+            <input
+              class="input"
+              (input)="onChangeDatasetName($event)"
+              id="name-dataset"
+              placeholder="Dataset name"
+            />
           </div>
-          <div style="flex: 1" class="form-group" >
-            <div class="form-group-selected">
-              <label for="fields">Fields*</label>
-              <div
-                appClickOutside
-                (clickOutside)="handlerClickOutside()"
-                [ngClass]="{ clicked: isClickedInside }"
-                class="form__text-input"
-                style="user-select: none"
+          <div
+            *ngIf="errorMessageName"
+            style="color: red; font-size: 10px; margin-top: 8px"
+            class="error"
+          >
+            {{ errorMessageName }}
+          </div>
+        </div>
+        <div style="flex: 1" class="form-group">
+          <div class="form-group-selected">
+            <label for="fields">Fields*</label>
+            <div
+              appClickOutside
+              (clickOutside)="handlerClickOutside()"
+              [ngClass]="{ clicked: isClickedInside }"
+              class="form__text-input"
+              style="user-select: none"
+            >
+              <ul
+                (click)="toggleOptionsVisibility($event)"
+                onkeydown=""
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 4px;
+                  width: 100%;
+                "
               >
-                <ul
-                  (click)="toggleOptionsVisibility($event)"
-                  onkeydown=""
-                  style="
-                    display: flex;
-                    align-items: center;
-                    gap: 4px;
-                    width: 100%;
-                  "
+                <li onkeydown="" *ngFor="let option of displaySelectedOptions">
+                  {{ option }}
+                  <button (click)="removeSelectedOption(option, $event)">
+                    x
+                  </button>
+                </li>
+                <li *ngIf="extraSelectedOptionsCount > 0">
+                  {{ extraSelectedOptionsCount }}+
+                </li>
+                <button
+                  (click)="clearFieldsOfDatatset($event)"
+                  *ngIf="fields.length > 0"
                 >
+                  Clear all
+                </button>
+                <li *ngIf="fields.length === 0">Selected option</li>
+              </ul>
+              <div *ngIf="isOptionsVisible" class="form__select-dialog">
+                <ul class="form__options-list">
                   <li
+                    *ngFor="let option of options"
                     onkeydown=""
-                    *ngFor="let option of displaySelectedOptions"
+                    (click)="selectOption(option, $event)"
+                    class="form__option"
                   >
                     {{ option }}
-                    <button (click)="removeSelectedOption(option, $event)">
-                      x
-                    </button>
                   </li>
-                  <li *ngIf="extraSelectedOptionsCount > 0">
-                    {{ extraSelectedOptionsCount }}+
-                  </li>
-                  <li *ngIf="fields.length === 0">
-                    Selected option
-                  </li>
+                  <li *ngIf="options.length === 0">No item match</li>
                 </ul>
-                <div *ngIf="isOptionsVisible" class="form__select-dialog">
-                  <ul class="form__options-list">
-                    <li
-                      *ngFor="let option of options"
-                      onkeydown=""
-                      (click)="selectOption(option, $event)"
-                      class="form__option"
-                    >
-                      {{ option }}
-                    </li>
-                    <li *ngIf="options.length === 0">No item match</li>
-                  </ul>
-                </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- Format Fields -->
-        <div>
-          <span>Format Field:  {{getFormatField()}}</span>
-        </div>
-        <!-- Range Input -->
-        <div >
-          <input id="rangeInput"(input)="handleChangeRangeInput($event)" type="checkbox" [disabled]="this.fields.length > 1" [checked]="isRangeControl"/>
-          <label [htmlFor]="'rangeInput'">Range Input</label>
-        </div>
-      </form>
-   
+      </div>
+      <!-- Format Fields -->
+      <div>
+        <span>Format Field: {{ getFormatField() }}</span>
+      </div>
+      <!-- Range Input -->
+      <div>
+        <input
+          id="rangeInput"
+          (input)="handleChangeRangeInput($event)"
+          type="checkbox"
+          [disabled]="this.fields.length > 1"
+          [checked]="isRangeControl"
+        />
+        <label [htmlFor]="'rangeInput'">Range Input</label>
+      </div>
+    </form>
 
     <div class="body">
       <div>
@@ -94,6 +119,9 @@
           type="file"
           (change)="onFileChange($event)"
         />
+        <span *ngIf="isProcessingCheckFile"  style="color: blue">
+           <img alt="spinner" src="assets/images/icons/spinner.svg" style="display: inline-block; width: 12px; height: 12px;" />
+        </span>
         <a href="#" (click)="downloadFileWithErrors()" *ngIf="fileName">
           {{ fileName }}</a
         >
@@ -124,13 +152,21 @@
                   i < (currentPage - 1) * itemsPerPage + itemsPerPage
                 "
               >
-                <div style="margin: 6px 0 3px;" class="form-group">
-                  <span style="width: 20px;">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</span>
+                <div style="margin: 6px 0 3px" class="form-group">
+                  <span style="width: 20px">{{
+                    (currentPage - 1) * itemsPerPage + i + 1
+                  }}</span>
                   <input
                     formControlName="value"
                     class="form-input"
                     placeholder="Value"
-                    style="flex: 1; height: 40px; border: 1px solid #e1e1e1; border-radius: 6px; padding: 0 4px"
+                    style="
+                      flex: 1;
+                      height: 40px;
+                      border: 1px solid #e1e1e1;
+                      border-radius: 6px;
+                      padding: 0 4px;
+                    "
                   />
                   <span
                     style="cursor: pointer; padding: 3px"
@@ -140,9 +176,9 @@
                   >
                 </div>
                 <div
-                *ngIf="!isValidValue(control.value.value)"
+                  *ngIf="!isValidValue(control.value.value)"
                   class="form-error"
-                  style="margin-top: 2px; margin-bottom: 6px;"
+                  style="margin-top: 2px; margin-bottom: 6px"
                 >
                   Wrong format
                 </div>
@@ -155,19 +191,33 @@
                   i < (currentPage - 1) * itemsPerPage + itemsPerPage
                 "
               >
-                <div style="margin: 6px 0 2px;" class="form-group">
-                  <span style="width: 20px;">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</span>
+                <div style="margin: 6px 0 2px" class="form-group">
+                  <span style="width: 20px">{{
+                    (currentPage - 1) * itemsPerPage + i + 1
+                  }}</span>
                   <input
                     class="form-input"
                     formControlName="from"
                     placeholder="From"
-                    style="flex: 1; height: 40px; border: 1px solid #e1e1e1; border-radius: 6px; padding: 0 4px"
+                    style="
+                      flex: 1;
+                      height: 40px;
+                      border: 1px solid #e1e1e1;
+                      border-radius: 6px;
+                      padding: 0 4px;
+                    "
                   />
                   <input
                     class="form-input"
                     formControlName="to"
                     placeholder="To"
-                    style="flex: 1; height: 40px; border: 1px solid #e1e1e1; border-radius: 6px; padding: 0 4px"
+                    style="
+                      flex: 1;
+                      height: 40px;
+                      border: 1px solid #e1e1e1;
+                      border-radius: 6px;
+                      padding: 0 4px;
+                    "
                   />
                   <span
                     style="cursor: pointer; padding: 3px"
@@ -182,7 +232,8 @@
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
-                    margin-top: 2px; margin-bottom: 6px;
+                    margin-top: 2px;
+                    margin-bottom: 6px;
                   "
                 >
                   <div

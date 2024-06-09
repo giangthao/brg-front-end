@@ -1,4 +1,4 @@
-import { AfterContentChecked, AfterContentInit, Component, DoCheck, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import {  Component, OnInit, ChangeDetectorRef  } from '@angular/core';
 import { FormControl, FormArray, FormGroup } from '@angular/forms';
 import { DatasetService } from 'src/app/services/dataset.service';
 import {
@@ -22,6 +22,7 @@ export class AddDatasetComponent implements OnInit {
 
   formValues: FormGroup;
   fileName?: string;
+  isProcessingCheckFile: boolean = false;
   errorMessageUploadFile?: string;
   errorReport: string | null = null;
   originalContent: any[] = [
@@ -51,7 +52,8 @@ export class AddDatasetComponent implements OnInit {
   constructor(
     private datasetService: DatasetService,
     private uploadFileService: UploadFileService,
-    private togglePopUpService: TogglePopUPService
+    private togglePopUpService: TogglePopUPService,
+    private cdr: ChangeDetectorRef
   ) {
     this.formValues = new FormGroup({
       inputs: new FormArray([]),
@@ -100,7 +102,9 @@ export class AddDatasetComponent implements OnInit {
     this.isOptionsVisible = false;
   }
 
-  onFileChange(event: any) {
+    onFileChange(event: any) {
+    this.isProcessingCheckFile = true;
+    this.cdr.detectChanges();  // Force change detection to show spinner
     const file = event.target.files[0];
 
     if (file) {
@@ -113,11 +117,15 @@ export class AddDatasetComponent implements OnInit {
 
       if (file.size > 5 * 1024 * 1024) {
         this.errorMessageUploadFile = 'Larger than 5MB';
+        this.isProcessingCheckFile = false;
+        this.cdr.detectChanges();  // Force change detection to show spinner
         return;
       }
       if (!file.name.endsWith('.txt')) {
         this.errorMessageUploadFile =
           'File không đúng định dạng, vui lòng chọn file .txt';
+          this.isProcessingCheckFile = false;
+          this.cdr.detectChanges();  // Force change detection to show spinner
         return;
       }
       const datasetTmp : Dataset = {
@@ -130,9 +138,11 @@ export class AddDatasetComponent implements OnInit {
         format: '',
         listDatasetValue: []
       }
+
       this.uploadFileService
         .checkFileErrors(file, datasetTmp)
         .then((report) => {
+          console.log(report)
           this.errorReport = report.errorReport;
           console.log(report.originalContent);
           if (report.originalContent.includes(null)) {
@@ -142,20 +152,41 @@ export class AddDatasetComponent implements OnInit {
             } else {
               this.errorMessageUploadFile = 'File must be format: value: xxx';
             }
+            this.isProcessingCheckFile = false;
+            this.cdr.detectChanges();  // Force change detection to show spinner
             return;
           }
           this.inputs.clear();
           this.updateInputs(report.originalContent);
-        });
+          this.isProcessingCheckFile = false;
+           this.cdr.detectChanges();  // Force change detection to show spinner
+        })
+        .catch((error) => {
+          console.log(error);
+        })
     }
+    else{
+      this.isProcessingCheckFile = false;
+      this.cdr.detectChanges();  // Force change detection to show spinner
+    }
+
+    
   }
 
   clearFile(fileInput: any) {
     fileInput.value = ''; // Clear the file input
     this.fileName = undefined;
+    this.isProcessingCheckFile = false;
+    this.errorMessageUploadFile = undefined;
     this.originalContent = []; // Reset the list of non-empty lines
     this.inputs.clear();
     this.addInput({ value: null, from: null, to: null });
+  }
+
+  clearFieldsOfDatatset(event: Event){
+    event.stopImmediatePropagation();
+    this.fields = [];
+    this.options = this.FIELDS_CONSTANTS;
   }
 
   downloadFileWithErrors(): void {
@@ -197,7 +228,7 @@ export class AddDatasetComponent implements OnInit {
       // Subscribe to the valueChanges observable of the new control
       formGroup.valueChanges.subscribe((control) => {
         const index = this.inputs.controls.indexOf(formGroup);
-        console.log(control.value);
+       // console.log(control.value);
         this.originalContent[index] = {
           value: control.value,
         };
@@ -216,7 +247,7 @@ export class AddDatasetComponent implements OnInit {
     
     if(this.originalContent.length > 0) {
       this.originalContent.forEach((item) => {
-        console.log(item);
+       // console.log(item);
         this.addInput(item);
       });
     }
@@ -226,7 +257,7 @@ export class AddDatasetComponent implements OnInit {
     }
     // folowing form values changing
     this.formValues.valueChanges.subscribe((value) => {
-      console.log('form change subcription: ', value.inputs);
+     // console.log('form change subcription: ', value.inputs);
 
       this.originalContent = value.inputs;
       this.calculateTotalPages();
@@ -241,7 +272,7 @@ export class AddDatasetComponent implements OnInit {
     this.totalPages = Math.ceil(
       this.originalContent.length / this.itemsPerPage
     );
-    console.log(this.totalPages);
+   // console.log(this.totalPages);
   }
 
   updateInputs(newInputs: any[]): void {
@@ -300,27 +331,7 @@ export class AddDatasetComponent implements OnInit {
   onSubmit(event: any) {
     event.preventDefault();
     if (this.isDisableButtonSubmit() || this.countError().length > 0) return;
-    let inputs: any[];
-
-    // if(this.originalContent.length > 0) return;
-    if (this.isRangeControl) {
-      inputs = this.formValues.value.inputs.filter(
-        (input: any) =>
-          input.from !== null &&
-          input.from !== undefined &&
-          input.to !== null &&
-          input.to !== undefined &&
-          input.from.trim() !== '' &&
-          input.to.trim() !== ''
-      );
-    } else {
-      inputs = this.formValues.value.inputs.filter(
-        (input: any) =>
-          input.value !== null &&
-          input.value !== undefined &&
-          input.value.trim() !== ''
-      );
-    }
+    const inputs = this.trimFromControlEmpty();
 
     if (this.isRangeControl) {
       const newValues = inputs.map((input: any) => {
@@ -337,7 +348,7 @@ export class AddDatasetComponent implements OnInit {
       console.log('new: ', newValues);
 
       // fetching api
-      this.handleClosePopUp();
+     // this.handleClosePopUp();
     } else {
       const newValues = inputs.map((input: any) => {
         return {
@@ -353,8 +364,36 @@ export class AddDatasetComponent implements OnInit {
       console.log('new: ', newValues);
 
       // fetching api
-      this.handleClosePopUp();
+      //this.handleClosePopUp();
     }
+  }
+
+  trimFromControlEmpty() : any[] {
+    let inputs: any[];
+    if (this.isRangeControl) {
+      inputs  = this.formValues.value.inputs.filter(
+        (input: any) =>
+          input.from !== null &&
+          input.from !== undefined &&
+          input.to !== null &&
+          input.to !== undefined &&
+          input.from.trim() !== '' &&
+          input.to.trim() !== ''
+      ) ;
+    } else {
+      inputs = this.formValues.value.inputs.filter(
+        (input: any) =>
+          input.value !== null &&
+          input.value !== undefined &&
+          input.value.trim() !== ''
+      );
+    }
+     
+     return inputs;
+  }
+
+  getDatasetValueInFormGroup() {
+
   }
 
   isDisableButtonSubmit(): boolean {
@@ -452,7 +491,7 @@ export class AddDatasetComponent implements OnInit {
     this.inputs.clear();
     if(this.originalContent.length > 0) {
       this.originalContent.forEach((item) => {
-        console.log(item);
+       // console.log(item);
         this.addInput(item);
       });
     }

@@ -76,12 +76,11 @@ export class AddDatasetValueComponent implements OnInit {
   }
 
   clearFile(fileInput: any) {
-    fileInput.value = '';  // Clear the file input
+    fileInput.value = ''; // Clear the file input
     this.fileName = undefined;
-    this.originalContent = [];  // Reset the list of non-empty lines
+    this.originalContent = []; // Reset the list of non-empty lines
     this.inputs.clear();
-    this.addInput({value: null, from: null, to: null});
-    
+    this.addInput({ value: null, from: null, to: null });
   }
 
   downloadFileWithErrors(): void {
@@ -227,13 +226,18 @@ export class AddDatasetValueComponent implements OnInit {
       inputs = this.formValues.value.inputs.filter(
         (input: any) =>
           input.from !== null &&
+          input.from !== undefined &&
           input.to !== null &&
+          input.to !== undefined &&
           input.from.trim() !== '' &&
           input.to.trim() !== ''
       );
     } else {
       inputs = this.formValues.value.inputs.filter(
-        (input: any) => input.value !== null && input.value.trim() !== ''
+        (input: any) =>
+          input.value !== null &&
+          input.value !== undefined &&
+          input.value.trim() !== ''
       );
     }
 
@@ -279,7 +283,9 @@ export class AddDatasetValueComponent implements OnInit {
       inputs = this.formValues.value.inputs.filter(
         (input: any) =>
           input.from !== null &&
+          input.from !== undefined &&
           input.to !== null &&
+          input.to !== undefined &&
           input.from.trim() !== '' &&
           input.to.trim() !== ''
       );
@@ -309,7 +315,11 @@ export class AddDatasetValueComponent implements OnInit {
     let errors: number[] = [];
     if (this.datasetEdit.isRangeInput) {
       const inputs = this.formValues.value.inputs.filter(
-        (input: any) => input.from !== null && input.to !== null
+        (input: any) =>
+          input.from !== null &&
+          input.to !== null &&
+          input.from !== undefined &&
+          input.to !== undefined
       );
       //console.log(inputs);
       if (inputs.length > 0) {
@@ -330,7 +340,7 @@ export class AddDatasetValueComponent implements OnInit {
       }
     } else {
       const inputs = this.formValues.value.inputs.filter(
-        (input: any) => input.value !== null
+        (input: any) => input.value !== null && input.value !== undefined
       );
       //  console.log(inputs);
       if (inputs.length > 0) {

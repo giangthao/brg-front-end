@@ -6,16 +6,16 @@
         >&times;</span
       >
     </div>
-   
       <form class="body">
+        <!-- Dataset name and Field -->
         <div style="display: flex; align-items: flex-start; gap: 8px" class="row">
           <div style="flex: 1; display: flex;
           flex-direction: column; align-items: flex-start;" >
             <div >
               <label style="font-size: 14px;" [htmlFor]="'name-dataset'">Dataset name*</label>
-              <input class="input" id="name-dataset" placeholder="Dataset name" />
+              <input class="input" (input)="onChangeDatasetName($event)" id="name-dataset" placeholder="Dataset name" />
             </div>
-            <div style="color: red; font-size: 12px; margin-top: 8px;" class="error">Dataset name is existed</div>
+            <div *ngIf="errorMessageName" style="color: red; font-size: 10px; margin-top: 8px;" class="error">{{errorMessageName}}</div>
           </div>
           <div style="flex: 1" class="form-group" >
             <div class="form-group-selected">
@@ -49,7 +49,7 @@
                   <li *ngIf="extraSelectedOptionsCount > 0">
                     {{ extraSelectedOptionsCount }}+
                   </li>
-                  <li *ngIf="newDataset.fields.length === 0">
+                  <li *ngIf="fields.length === 0">
                     Selected option
                   </li>
                 </ul>
@@ -69,6 +69,15 @@
               </div>
             </div>
           </div>
+        </div>
+        <!-- Format Fields -->
+        <div>
+          <span>Format Field:  {{getFormatField()}}</span>
+        </div>
+        <!-- Range Input -->
+        <div >
+          <input id="rangeInput"(input)="handleChangeRangeInput($event)" type="checkbox" [disabled]="this.fields.length > 1" [checked]="isRangeControl"/>
+          <label [htmlFor]="'rangeInput'">Range Input</label>
         </div>
       </form>
    
@@ -108,7 +117,7 @@
             [formGroupName]="i"
             (keydown.enter)="onEnter($event)"
           >
-            <ng-container *ngIf="!newDataset.isRangeInput; else rangeTemplate">
+            <ng-container *ngIf="!isRangeControl; else rangeTemplate">
               <div
                 *ngIf="
                   i >= (currentPage - 1) * itemsPerPage &&

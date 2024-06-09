@@ -72,7 +72,7 @@ export class DatasetService{
 
     checkValueDatasetIfFieldIsCell(input: string, fields: string[]) : boolean {
         let arr;
-        if(!input.startsWith('_')) return false; 
+        if(!input.startsWith('_')) return true; 
         arr = input.split('_');
         arr = arr.filter((item, index) => index !== 0);
         if(arr.filter((v) => v === '').length !== 0) return true;
@@ -137,4 +137,10 @@ export class DatasetService{
         return result;
     }
 
+
+    async checkName(name: string): Promise<{ valid: boolean }> {
+        // Giả lập kiểm tra tên tại client
+        const isValid = name.length > 3; 
+        return { valid: isValid };
+    }
 }

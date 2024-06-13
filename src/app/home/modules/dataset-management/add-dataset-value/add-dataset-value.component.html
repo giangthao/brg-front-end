@@ -22,9 +22,8 @@
           type="file"
           (change)="onFileChange($event)"
         />
-        <a href="#" (click)="downloadFileWithErrors()" *ngIf="fileName">
-          {{ fileName }}</a
-        >
+        <p (click)="downloadFileWithErrors()" *ngIf="fileName">
+          {{ fileName }}</p>
         <button (click)="clearFile(fileInput)" style="cursor: pointer;" *ngIf="fileName">Clear file</button>
 
         <div style="color: red; font-size: 12px" *ngIf="errorMessageUploadFile">
@@ -32,7 +31,7 @@
         </div>
       </div>
       <!-- Form -->
-      <form [formGroup]="formValues" (ngSubmit)="onSubmit($event)">
+      <form [formGroup]="formValues" (submit)="onSubmit($event)">
         <div style="height: 400px; overflow-y: auto" formArrayName="inputs">
           <div
             *ngFor="let control of inputs.controls; let i = index"

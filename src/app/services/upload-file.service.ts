@@ -1,12 +1,40 @@
 import { Injectable } from '@angular/core';
 import { DatasetService } from './dataset.service';
 import { Dataset } from '../home/modules/dataset-management/list-dataset/list-dataset.component';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UploadFileService {
-  constructor(private datasetService: DatasetService) {}
+  private fileDownloadUrl = 'https://your-backend-url/api/download';
+  constructor(private datasetService: DatasetService, private http: HttpClient) {}
+
+  downloadFileFromBackend(): Observable<Blob> {
+    return this.http.get(this.fileDownloadUrl, { responseType: 'blob' });
+  }
+
+  downloadFile() {
+    this.downloadFileFromBackend().subscribe(
+      response => {
+        const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'downloaded_file.xlsx';  // Thay đổi tên file theo ý muốn
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      },
+      error => {
+        console.error('Error downloading file:', error);
+      }
+    );
+  }
 
   async checkFileErrors(
     file: File,
@@ -94,8 +122,39 @@ export class UploadFileService {
       a.download = fileName
         ? `errors_${fileName}`
         : 'file_with_errors.txt';
-      a.click();
-      window.URL.revokeObjectURL(url);
-    }
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+  
+  }
+
+  createAndDownloadExcelFile() {
+    // Tạo dữ liệu giả lập
+    const data = [
+      { name: 'John Doe', age: 28, city: 'New York' },
+      { name: 'Jane Smith', age: 34, city: 'Los Angeles' }
+    ];
+
+    // Chuyển đổi dữ liệu thành worksheet
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
+
+    // Tạo workbook và thêm worksheet vào
+    const workbook: XLSX.WorkBook = {
+      Sheets: { 'data': worksheet },
+      SheetNames: ['data']
+    };
+
+    // Chuyển đổi workbook thành buffer
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+    // Lưu file
+    this.saveAsExcelFile(excelBuffer, 'sample');
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: 'application/octet-stream' });
+    saveAs(data, `${fileName}.xlsx`);
+  }
    
 }

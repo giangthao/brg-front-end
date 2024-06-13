@@ -6,6 +6,7 @@ import { PaginationService } from 'src/app/services/pagination.service';
 import { Router } from '@angular/router';
 import { RouteConstant } from 'src/app/constant/route.constant';
 import { DatasetService } from 'src/app/services/dataset.service';
+import { UploadFileService } from 'src/app/services/upload-file.service';
 
 export type Dataset = {
    id: number;
@@ -79,7 +80,8 @@ export class ListDatasetComponent {
       private fileReaderService: ReadFileService,
       private paginationService: PaginationService,
       private router: Router,
-      private datasetService: DatasetService
+      private datasetService: DatasetService,
+      private uploadFileService: UploadFileService
    ) {
       this.listDataset = datasetList;
       this.valueDatasetForm = this.formBuilder.group({
@@ -338,5 +340,10 @@ export class ListDatasetComponent {
    formatDateTimeToString(date: string) {
       return this.datasetService.convertDateTimeUTCToString(date)
       
+   }
+
+   downloadFile(){
+      this.uploadFileService.createAndDownloadExcelFile()
+
    }
 }

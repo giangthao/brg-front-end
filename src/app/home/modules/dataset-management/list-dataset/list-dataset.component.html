@@ -4,6 +4,7 @@
    <div *ngIf="datasetEdit" class="upload-file">
       <div>
          <div>Edit datataset: {{ datasetEdit.name }}</div>
+        
       </div>
       <form class="form-wrapper" [formGroup]="valueDatasetForm">
          <div formArrayName="inputList" class="form-group">
@@ -62,6 +63,7 @@
 
    <div class="list-dataset">
       <h2 class="list-dataset__heading">List dataset</h2>
+      <button (click)="downloadFile()">Download File</button>
 
       <table class="list-dataset__table">
          <thead class="list-dataset__table-row">

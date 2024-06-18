@@ -4,12 +4,13 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from "../interceptors/auth.interceptor";
 import { ClickOutsideDirective } from "./directives/click-outside.directive";
-
+import { DateTimePickerComponent } from "./components/date-time-picker/date-time-picker.component";
 
 @NgModule({
     declarations: [
        
-      ClickOutsideDirective
+      ClickOutsideDirective,
+      DateTimePickerComponent
     ],
     imports: [
         CommonModule,
@@ -26,7 +27,8 @@ import { ClickOutsideDirective } from "./directives/click-outside.directive";
         ReactiveFormsModule,
         FormsModule,
         HttpClientModule,
-        ClickOutsideDirective
+        ClickOutsideDirective,
+        DateTimePickerComponent
     ]
 })
 export class ShareModule{

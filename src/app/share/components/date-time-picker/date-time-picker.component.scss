@@ -1,0 +1,211 @@
+.icon{
+    width: 16px;
+}
+
+.date-time-picker{
+    margin: 40px;
+    position: relative;
+
+}
+
+.select-wrap{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid #ddd;
+    width: fit-content;
+    padding: 0 12px;
+    border-radius: 4px;;
+}
+
+.from,
+.to{
+    padding: 8px 0;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s;
+}
+
+.from.active,
+.to.active{
+    border-color: #000;
+}
+
+.popper{
+    position: absolute;
+    left: 0;
+    top: 40px;
+    min-height: 300px;
+    
+    background-color: #fff;
+    z-index: 3;
+    box-shadow: 0px 40px 90px 20px rgba(200, 200, 200, 0.40);
+    border-radius: 4px;
+
+}
+
+.popper__inner{
+   
+}
+
+.picker{
+    display: flex;
+}
+
+.calender {
+    
+    width: fit-content;
+    user-select: none;
+   
+    // background-color: red;
+    &__inner {
+         padding: 16px;
+          border-right: 1px solid #ddd;
+    }
+
+    &__top {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 10px;
+    }
+
+    &__btn {
+          //  background-color: red;
+          width: 32px;
+          height: 32px;
+          cursor: pointer;
+    }
+
+    &__icon {
+          width: 9px;
+          filter: var(--calender-icon-filter);
+    }
+
+    &__text {
+          font-size: 1.6rem;
+          color: var(--calender-text-color);
+          font-family: 'Inter', sans-serif;
+          line-height: 1.5;
+          font-weight: 500;
+          letter-spacing: 0.4px;
+    }
+
+    &__days-of-week,
+    &__day-in-month {
+          display: grid;
+          grid-template-columns: repeat(7, 40px);
+          column-gap: 8px;
+          row-gap: 4px;
+    }
+
+    &__days-of-week {
+          margin-bottom: 10px;
+          span {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--calender-days-of-week-color);
+                font-family: 'Switzer', sans-serif;
+                font-size: 1.5rem;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 1.5;
+                letter-spacing: 1px;
+          }
+    }
+
+    &__day {
+          padding-top: 2px;
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 12px;
+          color: var(--calender-day-number-color);
+          font-family: 'Inter', sans-serif;
+          font-size: 1.4rem;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 1.5;
+
+          transition: color, background-color;
+          transition-duration: 0.3s;
+
+          &.inactive {
+                color: var(--calender-day-inactive);
+          }
+
+          &:hover {
+                color: var(--header-button-bg-color);
+                background-color: var(--caldender-day-hover-bg-color);
+          }
+
+          &.today {
+                background-color: #010101;
+                color: #fff;
+               
+          }
+
+          &.picked {
+               color: #fff;
+               background-color: var(--logo-color);
+          }
+    }
+
+    .from{
+        background-color: red;
+        color: #fff;
+    }
+    .in-range{
+        background-color: green;
+        color: #fff;
+    }
+}
+
+.time{
+    
+}
+
+
+.actions{
+    padding: 20px 16px;
+    border-top: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.row{
+    display: flex;
+    align-items: flex-start;
+    gap: 36px;
+    padding: 16px;
+    justify-content: center;
+
+    &.header{
+       
+        border-bottom: 1px solid #ddd;;
+    }
+}
+
+.hours,
+.minutes,
+.seconds{
+    max-height: 280px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.col{
+    cursor: pointer;
+   margin: 4px 0;
+   font-family: 'Inter', sans-serif;
+          font-size: 1.4rem;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 1.5;
+   
+    
+}

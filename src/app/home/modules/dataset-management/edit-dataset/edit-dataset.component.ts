@@ -487,7 +487,7 @@ export class EditDatasetComponent implements OnInit, OnDestroy {
   toggleOptionsVisibility(event: Event): void {
     event.stopPropagation(); // Prevent this click from propagating to the document
     this.isOptionsVisible = !this.isOptionsVisible;
-    this.isClickedInside = !this.isClickedInside;
+    this.isClickedInside = !this.isClickedInside
   }
 
   get displaySelectedOptions(): string[] {

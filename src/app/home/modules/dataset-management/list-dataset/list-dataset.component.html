@@ -1,4 +1,4 @@
-<main class="container">
+<main class="container" style="min-height: 1000000px;">
    <h1 style="margin-top: 30px">Upload file</h1>
 
    <div *ngIf="datasetEdit" class="upload-file">
@@ -64,6 +64,10 @@
    <div class="list-dataset">
       <h2 class="list-dataset__heading">List dataset</h2>
       <button (click)="downloadFile()">Download File</button>
+
+      <div class="date-time-wrapper">
+         <app-date-time-picker></app-date-time-picker>
+      </div>
 
       <table class="list-dataset__table">
          <thead class="list-dataset__table-row">

@@ -23,14 +23,16 @@ export class DateTimePickerComponent {
   minutesPick?: string;
   secondPick? : string;
 
-  toggleFromClick() {
+  toggleFromClick(event: any) {
     this.fromToggle = !this.fromToggle;
     this.toToggle = false;
+    this.toggleOptionsVisibility(event);
   }
 
-  toggleToClick() {
+  toggleToClick(event: any) {
     this.toToggle = !this.toToggle;
     this.fromToggle = false;
+    this.toggleOptionsVisibility(event);
   }
   _daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   _monthNames = [
@@ -61,6 +63,9 @@ export class DateTimePickerComponent {
   @Output() dayPickedChange = new EventEmitter<number>();
   @Output() monthPickedChange = new EventEmitter<number>();
   @Output() yearPickedChange = new EventEmitter<number>();
+
+  isOptionsVisible: boolean = false;
+  isClickedInside: boolean = false;
 
   constructor() {
     let now = new Date();
@@ -264,5 +269,18 @@ const seconds = now.getSeconds().toString().padStart(2, '0');
 
   cancelDateTime(){
 
+  }
+
+  handlerClickOutside(){
+
+    this.isOptionsVisible= false;
+    this.isClickedInside = false;
+
+  }
+
+  toggleOptionsVisibility(event: Event): void {
+    event.stopPropagation(); // Prevent this click from propagating to the document
+    this.isOptionsVisible = !this.isOptionsVisible;
+    this.isClickedInside = !this.isClickedInside
   }
 }

@@ -1,13 +1,20 @@
-<div class="date-time-picker">
-  <div class="select-wrap">
+<div
+  class="date-time-picker"
+  appClickOutside
+  (clickOutside)="handlerClickOutside()"
+>
+  <div [ngClass]="{ clicked: isClickedInside }" class="select-wrap">
     <div
       onkeydown=""
-      (click)="toggleFromClick()"
+      (click)="toggleFromClick($event)"
       class="from"
       [class.active]="fromToggle"
     >
-      <input readonly  [value]="fromDateTime" placeholder="dd/mm/yyyy hh:mm:ss" />
-     
+      <input
+        readonly
+        [value]="fromDateTime"
+        placeholder="dd/mm/yyyy hh:mm:ss"
+      />
     </div>
     <div class="seperate">
       <img
@@ -20,11 +27,11 @@
       class="to"
       onkeydown=""
       [class.active]="toToggle"
-      (click)="toggleToClick()"
+      (click)="toggleToClick($event)"
     >
       <input readonly [value]="toDateTime" placeholder="dd/mm/yyyy hh:mm:ss" />
     </div>
-    <div (click)="toggleFromClick()" onkeydown="">
+    <div (click)="toggleFromClick($event)" onkeydown="">
       <img
         class="icon"
         alt=""
@@ -33,7 +40,7 @@
     </div>
   </div>
 
-  <div class="popper">
+  <div [class.enable]="isOptionsVisible" class="popper">
     <div class="popper__inner">
       <div class="picker">
         <div class="calender">
@@ -58,7 +65,7 @@
               </button>
             </div>
             <div class="calender__days-of-week">
-              <span *ngFor="let day of _daysOfWeek" > {{ day }}</span>
+              <span *ngFor="let day of _daysOfWeek"> {{ day }}</span>
             </div>
             <div class="calender__day-in-month">
               <span
@@ -66,12 +73,12 @@
                 class="calender__day inactive"
                 (click)="setDatePicker(p, -1)"
                 [class.picked]="
-                dayPicked === p &&
-                monthPicked &&
-                yearPicked &&
-                monthPicked === currentMonth -1 &&
-                yearPicked === currentYear
-              "
+                  dayPicked === p &&
+                  monthPicked &&
+                  yearPicked &&
+                  monthPicked === currentMonth - 1 &&
+                  yearPicked === currentYear
+                "
                 onkeydown=""
                 >{{ p }}
               </span>
@@ -83,70 +90,97 @@
                   dayPicked === d &&
                   monthPicked &&
                   yearPicked &&
-                  monthPicked === currentMonth  &&
+                  monthPicked === currentMonth &&
                   yearPicked === currentYear
                 "
-                 [class.from]="isFromDate(d, 0)"
-                 [class.in-range]="isDateInRange(d, 0)"
+                [class.from]="isFromDate(d, 0)"
+                [class.in-range]="isDateInRange(d, 0)"
                 class="calender__day"
                 *ngFor="let d of daysOfMonth"
               >
                 {{ d }}</span
               >
               <span
-              *ngFor="let p of daysOfNextMonth"
-              onkeydown=""
-              class="calender__day inactive"
-              [class.picked]="
-              dayPicked === p &&
-              monthPicked &&
-              yearPicked &&
-              monthPicked === currentMonth + 1 &&
-              yearPicked === currentYear
-            "
-              (click)="setDatePicker(p, 1)"
-              >{{ p }}
-            </span>
+                *ngFor="let p of daysOfNextMonth"
+                onkeydown=""
+                class="calender__day inactive"
+                [class.picked]="
+                  dayPicked === p &&
+                  monthPicked &&
+                  yearPicked &&
+                  monthPicked === currentMonth + 1 &&
+                  yearPicked === currentYear
+                "
+                (click)="setDatePicker(p, 1)"
+                >{{ p }}
+              </span>
             </div>
           </div>
         </div>
         <div class="time">
-            <div class="row header">
-                <span *ngIf="!hourPick; else hourValue">Hour</span>
-                <ng-template #hourValue>
-                   <span>{{hourPick}}</span>
-                </ng-template>
-                <span *ngIf="!minutesPick; else minuteValue">Minus</span>
-                <ng-template #minuteValue>
-                    <span>{{minutesPick}}</span>
-                 </ng-template>
-                <span *ngIf="!secondPick; else secondValue">Second</span>
-                <ng-template #secondValue>
-                    <span>{{secondPick}}</span>
-                 </ng-template>
+          <div class="row header">
+            <span *ngIf="!hourPick; else hourValue">Hour</span>
+            <ng-template #hourValue>
+              <span>{{ hourPick }}</span>
+            </ng-template>
+            <span *ngIf="!minutesPick; else minuteValue">Minus</span>
+            <ng-template #minuteValue>
+              <span>{{ minutesPick }}</span>
+            </ng-template>
+            <span *ngIf="!secondPick; else secondValue">Second</span>
+            <ng-template #secondValue>
+              <span>{{ secondPick }}</span>
+            </ng-template>
+          </div>
+          <div class="row">
+            <div class="hours">
+              <span
+                (click)="hourPick = hour"
+                onkeydown=""
+                class="col"
+                *ngFor="let hour of hours"
+              >
+                {{ hour }}
+              </span>
             </div>
-            <div class="row">
-                <div class="hours">
-                   <span (click)="hourPick = hour" onkeydown="" class="col" *ngFor="let hour of hours">
-                     {{hour}}
-                   </span>
-                </div>
-                <div class="minutes">
-                    <span (click)="minutesPick = m" onkeydown="" class="col" *ngFor="let m of minutes">
-                        {{m}}
-                      </span>
-                </div>
-                <div class="seconds">
-                    <span (click)="secondPick = s" onkeydown="" class="col" *ngFor="let s of seconds">
-                       {{s}}
-                      </span>
-                </div>
+            <div class="minutes">
+              <span
+                (click)="minutesPick = m"
+                onkeydown=""
+                class="col"
+                *ngFor="let m of minutes"
+              >
+                {{ m }}
+              </span>
             </div>
+            <div class="seconds">
+              <span
+                (click)="secondPick = s"
+                onkeydown=""
+                class="col"
+                *ngFor="let s of seconds"
+              >
+                {{ s }}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
       <div class="actions">
         <button (click)="cancelDateTime()">Cancel</button>
-        <button (click)="applyDateTime()" *ngIf="dayPicked && monthPicked && yearPicked && hourPick && minutesPick && secondPick">Apply</button>
+        <button
+          (click)="applyDateTime()"
+          *ngIf="
+            dayPicked &&
+            monthPicked &&
+            yearPicked &&
+            hourPick &&
+            minutesPick &&
+            secondPick
+          "
+        >
+          Apply
+        </button>
       </div>
     </div>
   </div>

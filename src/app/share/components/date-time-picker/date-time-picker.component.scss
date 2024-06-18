@@ -41,6 +41,14 @@
     box-shadow: 0px 40px 90px 20px rgba(200, 200, 200, 0.40);
     border-radius: 4px;
 
+    opacity: 0;
+    visibility: hidden;
+
+}
+
+.enable{
+    visibility: visible;
+    opacity: 1;
 }
 
 .popper__inner{
@@ -209,3 +217,8 @@
    
     
 }
+
+.clicked{
+    border-color:blue;
+  }
+  

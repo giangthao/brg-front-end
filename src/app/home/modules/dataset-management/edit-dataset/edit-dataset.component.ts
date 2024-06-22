@@ -29,10 +29,11 @@ export class EditDatasetComponent implements OnInit, OnDestroy {
   formSubscription!: Subscription;
 
   filteredData: DatasetValue[] = [];
-  pageSize = 5;
+  pageSize = 20;
   currentPage = 1;
-  totalPages!: number;
+  totalPages: number = 0;
   paginatedData: DatasetValue[] = [];
+  MAX_PAGE : number = 30;
 
   isEditing = false;
   editedItem?: DatasetValue; // Track the item being edited
@@ -343,9 +344,9 @@ export class EditDatasetComponent implements OnInit, OnDestroy {
     console.log(this.totalPages);
   }
 
-  totalPagesArray(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
-  }
+  // totalPagesArray(): number[] {
+  //   return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  // }
 
   onPageChange(pageNumber: number) {
     this.currentPage = pageNumber; // Set current page to the selected page number
@@ -518,6 +519,44 @@ export class EditDatasetComponent implements OnInit, OnDestroy {
     this.paginateData(); // Initialize pagination on load
     this.calculateTotalPages(); // Calculate total pages on load
   }
+
+  nextPage(): void {
+   
+    if (this.currentPage * this.pageSize < this.filteredData.length) {
+      this.currentPage = this.currentPage + 1;
+
+      
+     this.paginateData()
+    }
+   
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage = this.currentPage - 1;
+     this.paginateData()
+    }
+    
+  }
+  getPageNumbers(): number[] {
+    const maxPages = Math.min(this.totalPages, this.MAX_PAGE);
+    const startIndex = Math.max(1, this.currentPage - Math.floor(maxPages / 2));
+    const endIndex = Math.min(this.totalPages, startIndex + maxPages - 1);
+    return Array.from(
+      { length: endIndex - startIndex + 1 },
+      (_, i) => startIndex + i
+    );
+    
+  }
+  pageClick(pageNumber: number) {
+    if (pageNumber >= 1 && pageNumber <= this.totalPages) {
+      this.currentPage = pageNumber;
+
+     this.paginateData()
+    }
+    
+  }
+
 
   
 }

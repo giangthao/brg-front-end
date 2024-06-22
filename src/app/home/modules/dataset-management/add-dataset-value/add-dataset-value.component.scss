@@ -89,3 +89,19 @@
 .current-page{
     color: blue;
 }
+
+.page-item{
+    min-width: 32px;
+    height:  32px;
+    padding: 0 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ddd;
+    border-radius: 3px;
+}
+
+.pagination{
+    width: fit-content;
+    margin: 12px auto;
+}

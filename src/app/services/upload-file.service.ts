@@ -40,21 +40,73 @@ export class UploadFileService {
     file: File,
     dataset: Dataset
   ): Promise<{ originalContent: any[]; errorReport: string }> {
-    const text = await file.text();
-    const lines = text
+    // const text = await file.text();
+    // const lines = text
+    //   .split('\n')
+    //   .map((line) => line.trim())
+    //   .filter((line) => line.length > 0);
+    
+    // const processedLines = lines.map((line, index) => {
+    //   const errors = this.findErrors(line, dataset);
+    //   return errors.length ? `error ${line}` : line;
+    // });
+
+    // return {
+    //   originalContent: this.extractValues(lines, dataset),
+    //   errorReport: processedLines.join('\n'),
+    // };
+    const chunkSize = 20 * 1024;
+    let offset = 0;
+
+    const originalContent : any[] = [];
+    const errorLines: string[] = [];
+    let pendingLine = '';
+
+    while(offset < file.size) {
+      const chunk = file.slice(offset, offset + chunkSize);
+      const chunkText = await this.readChunk(chunk);
+      const lines = (pendingLine + chunkText)
       .split('\n')
       .map((line) => line.trim())
       .filter((line) => line.length > 0);
-    
-    const processedLines = lines.map((line, index) => {
+
+    let lineNotLastIndex : string[] = [];
+    for (let i = 0; i < lines.length - 1; i++) {
+      const line = lines[i].trim();
+      lineNotLastIndex.push(line);
       const errors = this.findErrors(line, dataset);
-      return errors.length ? `error ${line}` : line;
-    });
+      if (errors.length > 0) {
+        errorLines.push(`error ${line}`);
+      } else {
+        errorLines.push(line);
+      }
+    }
+
+      originalContent.push(...this.extractValues(lineNotLastIndex, dataset));
+      pendingLine = lines[lines.length - 1].trim()
+
+      offset += chunkSize
+    }
+
+  
 
     return {
-      originalContent: this.extractValues(lines, dataset),
-      errorReport: processedLines.join('\n'),
-    };
+      originalContent: originalContent,
+      errorReport: errorLines.join('\n')
+    }
+  }
+
+  private async readChunk(chunk: Blob) : Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event: any) => {
+        resolve(event.target.result)
+      }
+      reader.onerror = (error) => {
+        reject(error)
+      }
+      reader.readAsText(chunk);
+    })
   }
 
   private findErrors(line: string, dataset: Dataset): string[] {

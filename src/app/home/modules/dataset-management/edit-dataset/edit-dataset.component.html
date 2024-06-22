@@ -296,19 +296,41 @@
       justify-content: center;
       gap: 8px;
       margin-top: 20px;
+      overflow: scroll;
     "
     *ngIf="totalPages > 1"
     class="pagging"
   >
-    <div
-      class="page-number"
-      [class.current-page]="pageNumber === currentPage"
-      *ngFor="let pageNumber of totalPagesArray()"
+  <span
+  class="page-item"
+    style="cursor: pointer"
+    (click)="previousPage()"
+    *ngIf="currentPage !== 1"
+    onkeydown=""
+  >
+    Previous
+  </span>
+  <div *ngFor="let page of getPageNumbers()">
+    <span
+    class="page-item"
+      style="cursor: pointer"
+      (click)="pageClick(page)"
+      [class.current-page]="page === currentPage"
       onkeydown=""
-      (click)="onPageChange(pageNumber)"
     >
-      {{ pageNumber }}
-    </div>
+      {{ page }}
+    </span>
+  </div>
+  <span (click)="pageClick(totalPages)" onkeydown="" *ngIf="currentPage !== totalPages" class="page-item">{{totalPages}}</span>
+  <span
+  class="page-item"
+    style="cursor: pointer"
+    (click)="nextPage()"
+    *ngIf="currentPage < totalPages"
+    onkeydown=""
+  >
+    Next
+  </span>
   </div>
 </div>
 

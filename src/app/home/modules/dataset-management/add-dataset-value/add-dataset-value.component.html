@@ -20,33 +20,33 @@
           hidden
           id="upload-file"
           type="file"
+          (click)="clearFile()"
           (change)="onFileChange($event)"
         />
-        <p (click)="downloadFileWithErrors()" *ngIf="fileName">
+        
+        <p (click)="downloadFileWithErrors()" onkeydown="" *ngIf="fileName">
+          <span *ngIf="loadingFile">Please wait...</span>
           {{ fileName }}</p>
-        <button (click)="clearFile(fileInput)" style="cursor: pointer;" *ngIf="fileName">Clear file</button>
+        <button (click)="clearFile()" style="cursor: pointer;" *ngIf="fileName">Clear file</button>
 
         <div style="color: red; font-size: 12px" *ngIf="errorMessageUploadFile">
           {{ errorMessageUploadFile }}
         </div>
       </div>
       <!-- Form -->
-      <form [formGroup]="formValues" (submit)="onSubmit($event)">
+      <form [formGroup]="formValues"  (keydown.enter)="onEnter($event)" >
         <div style="height: 400px; overflow-y: auto" formArrayName="inputs">
           <div
             *ngFor="let control of inputs.controls; let i = index"
             [formGroupName]="i"
-            (keydown.enter)="onEnter($event)"
+           
           >
             <ng-container *ngIf="!datasetEdit.isRangeInput; else rangeTemplate">
               <div
-                *ngIf="
-                  i >= (currentPage - 1) * itemsPerPage &&
-                  i < (currentPage - 1) * itemsPerPage + itemsPerPage
-                "
+               
               >
                 <div class="form-group">
-                  <span>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</span>
+                  <span>{{ (this.currentPage - 1) * this.itemsPerPage + i + 1}}</span>
                   <input
                     formControlName="value"
                     class="form-input"
@@ -69,13 +69,10 @@
             </ng-container>
             <ng-template #rangeTemplate>
               <div
-                *ngIf="
-                  i >= (currentPage - 1) * itemsPerPage &&
-                  i < (currentPage - 1) * itemsPerPage + itemsPerPage
-                "
+               
               >
                 <div class="form-group">
-                  <span>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</span>
+                  <span>{{ (this.currentPage - 1) * this.itemsPerPage + i + 1 }}</span>
                   <input
                     class="form-input"
                     formControlName="from"
@@ -123,10 +120,11 @@
 
         <div
           style="display: flex; gap: 4px; flex-wrap: wrap"
-          *ngIf="this.totalPages > 1"
+          
           class="pagination"
         >
           <span
+          class="page-item"
             style="cursor: pointer"
             (click)="previousPage()"
             *ngIf="currentPage !== 1"
@@ -136,6 +134,7 @@
           </span>
           <div *ngFor="let page of getPageNumbers()">
             <span
+            class="page-item"
               style="cursor: pointer"
               (click)="pageClick(page)"
               [class.current-page]="page === currentPage"
@@ -145,6 +144,7 @@
             </span>
           </div>
           <span
+          class="page-item"
             style="cursor: pointer"
             (click)="nextPage()"
             *ngIf="currentPage < totalPages"
@@ -154,7 +154,7 @@
           </span>
         </div>
         <div class="actions">
-          <button *ngIf="!isDisableButtonSubmit()" type="submit">Submit</button>
+          <button *ngIf="!isDisableButtonSubmit()" (click)="onSubmit($event)">Submit</button>
           <button (click)="handleClosePopUp()">Cancel</button>
         </div>
       </form>

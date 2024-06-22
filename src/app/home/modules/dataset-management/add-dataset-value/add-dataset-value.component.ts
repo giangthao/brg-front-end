@@ -105,6 +105,7 @@ export class AddDatasetValueComponent implements OnInit {
   clearFile() {
     this.fileInput.nativeElement.value = ''; // Clear the file input
     this.fileName = undefined;
+    this.errorMessageUploadFile = undefined;
     this.originalContent = [{ value: null, to: null, from: null }]; // Reset the list of non-empty lines
     this.calculateTotalPages();
     this.currentPage = this.totalPages;

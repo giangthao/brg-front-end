@@ -143,6 +143,8 @@
               {{ page }}
             </span>
           </div>
+          
+          <span (click)="pageClick(totalPages)" onkeydown="" class="page-item" *ngIf="currentPage !== totalPages"> {{totalPages}}</span>
           <span
           class="page-item"
             style="cursor: pointer"

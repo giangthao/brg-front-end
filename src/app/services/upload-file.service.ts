@@ -55,7 +55,7 @@ export class UploadFileService {
     //   originalContent: this.extractValues(lines, dataset),
     //   errorReport: processedLines.join('\n'),
     // };
-    const chunkSize = 20 * 1024;
+    const chunkSize = 10 * 1024;
     let offset = 0;
 
     const originalContent : any[] = [];

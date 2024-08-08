@@ -40,6 +40,7 @@
         color: #111113;
         font-weight: 500;
         font-size: 18px;
+        line-height: 40px;
     }
 
     &__button{
@@ -64,8 +65,10 @@
 
     &__common-infor{
         width: calc(391px + 2 * 16px);
-       
+    }
 
+    &__controls{
+        padding-right: 16px;
     }
 
     &__calculation-formula{

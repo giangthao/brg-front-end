@@ -1307,4 +1307,38 @@ html {
   filter: var(--breadcrums-icon-color);
 }
 
+.form-control {
+  width: 100%;
+}
+
+.form-label {
+  margin-bottom: 8px;
+}
+
+.form-input input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0 8px;
+}
+
+.form-error {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+  color: red;
+  font-size: 12px;
+}
+.form-error::before {
+  content: url(../../assets/images/icons/trigle-error.svg);
+  display: inline-block;
+  width: 12px;
+}
+
+.form-required {
+  color: red;
+}
+
 /*# sourceMappingURL=main.css.map */

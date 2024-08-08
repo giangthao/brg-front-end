@@ -14,28 +14,27 @@ import { ListDatasetComponent } from './home/modules/dataset-management/list-dat
 import { ListKPIComponent } from './home/modules/kpi-management/list-kpi/list-kpi.component';
 import { AddKPIComponent } from './home/modules/kpi-management/add-kpi/add-kpi.component';
 import { EditKPIComponent } from './home/modules/kpi-management/edit-kpi/edit-kpi.component';
+import { KPIManagementComponent } from './home/modules/kpi-management/kpi-management.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: RouteConstant.KPI_MANAGEMENT , pathMatch: "full" },
+  { path: '', redirectTo: RouteConstant.KPI_MANAGEMENT, pathMatch: 'full' },
   {
     path: '',
     component: HomeComponent,
     children: [
       {
         path: '',
-        pathMatch: "full",
-        redirectTo: RouteConstant.CONFIG
+        pathMatch: 'full',
+        redirectTo: RouteConstant.CONFIG,
       },
       {
-
         path: RouteConstant.CONFIG,
         // canActivate: [AuthGuard],
         children: [
           {
             path: '',
-            pathMatch: "full",
-            redirectTo: RouteConstant.DATASET
-
+            pathMatch: 'full',
+            redirectTo: RouteConstant.DATASET,
           },
           {
             path: RouteConstant.DATASET,
@@ -45,17 +44,17 @@ const routes: Routes = [
               {
                 path: '',
                 pathMatch: 'full',
-                component: ListDatasetComponent
+                component: ListDatasetComponent,
               },
               {
-                path: 'list',   component: ListDatasetComponent,
+                path: 'list',
+                component: ListDatasetComponent,
               },
               {
                 path: 'edit/:datasetId',
                 component: EditDatasetComponent,
-              }
+              },
             ],
-          
           },
           {
             path: RouteConstant.RULE,
@@ -69,28 +68,29 @@ const routes: Routes = [
           },
         ],
       },
+    ],
+  },
+  {
+    path: RouteConstant.KPI_MANAGEMENT,
+    component: KPIManagementComponent,
+    children: [
       {
-        path: RouteConstant.KPI_MANAGEMENT,
-        children: [
-          {
-            path: '',
-            pathMatch: 'full',
-            redirectTo: RouteConstant.LIST_KPI
-          },
-          {
-            path: RouteConstant.LIST_KPI,
-            component: ListKPIComponent
-          },
-          {
-            path: RouteConstant.ADD_KPI,
-            component: AddKPIComponent
-          },
-          {
-            path: `${RouteConstant.EDIT_KPI}/:kpiId`,
-            component: EditKPIComponent
-          }
-        ]
-      }
+        path: '',
+        pathMatch: 'full',
+        redirectTo: RouteConstant.LIST_KPI,
+      },
+      {
+        path: RouteConstant.LIST_KPI,
+        component: ListKPIComponent,
+      },
+      {
+        path: RouteConstant.ADD_KPI,
+        component: AddKPIComponent,
+      },
+      {
+        path: `${RouteConstant.EDIT_KPI}/:kpiId`,
+        component: EditKPIComponent,
+      },
     ],
   },
   { path: RouteConstant.LOGIN, component: LoginComponent },

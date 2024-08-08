@@ -5,12 +5,17 @@ import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common
 import { AuthInterceptor } from "../interceptors/auth.interceptor";
 import { ClickOutsideDirective } from "./directives/click-outside.directive";
 import { DateTimePickerComponent } from "./components/date-time-picker/date-time-picker.component";
+import { SelectComponent } from "./components/select/select.component";
+import { DropDownMenuComponent } from "./components/drop-down-menu/drop-down-menu.component";
+import { KPIFormComponent } from "./components/kpi-form/kpi-form.component";
 
 @NgModule({
     declarations: [
-       
+      SelectComponent,
       ClickOutsideDirective,
-      DateTimePickerComponent
+      DateTimePickerComponent,
+      DropDownMenuComponent,
+      KPIFormComponent
     ],
     imports: [
         CommonModule,
@@ -28,7 +33,10 @@ import { DateTimePickerComponent } from "./components/date-time-picker/date-time
         FormsModule,
         HttpClientModule,
         ClickOutsideDirective,
-        DateTimePickerComponent
+        DateTimePickerComponent,
+        DropDownMenuComponent,
+        KPIFormComponent,
+        SelectComponent
     ]
 })
 export class ShareModule{

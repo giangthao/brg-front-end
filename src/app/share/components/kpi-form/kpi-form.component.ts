@@ -13,7 +13,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, debounceTime, map, switchMap, distinctUntilChanged, first  } from 'rxjs/operators';
 import { RouteConstant } from 'src/app/constant/route.constant';
 import { KPIManagementService } from 'src/app/services/kpi-management.service';
-import { typesKPI, categories, units } from './kpi-form.default';
+import { typesKPI, categories, units, operators, itemTypes } from './kpi-form.default';
 
 
 @Component({
@@ -31,6 +31,8 @@ export class KPIFormComponent implements OnInit {
   TYPES_OF_KPI = typesKPI;
   CATEGORIES = categories;
   UNITS = units;
+  OPERATORS = operators;
+  ITEM_TYPES = itemTypes;
   charCount: number = 0;
 
   kpiOptions = [1, 2, 3];  // Replace with actual KPI IDs
@@ -122,7 +124,7 @@ export class KPIFormComponent implements OnInit {
   // EXp
   createGroup(): FormGroup {
     return this.fb.group({
-      groupOperator: [null],
+      groupOperator: ['ADD'],
       groupItems: this.fb.array([this.createItem()])
     });
   }
@@ -130,7 +132,7 @@ export class KPIFormComponent implements OnInit {
   createItem(): FormGroup {
     return this.fb.group({
       itemType: [null, Validators.required],
-      itemOperator: [null],
+      itemOperator: ['ADD'],
       itemValue: [null, Validators.required]
     });
   }

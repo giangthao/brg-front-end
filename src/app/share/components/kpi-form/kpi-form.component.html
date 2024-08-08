@@ -201,66 +201,90 @@
           </div>
           <form [formGroup]="form" class="kpi-form__groups">
             <div formArrayName="expression">
-              <div *ngFor="let group of expression.controls; let i = index" [formGroupName]="i">
-               <div *ngIf="i > 0">
-                  <label>Group Operator:</label>
-                  <select formControlName="groupOperator">
-                    <option [value]="null">None</option>
-                    <option value="+">+</option>
-                    <option value="-">-</option>
-                    <option value="x">x</option>
-                    <option value="/">/</option>
-                  </select>
-               </div>
-          
+              <div
+                *ngFor="let group of expression.controls; let i = index"
+                [formGroupName]="i"
+                class="kpi-form__group"
+              >
+                <div *ngIf="i > 0">
+                  <ng-select
+                    [items]="OPERATORS"
+                    bindLabel="label"
+                    bindValue="value"
+                    placeholder="Select operator"
+                    formControlName="groupOperator"
+                  >
+                  </ng-select>
+                </div>
+                <div class="kpi-form__group--index">
+                  <button>
+                    <img
+                      class="kpi-form__icon"
+                      alt=""
+                      src="../../../../assets/images/icons/trash.svg"
+                    />
+                  </button>
+                  <span>Group {{ i + 1 }}</span>
+                </div>
                 <div formArrayName="groupItems">
-                  <div *ngFor="let item of getGroupItems(i).controls; let j = index" [formGroupName]="j">
-                    <label>Item Type:</label>
-                    <select formControlName="itemType">
-                      <option value="NUMERIC">Numeric Value</option>
-                      <option value="KPI">KPI ID</option>
-                      <option value="COUNTER">Counter ID</option>
-                    </select>
-          
+                  <div
+                    *ngFor="
+                      let item of getGroupItems(i).controls;
+                      let j = index
+                    "
+                    [formGroupName]="j"
+                  >
+                    <div *ngIf="j > 0">
+                      <ng-select
+                        [items]="OPERATORS"
+                        bindLabel="label"
+                        bindValue="value"
+                        placeholder="Select operator"
+                        formControlName="itemOperator"
+                      >
+                      </ng-select>
+                    </div>
+                    <ng-select
+                      [items]="ITEM_TYPES"
+                      bindLabel="label"
+                      bindValue="value"
+                      placeholder="Select KPI, counter or numerical value"
+                      formControlName="itemType"
+                    >
+                    </ng-select>
+
                     <!-- Display based on itemType -->
                     <ng-container [ngSwitch]="item.get('itemType')?.value">
                       <!-- Numeric Value -->
                       <div *ngSwitchCase="'NUMERIC'">
-                        <label>Item Value:</label>
-                        <input formControlName="itemValue" type="number"/>
+                        <input formControlName="itemValue" type="number" />
                       </div>
                       <!-- KPI ID -->
                       <div *ngSwitchCase="'KPI'">
-                        <label>KPI ID:</label>
                         <select formControlName="itemId">
-                          <option *ngFor="let kpi of kpiOptions" [value]="kpi">{{kpi}}</option>
+                          <option *ngFor="let kpi of kpiOptions" [value]="kpi">
+                            {{ kpi }}
+                          </option>
                         </select>
                       </div>
                       <!-- Counter ID -->
                       <div *ngSwitchCase="'COUNTER'">
-                        <label>Counter ID:</label>
                         <select formControlName="itemId">
-                          <option *ngFor="let counter of counterOptions" [value]="counter">{{counter}}</option>
+                          <option
+                            *ngFor="let counter of counterOptions"
+                            [value]="counter"
+                          >
+                            {{ counter }}
+                          </option>
                         </select>
                       </div>
                     </ng-container>
-          
-                   <div *ngIf="j > 0">
-                      <label>Item Operator:</label>
-                      <select formControlName="itemOperator">
-                        <option [value]="null">None</option>
-                        <option value="+">+</option>
-                        <option value="-">-</option>
-                        <option value="x">x</option>
-                        <option value="/">/</option>
-                      </select>
-                   </div>
-                    
-                    <button type="button" (click)="addItem(i)">Add Item</button>
+                    <button type="button" (click)="addItem(i)">+</button>
+                    <button type="button">-</button>
                   </div>
                 </div>
-                </div>
-                </div>
+              </div>
+            </div>
           </form>
         </div>
         <div class="kpi-form__expression">

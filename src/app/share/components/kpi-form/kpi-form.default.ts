@@ -131,6 +131,22 @@ export const operators = [
   }
 ]
 
+export const itemTypes = [
+  {
+    label: 'KPI',
+    value: 'KPI'
+  },
+  {
+    label: 'Counter',
+    value: 'COUNTER'
+  },
+  {
+    label: 'Numeric value',
+    value: 'NUMBER'
+  }
+]
+
+
 export const expressionFake = [ // ouput: (23143 + 333356) - (23141 / 12)
   {
     groupOperator: null, // + - x / null

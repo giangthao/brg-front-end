@@ -145,25 +145,32 @@
           </div>
         </div>
         <!-- Percent value -->
-         <div class="form-control">
-            <div class="form-checkox">
-              <input type="checkbox" formControlName="percentValue" id="percent-value" />
-              <label for="percent-value">Percent Value</label>
-            </div>
-         </div>
+        <div class="form-control">
+          <div class="form-checkox">
+            <input
+              type="checkbox"
+              formControlName="percentValue"
+              id="percent-value"
+            />
+            <label for="percent-value">Percent Value</label>
+          </div>
+        </div>
 
         <!-- Desc -->
-         <div class="form-control">
+        <div class="form-control">
           <div class="form-label">
-            <label for="desciption"
-              >Desciption
-            </label>
+            <label for="desciption">Desciption </label>
           </div>
           <div class="form-textarea">
-            <textarea id="desciption" formControlName="description" maxlength="255" placeholder="Enter description..."></textarea>
+            <textarea
+              id="desciption"
+              formControlName="description"
+              maxlength="255"
+              placeholder="Enter description..."
+            ></textarea>
           </div>
           <div class="char-counter">{{ charCount }}/255</div>
-         </div>
+        </div>
       </div>
     </div>
 
@@ -183,7 +190,7 @@
         <div class="kpi-form__metric-group">
           <div class="kpi-form__row">
             <div class="kpi-form__text">Metric</div>
-            <button class="kpi-form__button">
+            <button class="kpi-form__button" (click)="addGroup()">
               <img
                 alt=""
                 src="../../../../assets/images/icons/circle-plus.svg"
@@ -192,428 +199,69 @@
               <span>Add group metric</span>
             </button>
           </div>
-          <div class="kpi-form__groups">
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-            <div>Group</div>
-          </div>
+          <form [formGroup]="form" class="kpi-form__groups">
+            <div formArrayName="expression">
+              <div *ngFor="let group of expression.controls; let i = index" [formGroupName]="i">
+               <div *ngIf="i > 0">
+                  <label>Group Operator:</label>
+                  <select formControlName="groupOperator">
+                    <option [value]="null">None</option>
+                    <option value="+">+</option>
+                    <option value="-">-</option>
+                    <option value="x">x</option>
+                    <option value="/">/</option>
+                  </select>
+               </div>
+          
+                <div formArrayName="groupItems">
+                  <div *ngFor="let item of getGroupItems(i).controls; let j = index" [formGroupName]="j">
+                    <label>Item Type:</label>
+                    <select formControlName="itemType">
+                      <option value="NUMERIC">Numeric Value</option>
+                      <option value="KPI">KPI ID</option>
+                      <option value="COUNTER">Counter ID</option>
+                    </select>
+          
+                    <!-- Display based on itemType -->
+                    <ng-container [ngSwitch]="item.get('itemType')?.value">
+                      <!-- Numeric Value -->
+                      <div *ngSwitchCase="'NUMERIC'">
+                        <label>Item Value:</label>
+                        <input formControlName="itemValue" type="number"/>
+                      </div>
+                      <!-- KPI ID -->
+                      <div *ngSwitchCase="'KPI'">
+                        <label>KPI ID:</label>
+                        <select formControlName="itemId">
+                          <option *ngFor="let kpi of kpiOptions" [value]="kpi">{{kpi}}</option>
+                        </select>
+                      </div>
+                      <!-- Counter ID -->
+                      <div *ngSwitchCase="'COUNTER'">
+                        <label>Counter ID:</label>
+                        <select formControlName="itemId">
+                          <option *ngFor="let counter of counterOptions" [value]="counter">{{counter}}</option>
+                        </select>
+                      </div>
+                    </ng-container>
+          
+                   <div *ngIf="j > 0">
+                      <label>Item Operator:</label>
+                      <select formControlName="itemOperator">
+                        <option [value]="null">None</option>
+                        <option value="+">+</option>
+                        <option value="-">-</option>
+                        <option value="x">x</option>
+                        <option value="/">/</option>
+                      </select>
+                   </div>
+                    
+                    <button type="button" (click)="addItem(i)">Add Item</button>
+                  </div>
+                </div>
+                </div>
+                </div>
+          </form>
         </div>
         <div class="kpi-form__expression">
           <div class="kpi-form__row">

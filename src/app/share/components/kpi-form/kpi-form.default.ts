@@ -111,3 +111,56 @@ export const units = [
         value: '124'
     }
 ]
+
+export const operators = [
+  {
+     label: '+',
+     value: 'ADD'
+  },
+  {
+    label: '-',
+    value: 'SUB'
+  },
+  {
+    label: 'x',
+    value: 'MUL'
+  },
+  {
+    label: '/',
+    value: 'DIV'
+  }
+]
+
+export const expressionFake = [ // ouput: (23143 + 333356) - (23141 / 12)
+  {
+    groupOperator: null, // + - x / null
+    groupItems: [
+      {
+        itemType: 'TIME_SERRIES',
+        itemOperator: null, // + - x / null
+        itemValue: 23143
+      },
+      {
+        itemType: 'NUMER',
+        itemOperator: 'PLUS', // + - x / null
+        itemValue: 333356
+      }
+    ]
+  },
+  {
+    groupOperator: 'SUB', // + - x / null
+    groupItems: [
+      {
+        itemType: 'TIME_SERRIES',
+        itemOperator: null, // + - x / null
+        itemValue: 23141
+      },
+      {
+        itemType: 'NUMER',
+        itemOperator: 'DIV', // + - x / null
+        itemValue: 12
+      }
+    ]
+
+  }
+]

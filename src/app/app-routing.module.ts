@@ -11,9 +11,12 @@ import { RuleGuard } from './guards/rule.guard';
 import { DatasetGuard } from './guards/dataset.guard';
 import { EditDatasetComponent } from './home/modules/dataset-management/edit-dataset/edit-dataset.component';
 import { ListDatasetComponent } from './home/modules/dataset-management/list-dataset/list-dataset.component';
+import { ListKPIComponent } from './home/modules/kpi-management/list-kpi/list-kpi.component';
+import { AddKPIComponent } from './home/modules/kpi-management/add-kpi/add-kpi.component';
+import { EditKPIComponent } from './home/modules/kpi-management/edit-kpi/edit-kpi.component';
 
 const routes: Routes = [
-  // { path: '', redirectTo: RouteConstant.LOGIN , pathMatch: "full" },
+  { path: '', redirectTo: RouteConstant.KPI_MANAGEMENT , pathMatch: "full" },
   {
     path: '',
     component: HomeComponent,
@@ -66,6 +69,28 @@ const routes: Routes = [
           },
         ],
       },
+      {
+        path: RouteConstant.KPI_MANAGEMENT,
+        children: [
+          {
+            path: '',
+            pathMatch: 'full',
+            redirectTo: RouteConstant.LIST_KPI
+          },
+          {
+            path: RouteConstant.LIST_KPI,
+            component: ListKPIComponent
+          },
+          {
+            path: RouteConstant.ADD_KPI,
+            component: AddKPIComponent
+          },
+          {
+            path: `${RouteConstant.EDIT_KPI}/:kpiId`,
+            component: EditKPIComponent
+          }
+        ]
+      }
     ],
   },
   { path: RouteConstant.LOGIN, component: LoginComponent },

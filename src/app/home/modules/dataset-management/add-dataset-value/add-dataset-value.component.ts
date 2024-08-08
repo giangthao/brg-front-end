@@ -238,16 +238,13 @@ export class AddDatasetValueComponent implements OnInit {
           input.from !== null &&
           input.from !== undefined &&
           input.to !== null &&
-          input.to !== undefined &&
-          input.from.trim() !== '' &&
-          input.to.trim() !== ''
+          input.to !== undefined 
       );
     } else {
       inputs = this.originalContent.filter( // replace originalContent -> inputs
         (input: any) =>
           input.value !== null &&
-          input.value !== undefined &&
-          input.value.trim() !== ''
+          input.value !== undefined 
       );
     }
 
@@ -292,16 +289,13 @@ export class AddDatasetValueComponent implements OnInit {
           input.from !== null &&
           input.from !== undefined &&
           input.to !== null &&
-          input.to !== undefined &&
-          input.from.trim() !== '' &&
-          input.to.trim() !== ''
+          input.to !== undefined 
       );
     } else {
       inputs = this.originalContent.filter( // replace originalContent -> inputs
         (input: any) =>
           input.value !== undefined &&
-          input?.value !== null &&
-          input?.value.trim() !== ''
+          input?.value !== null 
       );
     }
 
@@ -368,5 +362,18 @@ export class AddDatasetValueComponent implements OnInit {
       }
     }
     return errors;
+  }
+
+  onInputValueChange(event: any){
+   
+    if(event.target.value.length == 1) {
+      this.originalContent.push({ value: null, from: null, to: null });
+      this.calculateTotalPages();
+      
+     this.addInput({value: null, from: null, to: null})
+      console.log(event.target.value);
+      console.log(this.originalContent);
+      return;
+    }
   }
 }

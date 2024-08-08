@@ -266,3 +266,23 @@
   background-color: #ddd;
   border-radius: 3px;
 }
+.checkbox{
+  background-color: red;
+  position: relative;
+}
+
+.checkbox::before
+.checkbox::after{
+  position: absolute;
+  left: 0;
+  top: 0;
+  content: '';
+ // display: block;
+
+}
+.checkbox::before{
+  width: 14px;
+  height: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}

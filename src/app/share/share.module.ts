@@ -8,6 +8,7 @@ import { DateTimePickerComponent } from "./components/date-time-picker/date-time
 import { SelectComponent } from "./components/select/select.component";
 import { DropDownMenuComponent } from "./components/drop-down-menu/drop-down-menu.component";
 import { KPIFormComponent } from "./components/kpi-form/kpi-form.component";
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
     declarations: [
@@ -21,8 +22,8 @@ import { KPIFormComponent } from "./components/kpi-form/kpi-form.component";
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
-        HttpClientModule
-       
+        HttpClientModule,
+        NgSelectModule
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
@@ -36,7 +37,8 @@ import { KPIFormComponent } from "./components/kpi-form/kpi-form.component";
         DateTimePickerComponent,
         DropDownMenuComponent,
         KPIFormComponent,
-        SelectComponent
+        SelectComponent,
+        NgSelectModule
     ]
 })
 export class ShareModule{

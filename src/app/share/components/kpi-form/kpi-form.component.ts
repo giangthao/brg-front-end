@@ -8,9 +8,10 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
+import { catchError, debounceTime, map, switchMap, distinctUntilChanged, first  } from 'rxjs/operators';
 import { RouteConstant } from 'src/app/constant/route.constant';
 import { KPIManagementService } from 'src/app/services/kpi-management.service';
+import { typesKPI, categories, units } from './kpi-form.default';
 
 @Component({
   selector: 'app-kpi-form',
@@ -22,6 +23,11 @@ export class KPIFormComponent implements OnInit {
 
   formGroupKPI: FormGroup;
   errorMessageKPIName?: string;
+  currentName: string = 'abc';
+  TYPES_OF_KPI = typesKPI;
+  CATEGORIES = categories;
+  UNITS = units;
+  charCount: number = 0;
 
   constructor(
     private router: Router,
@@ -33,8 +39,31 @@ export class KPIFormComponent implements OnInit {
           Validators.required,
           kpiManagementService.nameValidators(),
         ]),
-        asyncValidators: []
+        asyncValidators: [this.checkNameValidator()]
       }),
+      typeKPI: new FormControl(null, {
+        validators: Validators.compose([
+          Validators.required
+        ])
+      }),
+      category: new FormControl(null, {
+        validators: Validators.compose([
+          Validators.required
+        ])
+      }),
+      unit: new FormControl(null, {
+        validators: Validators.compose([
+          Validators.required
+        ])
+      }),
+      percentValue: new FormControl(false),
+      description: new FormControl(null, 
+        {
+          validators: Validators.compose([
+            Validators.maxLength(255)
+          ])
+        }
+      )
     });
   }
 
@@ -44,29 +73,37 @@ export class KPIFormComponent implements OnInit {
         this.formGroupKPI.patchValue({
             name: nameKPi
         });
-        this.formGroupKPI.get('name')?.setAsyncValidators(this.checkNameValidator(nameKPi));
     }
-    else{
-        this.formGroupKPI.get('name')?.setAsyncValidators(this.checkNameValidator());
-    }
-
-    this.formGroupKPI.get('name')?.updateValueAndValidity();
-        
+    this.formGroupKPI.valueChanges.subscribe((value) => {
+      console.log(value);
+      this.charCount = value.description.trim().length;
+    })
   }
 
-  checkNameValidator(currentName?: string): AsyncValidatorFn {
+  checkNameValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<{ [key: string]: any } | null> => {
-      if (!control.value || control.value.toLowerCase() === currentName) {
+      if (!control.value || (this.type === 'EDIT' && control.value.toLowerCase() === this.currentName)) {
         return of(null); 
       }
-      return this.kpiManagementService.checkNameExists(control.value).pipe(
-        map(exists => (exists ? { nameExists: true } : null)),
-        catchError(() => of(null)) 
+      return control.valueChanges.pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap(value => 
+          this.kpiManagementService.checkNameExists(value).pipe(
+            map(exists => (exists ? { nameExists: true } : null)),
+            catchError(() => of(null))
+          )
+        ),
+        first(),
       );
     };
   }
 
   cancelEditing() {
     this.router.navigate([RouteConstant.KPI_MANAGEMENT, RouteConstant.LIST_KPI])
+  }
+
+  onOpen() {
+    console.log('open')
   }
 }

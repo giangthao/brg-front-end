@@ -1,1 +1,57 @@
-<p>Select options</p>
+<div class="form-label">
+  <label for=""
+    >{{ label }}
+    <span *ngIf="required" class="form-required">*</span>
+  </label>
+</div>
+<form class="select" [formGroup]="formGroup" appClickOutside (clickOutside)="handlerClickOutside()">
+  <div class="select__toggle" onkeydown=""  >
+    <span class="select__result">
+        {{value}}
+    </span>
+    <input
+      #inputElement
+      class="select__search-input"
+      placeholder="{{ placeholder }}"
+      formControlName="searchValue"
+      (focus)="optionsVivibility = true"
+    />
+    <img
+      *ngIf="value || formGroup.get('searchValue')?.value"
+      onkeydown=""
+      (click)="clearValue($event)"
+      alt=""
+      class="select__icon"
+      src="../../../../assets/images/icons/circle-xmark.svg"
+    />
+    <img
+      onkeydown=""
+      (click)="toggleShowOptions($event)"
+      alt=""
+      class="select__icon select__icon--rotate"
+      [class.spinner]="optionsVivibility"
+      src="../../../../assets/images/icons/arrow-down.svg"
+      
+    />
+  </div>
+  <div
+    class="select__options"
+    [class.top]="!showOptionOnBelow"
+    [class.show]="optionsVivibility"
+  >
+    <div class="select__options--inner">
+      <div
+        *ngFor="let option of filteredOptions"
+        class="select__item"
+        [class.select__item--checked]="option.value === value.trim()"
+        (click)="onOptionSelect(option.value, $event)"
+        onkeydown=""
+      >
+        <span>{{ option.label }}</span>
+      </div>
+      <div *ngIf="filteredOptions.length === 0" class="select__item select__item--no-result">
+        <span>No result found</span>
+      </div>
+    </div>
+  </div>
+</form>

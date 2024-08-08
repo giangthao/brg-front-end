@@ -9,24 +9,161 @@
         <div class="kpi-form__text">Common information</div>
       </div>
       <div class="kpi-form__controls">
+        <!-- Name -->
         <div class="form-control">
           <div class="form-label">
-            <label for=""
+            <label for="name"
               >KPI name
               <span class="form-required">*</span>
             </label>
           </div>
           <div class="form-input">
-            <input formControlName="name" placeholder="Enter KPI name" />
+            <input
+              id="name"
+              formControlName="name"
+              [class.error]="
+                formGroupKPI.get('name')?.invalid &&
+                (formGroupKPI.get('name')?.dirty ||
+                  formGroupKPI.get('name')?.touched)
+              "
+              placeholder="Enter KPI name"
+            />
           </div>
-          <div class="form-error" *ngIf="formGroupKPI.get('name')?.invalid && (formGroupKPI.get('name')?.dirty || formGroupKPI.get('name')?.touched)">
-            <div *ngIf="formGroupKPI.get('name')?.errors?.required">This information is required.</div>
-            <div *ngIf="formGroupKPI.get('name')?.errors?.maxlength">Maximum length is 255 characters.</div>
-            <div *ngIf="formGroupKPI.get('name')?.errors?.whitespace">No leading or trailing whitespace allowed.</div>
-            <div *ngIf="formGroupKPI.get('name')?.errors?.forbiddenCharacter">Invalid format.</div>
-            <div *ngIf="formGroupKPI.get('name')?.errors?.nameExists">This name already exists.</div>
+          <div
+            class="form-error"
+            *ngIf="
+              formGroupKPI.get('name')?.invalid &&
+              (formGroupKPI.get('name')?.dirty ||
+                formGroupKPI.get('name')?.touched)
+            "
+          >
+            <div *ngIf="formGroupKPI.get('name')?.errors?.required">
+              This information is required.
+            </div>
+            <div *ngIf="formGroupKPI.get('name')?.errors?.maxlength">
+              Maximum length is 255 characters.
+            </div>
+            <div *ngIf="formGroupKPI.get('name')?.errors?.whitespace">
+              No leading or trailing whitespace allowed.
+            </div>
+            <div *ngIf="formGroupKPI.get('name')?.errors?.forbiddenCharacter">
+              Invalid format.
+            </div>
+            <div *ngIf="formGroupKPI.get('name')?.errors?.nameExists">
+              This name already exists.
+            </div>
           </div>
         </div>
+        <!-- Type -->
+        <div class="form-control">
+          <div class="form-label">
+            <label for=""
+              >KPI type
+              <span class="form-required">*</span>
+            </label>
+          </div>
+          <ng-select
+            [items]="TYPES_OF_KPI"
+            bindLabel="value"
+            bindValue="value"
+            placeholder="Select type of KPI"
+            formControlName="typeKPI"
+            (open)="onOpen()"
+          >
+          </ng-select>
+          <div
+            class="form-error"
+            *ngIf="
+              formGroupKPI.get('typeKPI')?.invalid &&
+              (formGroupKPI.get('typeKPI')?.dirty ||
+                formGroupKPI.get('typeKPI')?.touched)
+            "
+          >
+            <div *ngIf="formGroupKPI.get('typeKPI')?.errors?.required">
+              This information is required.
+            </div>
+          </div>
+        </div>
+        <!-- Caterory -->
+        <div class="form-control">
+          <div class="form-label">
+            <label for=""
+              >Category
+              <span class="form-required">*</span>
+            </label>
+          </div>
+          <ng-select
+            [items]="CATEGORIES"
+            bindLabel="value"
+            bindValue="value"
+            placeholder="Select category"
+            formControlName="category"
+            (open)="onOpen()"
+          >
+          </ng-select>
+          <div
+            class="form-error"
+            *ngIf="
+              formGroupKPI.get('category')?.invalid &&
+              (formGroupKPI.get('category')?.dirty ||
+                formGroupKPI.get('category')?.touched)
+            "
+          >
+            <div *ngIf="formGroupKPI.get('category')?.errors?.required">
+              This information is required.
+            </div>
+          </div>
+        </div>
+        <!-- Unit -->
+        <div class="form-control">
+          <div class="form-label">
+            <label for=""
+              >Unit
+              <span class="form-required">*</span>
+            </label>
+          </div>
+          <ng-select
+            [items]="UNITS"
+            bindLabel="value"
+            bindValue="value"
+            placeholder="Select unit"
+            formControlName="unit"
+            (open)="onOpen()"
+          >
+          </ng-select>
+          <div
+            class="form-error"
+            *ngIf="
+              formGroupKPI.get('unit')?.invalid &&
+              (formGroupKPI.get('unit')?.dirty ||
+                formGroupKPI.get('unit')?.touched)
+            "
+          >
+            <div *ngIf="formGroupKPI.get('unit')?.errors?.required">
+              This information is required.
+            </div>
+          </div>
+        </div>
+        <!-- Percent value -->
+         <div class="form-control">
+            <div class="form-checkox">
+              <input type="checkbox" formControlName="percentValue" id="percent-value" />
+              <label for="percent-value">Percent Value</label>
+            </div>
+         </div>
+
+        <!-- Desc -->
+         <div class="form-control">
+          <div class="form-label">
+            <label for="desciption"
+              >Desciption
+            </label>
+          </div>
+          <div class="form-textarea">
+            <textarea id="desciption" formControlName="description" maxlength="255" placeholder="Enter description..."></textarea>
+          </div>
+          <div class="char-counter">{{ charCount }}/255</div>
+         </div>
       </div>
     </div>
 

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 import { Observable, of } from 'rxjs';
+import { Group, GroupItem } from '../share/components/kpi-form/kpi-form.default';
 
 @Injectable({
   providedIn: 'root',
@@ -28,9 +29,12 @@ export class KPIManagementService {
     };
   }
 
-  checkNameExists(name: string): Observable<boolean> {
-    const listKPIName = ['abc', 'abcd', '1', 'dataset', 'rule', 'kpi']
-    const nameExists =  listKPIName.includes(name.toLowerCase());
+  checkNameExists(name: string, kpiEditNameInstant?: string ): Observable<boolean> {
+    const listKPIName = ['abc', 'abcd', '1', 'dataset', 'rule', 'kpi'];
+    let nameExists =  listKPIName.includes(name.toLowerCase());
+    if(kpiEditNameInstant && kpiEditNameInstant.toLowerCase() === name.trim().toLowerCase()) {
+      nameExists = false;
+    }
     console.log(nameExists)
     return of(nameExists);
   }
@@ -51,5 +55,46 @@ export class KPIManagementService {
   
       return null;
     };
+  }
+  convertJsonToExpression(jsonData: Group[]): string {
+    return jsonData
+      .map((group) => {
+        const groupExpression = group.groupItems
+          .map((item: GroupItem) => {
+            let itemString = item.item.toString();
+            if (item.itemOperator) {
+              itemString = `${
+                item.itemOperator === 'PLUS'
+                  ? '+'
+                  : item.itemOperator === 'SUB'
+                  ? '-'
+                  : item.itemOperator === 'DIV'
+                  ? '/'
+                  : item.itemOperator === 'MUL'
+                  ? '*'
+                  : ''
+              } ${itemString}`;
+            }
+            return itemString;
+          })
+          .join(' ');
+
+        if (group.groupOperator) {
+          return `${
+            group.groupOperator === 'PLUS'
+              ? '+'
+              : group.groupOperator === 'SUB'
+              ? '-'
+              : group.groupOperator === 'DIV'
+              ? '/'
+              : group.groupOperator === 'MUL'
+              ? '*'
+              : ''
+          } (${groupExpression})`;
+        }
+
+        return `(${groupExpression})`;
+      })
+      .join(' ');
   }
 }

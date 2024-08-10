@@ -1366,6 +1366,10 @@ textarea {
   /* Inherit the font size */
   line-height: inherit;
   /* Inherit the line height */
+  overflow-wrap: break-word;
+  /* Ensures words break within the text area */
+  white-space: pre-wrap;
+  /* Preserves line breaks and spaces */
 }
 
 .form-textarea textarea {
@@ -1393,11 +1397,10 @@ textarea {
   margin-top: -16px;
 }
 
-.ng-select.ng-invalid.ng-touched > .ng-select-container {
+#common-infor .ng-select.ng-invalid.ng-touched > .ng-select-container {
   border-color: red !important;
 }
-
-.ng-select.ng-select-opened > .ng-select-container {
+#common-infor .ng-select.ng-select-opened > .ng-select-container {
   border-color: blue !important;
 }
 

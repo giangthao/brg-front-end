@@ -6,15 +6,32 @@ import {
   FormControl,
   FormGroup,
   Validators,
-  FormBuilder
+  FormBuilder,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { catchError, debounceTime, map, switchMap, distinctUntilChanged, first  } from 'rxjs/operators';
+import {
+  catchError,
+  debounceTime,
+  map,
+  switchMap,
+  distinctUntilChanged,
+  take,
+} from 'rxjs/operators';
 import { RouteConstant } from 'src/app/constant/route.constant';
 import { KPIManagementService } from 'src/app/services/kpi-management.service';
-import { typesKPI, categories, units, operators, itemTypes } from './kpi-form.default';
-
+import {
+  typesKPI,
+  categories,
+  units,
+  operators,
+  itemTypes,
+  listKPITimeSeries,
+  listKPITransaction,
+  counters,
+  kpiEdit,
+} from './kpi-form.default';
+import { Group } from './kpi-form.default';
 
 @Component({
   selector: 'app-kpi-form',
@@ -25,9 +42,8 @@ export class KPIFormComponent implements OnInit {
   @Input() type!: string;
 
   formGroupKPI: FormGroup;
-  form: FormGroup;
-  errorMessageKPIName?: string;
-  currentName: string = 'abc';
+  //form: FormGroup;
+  datasetEdit?: any;
   TYPES_OF_KPI = typesKPI;
   CATEGORIES = categories;
   UNITS = units;
@@ -35,8 +51,13 @@ export class KPIFormComponent implements OnInit {
   ITEM_TYPES = itemTypes;
   charCount: number = 0;
 
-  kpiOptions = [1, 2, 3];  // Replace with actual KPI IDs
-  counterOptions = [101, 102, 103];  // Replace with actual counter IDs
+  kpiOptions: { label: string; value: string }[] = [];
+  counterOptions = counters;
+  disableButtonSave: boolean = true;
+  inValidCommonInfor: boolean = true;
+  inValidCalculationFormule: boolean = true;
+  textCalculationFormule: string = '';
+  isExistedName: boolean = false;
 
   constructor(
     private router: Router,
@@ -49,97 +70,138 @@ export class KPIFormComponent implements OnInit {
           Validators.required,
           kpiManagementService.nameValidators(),
         ]),
-        asyncValidators: [this.checkNameValidator()]
+        // asyncValidators: [this.checkNameValidator()],
       }),
       typeKPI: new FormControl(null, {
-        validators: Validators.compose([
-          Validators.required
-        ])
+        validators: Validators.compose([Validators.required]),
       }),
       category: new FormControl(null, {
-        validators: Validators.compose([
-          Validators.required
-        ])
+        validators: Validators.compose([Validators.required]),
       }),
       unit: new FormControl(null, {
         validators: Validators.compose([
           Validators.required,
-          kpiManagementService.unitValidators()
-        ])
+          kpiManagementService.unitValidators(),
+        ]),
       }),
       percentValue: new FormControl(false),
-      description: new FormControl(null, 
-        {
-          validators: Validators.compose([
-            Validators.maxLength(255)
-          ])
-        }
-      )
+      description: new FormControl(null, {
+        validators: Validators.compose([Validators.maxLength(255)]),
+      }),
+      expression: this.fb.array([this.createGroup()]),
     });
 
-    this.form = this.fb.group({
-      expression: this.fb.array([this.createGroup()])
-    });
+    // this.form = this.fb.group({
+    //   expression: this.fb.array([this.createGroup()]),
+    // });
   }
 
   ngOnInit(): void {
-    if(this.type === 'EDIT') {
-        const nameKPi = 'abc'
-        this.formGroupKPI.patchValue({
-            name: nameKPi
-        });
+    if (this.type === 'EDIT') {
+      this.datasetEdit = kpiEdit; // fake data edited
+
+      this.formGroupKPI.patchValue({
+        name: this.datasetEdit.name,
+        typeKPI: this.datasetEdit.typeKPI.value,
+        category: this.datasetEdit.category.value,
+        unit: this.datasetEdit.unit,
+        percentValue: this.datasetEdit.percentValue,
+        description: this.datasetEdit.description,
+      });
+      const kpiTypeValue = {
+        typeKPI: this.datasetEdit.typeKPI.value,
+      };
+      this.initalListKPI(kpiTypeValue);
+
+      if (this.datasetEdit.expression.length > 0) {
+        while (this.expression.length < this.datasetEdit.expression.length) {
+          this.expression.push(this.createGroup());
+        }
+        this.expression.patchValue(this.datasetEdit.expression);
+        this.textCalculationFormule = this.kpiManagementService.convertJsonToExpression(this.datasetEdit.expression)
+      }
     }
-    this.formGroupKPI.valueChanges.subscribe((value) => {
-      console.log(value);
-      this.charCount = value.description.trim().length;
-    })
+    // Subscribe to value changes to log validation errors
+    this.subcribeCheckName();
+    this.subcribeCommonValues();
+    this.subcribeExpressionValues();
   }
-  
+
   checkNameValidator(): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<{ [key: string]: any } | null> => {
-      if (!control.value || (this.type === 'EDIT' && control.value.toLowerCase() === this.currentName)) {
-        return of(null); 
+    return (
+      control: AbstractControl
+    ): Observable<{ [key: string]: any } | null> => {
+      if (
+        !control.value ||
+        (this.type === 'EDIT' &&
+          control.value.toLowerCase() === this.datasetEdit?.name)
+      ) {
+        return of(null);
       }
       return control.valueChanges.pipe(
         debounceTime(300),
         distinctUntilChanged(),
-        switchMap(value => 
-          this.kpiManagementService.checkNameExists(value).pipe(
-            map(exists => (exists ? { nameExists: true } : null)),
+        switchMap((value) =>
+          this.kpiManagementService.checkNameExists(value, this.datasetEdit?.name).pipe(
+            map((exists) => (exists ? { nameExists: true } : null)),
             catchError(() => of(null))
           )
         ),
-        first(),
+        take(1)
       );
     };
   }
 
+  subcribeCheckName() {
+    this.formGroupKPI
+      .get('name')
+      ?.valueChanges.pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe(() => {
+        const control = this.formGroupKPI.get('name');
+        this.kpiManagementService
+          .checkNameExists(control?.value.trim(), this.datasetEdit?.name)
+          .subscribe({
+            next: (res) => {
+              this.isExistedName = res;
+            },
+            error: (error) => {},
+            complete: () => {},
+          });
+      });
+  }
+
   cancelEditing() {
-    this.router.navigate([RouteConstant.KPI_MANAGEMENT, RouteConstant.LIST_KPI])
+    this.router.navigate([
+      RouteConstant.KPI_MANAGEMENT,
+      RouteConstant.LIST_KPI,
+    ]);
   }
 
   onOpen() {
-    console.log('open')
+    console.log('open');
   }
 
   // Expression
-  createGroup(): FormGroup {
+  createGroup(operator: any = null): FormGroup {
     return this.fb.group({
-      groupOperator: ['ADD'],
-      groupItems: this.fb.array([this.createItem()])
+      groupOperator: [operator],
+      groupItems: this.fb.array([
+        this.createItem(null, 'KPI'),
+        this.createItem('PLUS', 'KPI'),
+      ]),
     });
   }
 
-  createItem(): FormGroup {
+  createItem(operator: any = null, itemType: string): FormGroup {
     return this.fb.group({
-      itemType: [null, Validators.required],
-      itemOperator: ['ADD'],
-      itemValue: [null, Validators.required]
+      itemType: [itemType, Validators.required],
+      itemOperator: [operator],
+      item: [null, Validators.required],
     });
   }
 
   get expression(): FormArray {
-    return this.form.get('expression') as FormArray;
+    return this.formGroupKPI.get('expression') as FormArray;
   }
 
   getGroupItems(index: number): FormArray {
@@ -147,11 +209,149 @@ export class KPIFormComponent implements OnInit {
   }
 
   addGroup(): void {
-    this.expression.push(this.createGroup());
+    this.expression.push(this.createGroup('PLUS'));
   }
 
   addItem(groupIndex: number): void {
     const groupItems = this.getGroupItems(groupIndex);
-    groupItems.push(this.createItem());
+    groupItems.push(this.createItem('PLUS', 'KPI'));
+  }
+
+  removeItem(groupIndex: number, itemIndex: number): void {
+    if (this.cannotRemoveItem(groupIndex, itemIndex)) return;
+    const groupItems = this.getGroupItems(groupIndex);
+    groupItems.removeAt(itemIndex);
+  }
+
+  removeGroup(groupIndex: number): void {
+    if (this.cannotRemoveGroup(groupIndex)) return;
+    this.expression.removeAt(groupIndex);
+  }
+
+  cannotRemoveItem(groupIndex: number, itemIndex: number): boolean {
+    if (itemIndex === 0) return true;
+    const groupItems = this.getGroupItems(groupIndex);
+    if (groupIndex === 0) {
+      if (groupItems.length <= 2) return true;
+    }
+    return false;
+  }
+
+  cannotRemoveGroup(groupIndex: number): boolean {
+    if (groupIndex === 0) return true;
+    return false;
+  }
+
+  subcribeExpressionValues() {
+    this.formGroupKPI.valueChanges.subscribe((value) => {
+      console.log(value);
+      this.subscribeToItemTypeChanges();
+      this.checkValidationCalculationFormule(value);
+
+      if (!this.inValidCalculationFormule) {
+        this.textCalculationFormule =
+          this.kpiManagementService.convertJsonToExpression(
+            value.expression as Group[]
+          );
+      }
+    });
+  }
+
+  subcribeCommonValues() {
+    this.formGroupKPI.valueChanges.subscribe((value) => {
+      console.log(value);
+      this.countDescriptionLength(value);
+      this.initalListKPI(value);
+      this.checkValidationCommonValues(value);
+      console.log('Form:', this.formGroupKPI.invalid);
+    });
+  }
+
+  countDescriptionLength(value: any): void {
+    if (value.description) {
+      this.charCount = value.description.trim().length;
+    }
+  }
+
+  initalListKPI(value: any): void {
+    console.log(value);
+    if (value.typeKPI) {
+      if (value.typeKPI === 'Time series') {
+        this.kpiOptions = listKPITimeSeries;
+      } else if (value.typeKPI === 'Transaction') {
+        this.kpiOptions = listKPITransaction;
+      }
+    }
+  }
+
+  checkValidationCommonValues(value: any) {
+    if (!value.name || !value.typeKPI || !value.unit || !value.category) {
+      this.inValidCommonInfor = true;
+      return;
+    }
+    if (
+      this.formGroupKPI.get('unit')?.invalid ||
+      this.formGroupKPI.get('name')?.invalid
+    ) {
+      this.inValidCommonInfor = true;
+      return;
+    }
+
+    this.inValidCommonInfor = false;
+  }
+
+  checkValidationCalculationFormule(value: any): void {
+    let isValid = true;
+    for (let i = 0; i < value.expression.length; i++) {
+      if (i > 0 && !value.expression[i].groupOperator) {
+        isValid = false;
+        break;
+      }
+      if (!this.checkGroupItems(this.getGroupItems(i))) {
+        isValid = false;
+        break;
+      }
+    }
+
+    this.inValidCalculationFormule = !isValid;
+  }
+
+  checkGroupItems(itemsGroup: FormArray): boolean {
+    for (let j = 0; j < itemsGroup.length; j++) {
+      if (
+        itemsGroup.at(j).get('item')?.errors?.required ||
+        itemsGroup.at(j).get('itemType')?.errors?.required ||
+        (j > 0 && !itemsGroup.at(j).get('itemOperator')?.value) ||
+        this.inValidItemValueNumber(itemsGroup, j)
+      ) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  inValidItemValueNumber(itemsGroup: FormArray, itemIndex: number): boolean {
+    if (
+      itemsGroup.at(itemIndex).get('itemType')?.value === 'NUMBER' &&
+      Number(itemsGroup.at(itemIndex).get('item')?.value) <= 0
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  subscribeToItemTypeChanges() {
+    this.expression.controls.forEach((group) => {
+      const groupItems = (group.get('groupItems') as FormArray).controls;
+      groupItems.forEach((item) => {
+        item.get('itemType')?.valueChanges.subscribe((value) => {
+          item.get('item')?.reset();
+        });
+      });
+    });
+  }
+
+  onSubmitForm() {
+    console.log('submit form');
   }
 }

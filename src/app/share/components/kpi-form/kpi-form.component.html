@@ -5,7 +5,7 @@
   </div>
   <form class="kpi-form__section" [formGroup]="formGroupKPI">
     <!-- Common information -->
-    <div class="kpi-form__wrapper kpi-form__common-infor">
+    <div id="common-infor" class="kpi-form__wrapper kpi-form__common-infor">
       <div class="kpi-form__row">
         <div class="kpi-form__text">Common information</div>
       </div>
@@ -35,10 +35,14 @@
             *ngIf="
               formGroupKPI.get('name')?.invalid &&
               (formGroupKPI.get('name')?.dirty ||
-                formGroupKPI.get('name')?.touched)
+                formGroupKPI.get('name')?.touched) || isExistedName
             "
           >
-            <div
+            <div *ngIf="isExistedName else wrongName">
+              This name already exists.
+            </div>
+            <ng-template #wrongName>
+              <div
               *ngIf="
                 formGroupKPI.get('name')?.errors?.required ||
                 formGroupKPI.get('name')?.errors?.whitespace
@@ -52,9 +56,7 @@
             <div *ngIf="formGroupKPI.get('name')?.errors?.forbiddenCharacter">
               Invalid format.
             </div>
-            <div *ngIf="formGroupKPI.get('name')?.errors?.nameExists">
-              This name already exists.
-            </div>
+            </ng-template>
           </div>
         </div>
         <!-- Type -->
@@ -72,6 +74,7 @@
             placeholder="Select type of KPI"
             formControlName="typeKPI"
             (open)="onOpen()"
+            [readonly]="type === 'EDIT'"
           >
           </ng-select>
           <div
@@ -183,6 +186,7 @@
               formControlName="description"
               maxlength="255"
               placeholder="Enter description..."
+              wrap="soft"
             ></textarea>
           </div>
           <div class="char-counter">{{ charCount }}/255</div>
@@ -193,7 +197,7 @@
     <div class="kpi-form__wrapper kpi-form__calculation-formula">
       <div class="kpi-form__row">
         <div class="kpi-form__text">KPI calculation formula</div>
-        <button class="kpi-form__button">
+        <button class="kpi-form__button kpi-form__button--disable" [class.kpi-form__button--disable]="type === 'ADD'">
           <img
             alt=""
             src="../../../../assets/images/icons/trash.svg"
@@ -215,14 +219,18 @@
               <span>Add group metric</span>
             </button>
           </div>
-          <form [formGroup]="form" class="kpi-form__groups">
+          <div  class="kpi-form__groups">
             <div formArrayName="expression">
               <div
                 *ngFor="let group of expression.controls; let i = index"
                 [formGroupName]="i"
                 class="kpi-form__group"
               >
-                <div class="kpi-form__operator" *ngIf="i > 0">
+                <!-- Group operator -->
+                <div
+                  class="kpi-form__operator kpi-form__operator--group"
+                  *ngIf="i > 0"
+                >
                   <ng-select
                     [items]="OPERATORS"
                     bindLabel="label"
@@ -232,62 +240,129 @@
                   >
                   </ng-select>
                 </div>
-                <div class="kpi-form__group--index">
-                  <button>
-                    <img
-                      class="kpi-form__icon"
-                      alt=""
-                      src="../../../../assets/images/icons/trash.svg"
-                    />
-                  </button>
-                  <span>Group {{ i + 1 }}</span>
-                </div>
-                <div formArrayName="groupItems">
-                  <div
-                    *ngFor="
-                      let item of getGroupItems(i).controls;
-                      let j = index
-                    "
-                    [formGroupName]="j"
-                  >
-                    <div class="kpi-form__operator" *ngIf="j > 0">
-                      <ng-select
-                        [items]="OPERATORS"
-                        bindLabel="label"
-                        bindValue="value"
-                        placeholder="Select operator"
-                        formControlName="itemOperator"
-                      >
-                      </ng-select>
-                    </div>
-                    <ng-select
-                      [items]="ITEM_TYPES"
-                      bindLabel="label"
-                      bindValue="value"
-                      placeholder="Select KPI, counter or numerical value"
-                      formControlName="itemType"
-                    >
-                    </ng-select>
 
-                    <button type="button" (click)="addItem(i)">
+                <div class="kpi-form__group--wrapper">
+                  <!-- Group index -->
+                  <div class="kpi-form__group--index">
+                    <button
+                      class="kpi-form__button-icon"
+                      [class.kpi-form__button-icon--disable]="
+                        cannotRemoveGroup(i)
+                      "
+                      (click)="removeGroup(i)"
+                    >
                       <img
                         class="kpi-form__icon"
                         alt=""
-                        src="../../../../assets/images/icons/plus.svg"
+                        src="../../../../assets/images/icons/trash.svg"
                       />
                     </button>
-                    <button type="button">
-                      <img
-                        class="kpi-form__icon"
-                        alt=""
-                        src="../../../../assets/images/icons/minus.svg"
-                      />
-                    </button>
+                    <span>Group {{ i + 1 }}</span>
+                  </div>
+
+                  <!-- Items -->
+                  <div
+                    class="kpi-form__group--items"
+                    formArrayName="groupItems"
+                  >
+                    <div
+                      *ngFor="
+                        let item of getGroupItems(i).controls;
+                        let j = index
+                      "
+                      [formGroupName]="j"
+                      class="kpi-form__group--item"
+                    >
+                      <!-- Item operator -->
+                      <div
+                        class="kpi-form__operator"
+                        [class.kpi-form__operator--hidden]="j === 0"
+                      >
+                        <ng-select
+                          [items]="OPERATORS"
+                          bindLabel="label"
+                          bindValue="value"
+                          placeholder="Select operator"
+                          formControlName="itemOperator"
+                        >
+                        </ng-select>
+                      </div>
+                      <!-- Item type -->
+                      <div class="kpi-form__item-type">
+                        <ng-select
+                          [items]="ITEM_TYPES"
+                          bindLabel="label"
+                          bindValue="value"
+                          placeholder="Select KPI, counter or numerical value"
+                          formControlName="itemType"
+                        >
+                        </ng-select>
+                      </div>
+                      <!-- Item value -->
+                      <div class="kpi-form__item-value">
+                        <ng-container [ngSwitch]="item.get('itemType')?.value">
+                          <div *ngSwitchCase="'NUMBER'" class="form-input">
+                            <input
+                              type="number"
+                              formControlName="item"
+                              placeholder="Enter number"
+                            />
+                          </div>
+                          <div *ngSwitchCase="'KPI'" class="">
+                            <ng-select
+                              [items]="kpiOptions"
+                              bindLabel="label"
+                              bindValue="value"
+                              placeholder="Select KPI"
+                              formControlName="item"
+                            >
+                            </ng-select>
+                          </div>
+                          <div *ngSwitchCase="'COUNTER'" class="">
+                            <ng-select
+                              [items]="counterOptions"
+                              bindLabel="label"
+                              bindValue="value"
+                              placeholder="Select counter"
+                              formControlName="item"
+                            >
+                            </ng-select>
+                          </div>
+                        </ng-container>
+                      </div>
+                      <!-- Add -->
+                      <button
+                        class="kpi-form__button-icon"
+                        type="button"
+                        (click)="addItem(i)"
+                      >
+                        <img
+                          class="kpi-form__icon"
+                          alt=""
+                          src="../../../../assets/images/icons/plus.svg"
+                        />
+                      </button>
+                      <!-- Delete -->
+                      <button
+                        class="kpi-form__button-icon"
+                        [class.kpi-form__button-icon--disable]="
+                          cannotRemoveItem(i, j)
+                        "
+                        type="button"
+                        (click)="removeItem(i, j)"
+                      >
+                        <img
+                          class="kpi-form__icon"
+                          alt=""
+                          src="../../../../assets/images/icons/minus.svg"
+                        />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </form>
+          </div>
         </div>
         <div class="kpi-form__expression">
           <div class="kpi-form__row">
@@ -295,7 +370,17 @@
           </div>
           <div class="kpi-form__expression--value">
             <div class="kpi-form__expression--value-inner">
-              <p>Show KPI calculation formule</p>
+              <p
+                *ngIf="
+                  textCalculationFormule;
+                  else placeholderDisplayCalculation
+                "
+              >
+                {{ textCalculationFormule }}
+              </p>
+              <ng-template #placeholderDisplayCalculation>
+                <p>Display KPI calculation formule</p></ng-template
+              >
             </div>
           </div>
         </div>
@@ -304,6 +389,8 @@
   </form>
   <div class="kpi-form__actions">
     <button (click)="cancelEditing()">Cancel</button>
-    <button class="disable">Save</button>
+    <button (click)="onSubmitForm()" [class.disable]="inValidCommonInfor || isExistedName || inValidCalculationFormule">
+      Save
+    </button>
   </div>
 </main>

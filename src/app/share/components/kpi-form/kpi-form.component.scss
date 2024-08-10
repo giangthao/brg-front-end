@@ -57,6 +57,11 @@
             color: #111113;
             font-size: 16px;
         }
+
+        &--disable{
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
     }
 
     &__icon{
@@ -104,6 +109,76 @@
         flex: 1;
         overflow-y: auto;
         height: calc(100% - 56px);
+        padding-right: 16px;
+        padding-bottom: 16px;
+    }
+
+    &__group{
+
+        &--wrapper{
+            border: 1px solid #ddd;
+            padding: 16px;
+            border-radius: 8px;
+        }
+
+        &--index{
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        &--item{
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        &--item + &--item {
+            margin-top: 16px;
+        }
+
+    }
+
+    &__operator{
+        width: 100px;
+
+        &--group{
+            margin: 16px 0;
+        }
+
+        &--hidden{
+            visibility: hidden;
+            opacity: 0;
+        }
+    }
+
+    &__item-type{
+        width: 100px;
+    }
+
+    &__item-value{
+       flex: 1;
+    }
+
+    &__button-icon{
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #dfdfdf;
+        border-radius: 4px;
+
+        &--disable{
+            opacity: 0.6;
+            cursor: not-allowed;
+           
+        }
+
+        img{
+            width: 10px;
+            filter: brightness(0) saturate(100%) invert(31%) sepia(2%) saturate(809%) hue-rotate(201deg) brightness(104%) contrast(90%);
+        }
     }
 
     &__expression{
@@ -141,7 +216,6 @@
            border-radius: 4px;
 
             &.disable{
-               cursor: none;
                opacity: 0.5;
                cursor: not-allowed;
             }

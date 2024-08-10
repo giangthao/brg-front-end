@@ -63,7 +63,8 @@ export class KPIFormComponent implements OnInit {
       }),
       unit: new FormControl(null, {
         validators: Validators.compose([
-          Validators.required
+          Validators.required,
+          kpiManagementService.unitValidators()
         ])
       }),
       percentValue: new FormControl(false),
@@ -121,7 +122,7 @@ export class KPIFormComponent implements OnInit {
     console.log('open')
   }
 
-  // EXp
+  // Expression
   createGroup(): FormGroup {
     return this.fb.group({
       groupOperator: ['ADD'],

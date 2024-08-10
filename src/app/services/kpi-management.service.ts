@@ -8,9 +8,9 @@ import { Observable, of } from 'rxjs';
 export class KPIManagementService {
   nameValidators(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-      const forbiddenCharacters = /[!@#$%^&*(),.?":{}|<>]/.test(control.value);
-      const maxLengthExceeded = control.value && control.value.length > 255;
-      const containWhitespace = /^\s/.test(control.value) || /\s$/.test(control.value);
+      const forbiddenCharacters = control.value &&  /[!@#$%^&*(),.?":{}|<>]/.test(control.value.trim());
+      const maxLengthExceeded = control.value && control.value.trim().length > 255;
+      const containWhitespace = control.value && control.value.trim() === '';
 
       if (maxLengthExceeded) {
         return { maxlength: true };
@@ -33,5 +33,23 @@ export class KPIManagementService {
     const nameExists =  listKPIName.includes(name.toLowerCase());
     console.log(nameExists)
     return of(nameExists);
+  }
+
+  unitValidators(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+     
+      const maxLengthExceeded = control.value && control.value.trim().length > 100;
+      const containWhitespace = control.value && control.value.trim() === '';
+
+      if (maxLengthExceeded) {
+        return { maxlength: true };
+      }
+
+      if(containWhitespace) {
+        return { whitespace: true };
+      }
+  
+      return null;
+    };
   }
 }

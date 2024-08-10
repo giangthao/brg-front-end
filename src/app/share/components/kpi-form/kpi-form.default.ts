@@ -115,7 +115,7 @@ export const units = [
 export const operators = [
   {
      label: '+',
-     value: 'ADD'
+     value: 'PLUS'
   },
   {
     label: '-',
@@ -141,7 +141,7 @@ export const itemTypes = [
     value: 'COUNTER'
   },
   {
-    label: 'Numeric value',
+    label: 'Number',
     value: 'NUMBER'
   }
 ]

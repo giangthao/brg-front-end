@@ -4,6 +4,7 @@
     <h2 *ngIf="type === 'EDIT'">Edit KPI</h2>
   </div>
   <form class="kpi-form__section" [formGroup]="formGroupKPI">
+    <!-- Common information -->
     <div class="kpi-form__wrapper kpi-form__common-infor">
       <div class="kpi-form__row">
         <div class="kpi-form__text">Common information</div>
@@ -37,14 +38,16 @@
                 formGroupKPI.get('name')?.touched)
             "
           >
-            <div *ngIf="formGroupKPI.get('name')?.errors?.required">
+            <div
+              *ngIf="
+                formGroupKPI.get('name')?.errors?.required ||
+                formGroupKPI.get('name')?.errors?.whitespace
+              "
+            >
               This information is required.
             </div>
             <div *ngIf="formGroupKPI.get('name')?.errors?.maxlength">
               Maximum length is 255 characters.
-            </div>
-            <div *ngIf="formGroupKPI.get('name')?.errors?.whitespace">
-              No leading or trailing whitespace allowed.
             </div>
             <div *ngIf="formGroupKPI.get('name')?.errors?.forbiddenCharacter">
               Invalid format.
@@ -117,20 +120,23 @@
         <!-- Unit -->
         <div class="form-control">
           <div class="form-label">
-            <label for=""
+            <label for="unit"
               >Unit
               <span class="form-required">*</span>
             </label>
           </div>
-          <ng-select
-            [items]="UNITS"
-            bindLabel="value"
-            bindValue="value"
-            placeholder="Select unit"
-            formControlName="unit"
-            (open)="onOpen()"
-          >
-          </ng-select>
+          <div class="form-input">
+            <input
+              id="unit"
+              formControlName="unit"
+              [class.error]="
+                formGroupKPI.get('unit')?.invalid &&
+                (formGroupKPI.get('unit')?.dirty ||
+                  formGroupKPI.get('unit')?.touched)
+              "
+              placeholder="Enter unit"
+            />
+          </div>
           <div
             class="form-error"
             *ngIf="
@@ -139,8 +145,16 @@
                 formGroupKPI.get('unit')?.touched)
             "
           >
-            <div *ngIf="formGroupKPI.get('unit')?.errors?.required">
+            <div
+              *ngIf="
+                formGroupKPI.get('unit')?.errors?.required ||
+                formGroupKPI.get('unit')?.errors?.whitespace
+              "
+            >
               This information is required.
+            </div>
+            <div *ngIf="formGroupKPI.get('unit')?.errors?.maxlength">
+              Maximum length is 100 characters.
             </div>
           </div>
         </div>
@@ -152,7 +166,9 @@
               formControlName="percentValue"
               id="percent-value"
             />
-            <label for="percent-value">Percent Value</label>
+            <label style="font-size: 16px; font-weight: 500" for="percent-value"
+              >Percent Value</label
+            >
           </div>
         </div>
 
@@ -173,7 +189,7 @@
         </div>
       </div>
     </div>
-
+    <!-- Calculation -->
     <div class="kpi-form__wrapper kpi-form__calculation-formula">
       <div class="kpi-form__row">
         <div class="kpi-form__text">KPI calculation formula</div>
@@ -206,7 +222,7 @@
                 [formGroupName]="i"
                 class="kpi-form__group"
               >
-                <div *ngIf="i > 0">
+                <div class="kpi-form__operator" *ngIf="i > 0">
                   <ng-select
                     [items]="OPERATORS"
                     bindLabel="label"
@@ -234,7 +250,7 @@
                     "
                     [formGroupName]="j"
                   >
-                    <div *ngIf="j > 0">
+                    <div class="kpi-form__operator" *ngIf="j > 0">
                       <ng-select
                         [items]="OPERATORS"
                         bindLabel="label"
@@ -253,34 +269,20 @@
                     >
                     </ng-select>
 
-                    <!-- Display based on itemType -->
-                    <ng-container [ngSwitch]="item.get('itemType')?.value">
-                      <!-- Numeric Value -->
-                      <div *ngSwitchCase="'NUMERIC'">
-                        <input formControlName="itemValue" type="number" />
-                      </div>
-                      <!-- KPI ID -->
-                      <div *ngSwitchCase="'KPI'">
-                        <select formControlName="itemId">
-                          <option *ngFor="let kpi of kpiOptions" [value]="kpi">
-                            {{ kpi }}
-                          </option>
-                        </select>
-                      </div>
-                      <!-- Counter ID -->
-                      <div *ngSwitchCase="'COUNTER'">
-                        <select formControlName="itemId">
-                          <option
-                            *ngFor="let counter of counterOptions"
-                            [value]="counter"
-                          >
-                            {{ counter }}
-                          </option>
-                        </select>
-                      </div>
-                    </ng-container>
-                    <button type="button" (click)="addItem(i)">+</button>
-                    <button type="button">-</button>
+                    <button type="button" (click)="addItem(i)">
+                      <img
+                        class="kpi-form__icon"
+                        alt=""
+                        src="../../../../assets/images/icons/plus.svg"
+                      />
+                    </button>
+                    <button type="button">
+                      <img
+                        class="kpi-form__icon"
+                        alt=""
+                        src="../../../../assets/images/icons/minus.svg"
+                      />
+                    </button>
                   </div>
                 </div>
               </div>
@@ -293,253 +295,7 @@
           </div>
           <div class="kpi-form__expression--value">
             <div class="kpi-form__expression--value-inner">
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
-              <p>dfdsfsdf</p>
+              <p>Show KPI calculation formule</p>
             </div>
           </div>
         </div>

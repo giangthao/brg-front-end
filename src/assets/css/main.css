@@ -1311,11 +1311,15 @@ html {
   width: 100%;
 }
 .form-control + .form-control {
-  margin-top: 20px;
+  margin-top: 24px;
 }
 
 .form-label {
   margin-bottom: 8px;
+}
+.form-label label {
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .form-input input {
@@ -1352,7 +1356,7 @@ html {
 
 textarea {
   all: unset;
-  resize: vertical;
+  resize: none;
   /* Default behavior allows vertical resizing */
   overflow: auto;
   /* Default overflow behavior */
@@ -1367,8 +1371,7 @@ textarea {
 .form-textarea textarea {
   display: block;
   width: calc(100% - 16px);
-  min-height: 88px;
-  max-height: 240px;
+  height: 120px;
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 8px;
@@ -1387,6 +1390,7 @@ textarea {
   display: flex;
   align-items: center;
   gap: 8px;
+  margin-top: -16px;
 }
 
 .ng-select.ng-invalid.ng-touched > .ng-select-container {

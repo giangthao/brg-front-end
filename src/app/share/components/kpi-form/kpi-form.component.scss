@@ -1,7 +1,7 @@
 .kpi-form{
     --height-header: calc(24px + 2 * 16px);
     --height-actions: calc(40px + 2 * 16px);
-    --height-wrapper: calc(100vh - var(--height-header) - 2 * var(--height-actions) - 24px - 16px);
+    --height-wrapper: calc(637px ); // maxheight commmon infor
 
     padding: 16px;
     background-color: #fff;
@@ -82,15 +82,17 @@
 
     &__calculation-formula{
         flex: 1;
+        max-height: calc(var(--height-wrapper) + 4 * 20px );
 
         &--content{
             display: flex;
+            height: calc(100% - 56px);
         }
 
     }
 
     &__metric-group{
-        height: var(--height-wrapper);
+        height: 100%;
         display: flex;
         flex-direction: column;
         flex: 1;
@@ -101,12 +103,12 @@
     &__groups{
         flex: 1;
         overflow-y: auto;
+        height: calc(100% - 56px);
     }
 
     &__expression{
         padding: 0 16px;
         width: calc(391px + 2 * 16px);
-        height: var(--height-wrapper);
         display: flex;
         flex-direction: column;
 
@@ -114,9 +116,8 @@
             overflow-y: auto;
             flex: 1;
             border: 1px solid #ddd;
-            border-bottom: none;
-            border-top-left-radius: 6px;
-            border-top-right-radius: 6px;
+            border-radius: 6px;
+            margin-bottom: 16px;
         }
 
         &--value-inner{

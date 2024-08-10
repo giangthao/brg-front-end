@@ -45,7 +45,7 @@ export class KPIFormComponent implements OnInit {
   //form: FormGroup;
   datasetEdit?: any;
   TYPES_OF_KPI = typesKPI;
-  CATEGORIES = categories;
+  CATEGORIES: any[] = [];
   UNITS = units;
   OPERATORS = operators;
   ITEM_TYPES = itemTypes;
@@ -58,6 +58,8 @@ export class KPIFormComponent implements OnInit {
   inValidCalculationFormule: boolean = true;
   textCalculationFormule: string = '';
   isExistedName: boolean = false;
+
+  currentPageCategories : number = 1;
 
   constructor(
     private router: Router,
@@ -97,6 +99,7 @@ export class KPIFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadCategories(this.currentPageCategories);
     if (this.type === 'EDIT') {
       this.datasetEdit = kpiEdit; // fake data edited
 
@@ -125,6 +128,29 @@ export class KPIFormComponent implements OnInit {
     this.subcribeCheckName();
     this.subcribeCommonValues();
     this.subcribeExpressionValues();
+  }
+
+  loadCategories(pageNumber: number) {
+    this.kpiManagementService.getCategories(pageNumber).subscribe((newItems: any[]) => {
+      console.log(newItems)
+      this.CATEGORIES = [...this.CATEGORIES, ...newItems];
+
+      // Add "More" button if there are more items to load
+      if (newItems.length > 0) {
+        this.CATEGORIES.push({ value: 'More' });
+      }
+    });
+
+  }
+
+  onSelectCategory(event: any) {
+    if (event.value === 'More') {
+      
+      this.currentPageCategories++;
+      this.CATEGORIES.pop(); // Remove the "More" option
+      this.loadCategories(this.currentPageCategories); // Load more items
+      
+    }
   }
 
   checkNameValidator(): AsyncValidatorFn {

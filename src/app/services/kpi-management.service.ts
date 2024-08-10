@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { Group, GroupItem } from '../share/components/kpi-form/kpi-form.default';
+import { categories } from '../share/components/kpi-form/kpi-form.default';
 
 @Injectable({
   providedIn: 'root',
@@ -38,6 +39,20 @@ export class KPIManagementService {
     console.log(nameExists)
     return of(nameExists);
   }
+
+  getCategories(pageNumber: number) : Observable<any> {
+    console.log(pageNumber)
+      const ROW_PER_PAGE = 3;
+      const startIndex = (pageNumber - 1) * ROW_PER_PAGE;
+      const endIndex = pageNumber * ROW_PER_PAGE;
+      if (startIndex >= categories.length) {
+        // If there are no more items to load, return an empty array
+        return of([]);
+      }
+      const newItems = categories.slice(startIndex, endIndex);
+      console.log('New: ', newItems)
+      return of(newItems);
+  } 
 
   unitValidators(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {

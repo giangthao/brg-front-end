@@ -105,7 +105,18 @@
             placeholder="Select category"
             formControlName="category"
             (open)="onOpen()"
+            (change)="onSelectCategory($event)"
           >
+          <ng-template ng-option-tmp let-item="item">
+            <div *ngIf="item.value !== 'more'; else moreOption">
+              {{ item.value }}
+            </div>
+            <ng-template #moreOption>
+              <div style="text-align: center;">
+                <strong>More...</strong>
+              </div>
+            </ng-template>
+          </ng-template>
           </ng-select>
           <div
             class="form-error"

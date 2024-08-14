@@ -27,7 +27,7 @@
   <table class="table">
     <thead>
       <tr>
-        <th>
+        <th >
           <div class="thead">KPI name</div>
         </th>
         <th>
@@ -40,16 +40,21 @@
     </thead>
     <tbody>
       <tr *ngFor="let data of dataTable " class="tr">
-        <td class="td">
-          <div class="loader">{{data.name}}</div>
+        <td class="td" >
+          <div style="position: relative;" [class.loader]="showLoading">
+            <div class="text"  appOverflowTooltip>{{data.name}}</div>
+            <div class="tooltip">{{data.name}}</div>
+          </div>
         </td>
         <td class="td">
-          <div class="loader">{{data.type}}</div>
+          <div [class.loader]="showLoading">{{data.type}}</div>
         </td>
         <td class="td">
-          <div class="loader">{{data.category}}</div>
+          <div  [class.loader]="showLoading">{{data.category}}</div>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
+
+<button (click)="toggleLoading()" >Show Loading</button>

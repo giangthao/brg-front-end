@@ -1,55 +1,109 @@
 .loading {
-    margin-top: 100px;
+  margin-top: 100px;
+}
+
+.thead {
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+th {
+  padding: 10px;
+  border-bottom: 2px solid #ddd;
+}
+
+.table {
+  background-color: #fff;
+  width: 450px;
+  border: 1px solid #ddd;
+}
+
+.loader {
+  background-color: #ededed;
+  height: 18px;
+  border-radius: 4px;
+  width: 100%;
+  //font-size: 0 !important;
+  color: transparent;
+  margin: 10px 0;
+}
+
+.tr {
+  border-bottom: 1px solid #ddd;
+}
+
+.td {
+  border-bottom: 1px solid #ddd;
+
+  div.text {
+    padding: 10px;
+    max-width: 200px;
+    line-height: 18px;
+    overflow: hidden; /* Ẩn phần tràn */
+    text-overflow: ellipsis; /* Thêm dấu ba chấm để chỉ phần văn bản bị cắt */
+    white-space: nowrap;
+  }
+}
+
+.td .loader {
+  background-color: #ededed;
+  background: linear-gradient(
+      100deg,
+      rgba(255, 255, 255, 0) 40%,
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(255, 255, 255, 0) 60%
+    )
+    #ededed;
+  background-size: 200% 100%;
+  background-position-x: 100%;
+  animation: 1s loading ease-in-out infinite;
+}
+
+/* Container của phần tử với tooltip */
+.text  {
+  position: relative;
+}
+
+/* Style cho tooltip */
+.tooltip {
+  position: absolute;
+  background-color: #333;
+  color: #fff;
+  padding: 5px;
+  border-radius: 3px;
+  font-size: 12px;
+  z-index: 1000;
+  visibility: hidden; /* Ẩn tooltip theo mặc định */
+  opacity: 0;
+  transition: opacity 0.3s, visibility 0.3s; /* Hiệu ứng chuyển đổi mờ dần */
+  width: 350px;
+  word-break: break-all;
+}
+
+/* Hiển thị tooltip khi phần tử bị tràn */
+.text.overflowing ~ .tooltip {
+  visibility: visible;
+  opacity: 1;
+  top: 100%; /* Đặt tooltip dưới phần tử gốc */
+  left: 0; /* Căn giữa theo chiều ngang */
   
 }
 
-.thead{
-    background-color: #f5f5f5;
-    border-radius: 4px;
-    padding: 5px
+/* Mũi tên trên tooltip */
+.tooltip::after {
+  content: "";
+  position: absolute;
+  top: -8px; /* Đặt mũi tên dưới tooltip */
+  left: 10px; /* Căn giữa mũi tên theo chiều ngang của tooltip */
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #333 transparent;
+  transform: translateX(-50%);
 }
 
-th{
-    padding: 10px;
-    border-bottom: 2px solid #ddd;
-}
-
-.table{
-    background-color: #fff;
-    width: 450px;
-    border: 1px solid #ddd;
-}
-
-.loader{
-    background-color: #ededed;
-    height: 18px;
-    border-radius: 4px;
-    width: 100%;
-    font-size: 0 !important; 
-}
-
-.tr{
-    border-bottom: 1px solid #ddd;;
-}
-
-.td{
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-}
-
-.td .loader{
-    background-color: #ededed;
-    background: linear-gradient(100deg, 
-    rgba(255, 255, 255, 0) 40%,
-    rgba(255, 255, 255, 0.5) 50%,
-    rgba(255, 255, 255, 0) 60% ) #ededed;
-    background-size: 200% 100%;
-    background-position-x: 100%;
-    animation: 1s loading ease-in-out infinite;
-}
-
-@keyframes loading{
-    to {
-        background-position-x: -30%;
-    }
+@keyframes loading {
+  to {
+    background-position-x: -30%;
+  }
 }

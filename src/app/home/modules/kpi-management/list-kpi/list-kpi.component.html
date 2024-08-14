@@ -1,7 +1,55 @@
-<div style="display: flex;justify-content:space-between ">
+<div style="display: flex; justify-content: space-between">
   <h1>List KPI</h1>
-  <div style="display: flex; align-items: center; justify-content: flex-end; gap: 42px">
-    <button (click)="navigateToAddKPI()" style="cursor: pointer; text-decoration: underline;">Add KPI</button>
-    <button (click)="navigateToEditKPI()" style="cursor: pointer; text-decoration: underline;" >Edit KPI (with id = 1)</button>
+  <div
+    style="
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 42px;
+    "
+  >
+    <button
+      (click)="navigateToAddKPI()"
+      style="cursor: pointer; text-decoration: underline"
+    >
+      Add KPI
+    </button>
+    <button
+      (click)="navigateToEditKPI()"
+      style="cursor: pointer; text-decoration: underline"
+    >
+      Edit KPI (with id = 1)
+    </button>
   </div>
+</div>
+
+<div class="loading">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>
+          <div class="thead">KPI name</div>
+        </th>
+        <th>
+          <div class="thead">KPI type</div>
+        </th>
+        <th>
+          <div class="thead">Category</div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of dataTable " class="tr">
+        <td class="td">
+          <div class="loader">{{data.name}}</div>
+        </td>
+        <td class="td">
+          <div class="loader">{{data.type}}</div>
+        </td>
+        <td class="td">
+          <div class="loader">{{data.category}}</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

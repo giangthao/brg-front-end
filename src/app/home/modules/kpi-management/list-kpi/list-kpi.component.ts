@@ -8,6 +8,24 @@ import { RouteConstant } from "src/app/constant/route.constant";
 })
 export class ListKPIComponent{
 
+  dataTable = [
+    {
+      name: 'Name 1',
+      type: 'Type',
+      category: 'Category'
+    },
+    {
+      name: 'Name 1',
+      type: 'Type',
+      category: 'Category'
+    },
+    {
+      name: 'Name 1',
+      type: 'Type',
+      category: 'Category'
+    }
+  ]
+
    constructor(private router: Router) {}
    navigateToAddKPI(){
      this.router.navigate([RouteConstant.KPI_MANAGEMENT, RouteConstant.ADD_KPI])

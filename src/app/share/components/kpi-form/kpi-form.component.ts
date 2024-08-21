@@ -380,4 +380,14 @@ export class KPIFormComponent implements OnInit {
   onSubmitForm() {
     console.log('submit form');
   }
+
+   convertString(input : string) {
+    // Loại bỏ các số 0 ở đầu nhưng giữ lại ít nhất một chữ số trước dấu thập phân
+    let result = input.replace(/^0+(?=\d)/, '');
+    
+    // Loại bỏ các số 0 ở cuối nếu có
+    result = result.replace(/0+$/, '');
+  
+    return result;
+  }
 }

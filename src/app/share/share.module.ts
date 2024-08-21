@@ -10,6 +10,8 @@ import { DropDownMenuComponent } from "./components/drop-down-menu/drop-down-men
 import { KPIFormComponent } from "./components/kpi-form/kpi-form.component";
 import { NgSelectModule } from '@ng-select/ng-select';
 import { OverflowTooltipDirective } from "./directives/over-flow-tooltip.directive";
+import { LineChartComponent } from "./components/charts/line-chart/line-chart.component";
+
 
 @NgModule({
     declarations: [
@@ -18,7 +20,8 @@ import { OverflowTooltipDirective } from "./directives/over-flow-tooltip.directi
       DateTimePickerComponent,
       DropDownMenuComponent,
       KPIFormComponent,
-      OverflowTooltipDirective
+      OverflowTooltipDirective,
+      LineChartComponent
     ],
     imports: [
         CommonModule,
@@ -41,7 +44,8 @@ import { OverflowTooltipDirective } from "./directives/over-flow-tooltip.directi
         KPIFormComponent,
         SelectComponent,
         NgSelectModule,
-        OverflowTooltipDirective
+        OverflowTooltipDirective,
+        LineChartComponent
     ]
 })
 export class ShareModule{

@@ -9,7 +9,7 @@ import { RuleManagementModule } from './home/modules/rule-management/rule-manage
 import { DeployedHistoryModule } from './home/modules/deployed-history-management/deployed-history-management.module';
 import { LoginModule } from './login/login.module';
 import { KPIManagementModule } from './home/modules/kpi-management/kpi-management.module';
-
+import { ReportKPIModule } from './home/modules/report-kpi/report-kpi.module';
 
 @NgModule({
   declarations: [
@@ -24,7 +24,8 @@ import { KPIManagementModule } from './home/modules/kpi-management/kpi-managemen
     RuleManagementModule,
     DeployedHistoryModule,
     LoginModule,
-    KPIManagementModule
+    KPIManagementModule,
+    ReportKPIModule
   ],
   providers: [],
   bootstrap: [AppComponent],
@@ -37,7 +38,7 @@ import { KPIManagementModule } from './home/modules/kpi-management/kpi-managemen
     RuleManagementModule,
     DeployedHistoryModule,
     LoginModule,
-   
+    ReportKPIModule
     
   ]
 })

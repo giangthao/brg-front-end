@@ -15,9 +15,10 @@ import { ListKPIComponent } from './home/modules/kpi-management/list-kpi/list-kp
 import { AddKPIComponent } from './home/modules/kpi-management/add-kpi/add-kpi.component';
 import { EditKPIComponent } from './home/modules/kpi-management/edit-kpi/edit-kpi.component';
 import { KPIManagementComponent } from './home/modules/kpi-management/kpi-management.component';
+import { ReportKPIComponent } from './home/modules/report-kpi/report-kpi.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: RouteConstant.KPI_MANAGEMENT, pathMatch: 'full' },
+  { path: '', redirectTo: RouteConstant.REPORT_KPI, pathMatch: 'full' },
   {
     path: '',
     component: HomeComponent,
@@ -94,6 +95,9 @@ const routes: Routes = [
     ],
   },
   { path: RouteConstant.LOGIN, component: LoginComponent },
+  {
+    path: RouteConstant.REPORT_KPI, component: ReportKPIComponent
+  }
 ];
 
 @NgModule({

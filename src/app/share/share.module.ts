@@ -11,7 +11,7 @@ import { KPIFormComponent } from "./components/kpi-form/kpi-form.component";
 import { NgSelectModule } from '@ng-select/ng-select';
 import { OverflowTooltipDirective } from "./directives/over-flow-tooltip.directive";
 import { LineChartComponent } from "./components/charts/line-chart/line-chart.component";
-
+import { PdfViewerModule } from "ng2-pdf-viewer";
 
 @NgModule({
     declarations: [
@@ -28,7 +28,8 @@ import { LineChartComponent } from "./components/charts/line-chart/line-chart.co
         ReactiveFormsModule,
         FormsModule,
         HttpClientModule,
-        NgSelectModule
+        NgSelectModule,
+        PdfViewerModule
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
@@ -45,7 +46,8 @@ import { LineChartComponent } from "./components/charts/line-chart/line-chart.co
         SelectComponent,
         NgSelectModule,
         OverflowTooltipDirective,
-        LineChartComponent
+        LineChartComponent,
+        PdfViewerModule
     ]
 })
 export class ShareModule{

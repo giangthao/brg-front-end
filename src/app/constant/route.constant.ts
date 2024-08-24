@@ -9,4 +9,5 @@
     public static readonly LIST_KPI = 'list-kpi';
     public static readonly ADD_KPI = 'add-kpi';
     public static readonly EDIT_KPI  = 'edit-kpi';
+    public static readonly REPORT_KPI = 'report-kpi'
  }

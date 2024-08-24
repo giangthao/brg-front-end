@@ -3,6 +3,7 @@ import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { TDocumentDefinitions } from 'pdfmake/interfaces';
 import { data, userKpi, systemKpi, Metric } from './report-kpi.default';
+import { TranslateService } from '@ngx-translate/core';
 
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 // Định nghĩa font tùy chỉnh nếu cần
@@ -27,6 +28,14 @@ export class ReportKPIComponent implements OnInit {
     paddingTop: () => 5, // Padding trên
     paddingBottom: () => 5, // Padding dưới
   };
+
+  constructor(private translate: TranslateService) {
+    // Set the default language
+    translate.setDefaultLang('en');
+
+    // Use a language
+    translate.use('en');
+  }
 
   ngOnInit(): void {}
 
@@ -152,7 +161,7 @@ export class ReportKPIComponent implements OnInit {
 
     const documentDefinition = {
       content: [
-        { text: 'Báo cáo hệ thống'.toUpperCase(), style: 'header' },
+        { text: String(this.translate.instant('report.header')).toUpperCase(), style: 'header' },
         {
           text: `Từ ngày: ${this.formDate} Đến ngày: ${this.toDate}`,
           style: 'subheader',

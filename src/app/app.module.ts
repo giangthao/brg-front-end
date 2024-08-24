@@ -10,6 +10,10 @@ import { DeployedHistoryModule } from './home/modules/deployed-history-managemen
 import { LoginModule } from './login/login.module';
 import { KPIManagementModule } from './home/modules/kpi-management/kpi-management.module';
 import { ReportKPIModule } from './home/modules/report-kpi/report-kpi.module';
+import { TranslateLoader } from '@ngx-translate/core';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { createTranslateLoader } from './translate-loader';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -25,7 +29,15 @@ import { ReportKPIModule } from './home/modules/report-kpi/report-kpi.module';
     DeployedHistoryModule,
     LoginModule,
     KPIManagementModule,
-    ReportKPIModule
+    ReportKPIModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader,  // Reference the factory function correctly
+        deps: [HttpClient]
+      }
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],

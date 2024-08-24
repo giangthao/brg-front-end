@@ -1,0 +1,7 @@
+{
+    "report" : {
+        "header": "System report",
+        "from": "From: ",
+        "to" : "To: "
+    }
+}

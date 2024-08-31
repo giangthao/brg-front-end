@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouteConstant } from 'src/app/constant/route.constant';
 
@@ -6,7 +6,7 @@ import { RouteConstant } from 'src/app/constant/route.constant';
   templateUrl: './list-kpi.component.html',
   styleUrls: ['./list-kpi.component.scss'],
 })
-export class ListKPIComponent {
+export class ListKPIComponent implements AfterViewInit, OnInit {
   dataTable = [
     {
       name: 'Name 143434534534534545435435435435345345345345435345435345345345',
@@ -98,5 +98,48 @@ export class ListKPIComponent {
     this.showLoading = !this.showLoading;
   }
 
+  ngOnInit(): void {
+    this.fetchData().then((data: number) => {
+      this.animateNumber('number', 0, data, 500); // Ví dụ: từ 0 đến giá trị data trong 2000ms
+    });
+  }
+
+  ngAfterViewInit() {
+    //this.animateNumber('number', 0, 12345, 2000); // Example animation
+  }
+
+  animateNumber(elementId: string, start: number, end: number, duration: number) {
+    const element = document.getElementById(elementId);
+    const startTime = performance.now();
+
+    function update(currentTime: number) {
+      const elapsedTime = currentTime - startTime;
+      const progress = Math.min(elapsedTime / duration, 1); // Ensure progress is between 0 and 1
+      const value = Math.round(start + (end - start) * progress);
+      if(element) {
+        element.textContent = value.toString();
+      }
+      else{
+        return;
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      }
+    }
+
+    requestAnimationFrame(update);
+  }
+
+
+  // Giả lập hàm gọi API
+  fetchData(): Promise<number> {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const fakeData = 12345; // Giá trị giả lập trả về từ API
+        resolve(fakeData);
+      }, 2000); // Giả lập thời gian chờ 2 giây
+    });
+  }
   
 }

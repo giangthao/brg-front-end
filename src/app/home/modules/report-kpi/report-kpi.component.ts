@@ -6,14 +6,13 @@ import { data, userKpi, systemKpi, Metric } from './report-kpi.default';
 import { TranslateService } from '@ngx-translate/core';
 
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
-// Định nghĩa font tùy chỉnh nếu cần
 
 @Component({
   templateUrl: './report-kpi.component.html',
 })
 export class ReportKPIComponent implements OnInit {
   formDate = '12/12/2023';
-  toDate = new Date().toLocaleDateString('en-GB');
+  toDate = new Date().toLocaleDateString('en-GB'); // dd/mm/yyyy
 
   titleTable = data.title;
   userKpi = userKpi;
@@ -163,7 +162,7 @@ export class ReportKPIComponent implements OnInit {
       content: [
         { text: String(this.translate.instant('report.header')).toUpperCase(), style: 'header' },
         {
-          text: `Từ ngày: ${this.formDate} Đến ngày: ${this.toDate}`,
+          text: `Từ ngày: ${this.formDate}    Đến ngày: ${this.toDate}`,
           style: 'subheader',
         },
         {
@@ -208,16 +207,16 @@ export class ReportKPIComponent implements OnInit {
       ],
       styles: {
         header: {
-          fontSize: 18,
+          fontSize: 16,
           bold: true,
           textTransform: 'uppercase',
           alignment: 'center',
         },
         subheader: {
-          fontSize: 14,
+          fontSize: 12,
           italics: true,
           alignment: 'center',
-          margin: [0, 10],
+          margin: [0, 10, 0, 0],
         },
         title: {
           bold: true,

@@ -339,7 +339,6 @@ html {
   --filter-popper-item-hover-bg-color: #ecf4f880;
   --filter-popper-alter-text-color: #665e5e;
   --filter-popper-location-header-border-color: #ddd:
-  //filter icons
   --filter-x-icon: brightness(0) saturate(100%) invert(30%) sepia(0%) saturate(7444%) hue-rotate(88deg) brightness(97%)
   contrast(75%);
   --filter-budget-icon: brightness(0) saturate(100%) invert(8%) sepia(36%) saturate(1272%) hue-rotate(176deg) brightness(96%)

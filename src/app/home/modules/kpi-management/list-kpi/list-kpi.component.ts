@@ -27,6 +27,60 @@ export class ListKPIComponent {
 
   showLoading = false;
 
+  catchingData = [
+    {
+      country: 'Chế độ thủ công - Tìm thấy địa điểm - Lấy được IMEI',
+      litres: 545,
+    },
+    {
+      country: 'Chế độ thủ công - Tìm thấy địa điểm - Không lấy được IMEI',
+      litres: 344,
+    },
+    {
+      country: 'Chế độ thủ công - Không tìm thấy địa điểm - Lấy được IMEI',
+      litres: 400,
+    },
+    {
+      country: 'Chế độ tự động - Tìm thấy địa điểm - Lấy được IMEI',
+      litres: 200,
+    },
+    {
+      country: 'Chế độ tự động - Tìm thấy địa điểm - Không lấy được IMEI',
+      litres: 111,
+    },
+    {
+      country: 'Chế độ tự động - Không tìm thấy địa điểm - Lấy được IMEI',
+      litres: 700,
+    },
+  ]
+
+  locateData = [
+    {
+      country: 'Chế độ thủ công - Tìm thấy địa điểm - Lấy được IMEI',
+      litres: 0,
+    },
+    {
+      country: 'Chế độ thủ công - Tìm thấy địa điểm - Không lấy được IMEI',
+      litres: 0,
+    },
+    {
+      country: 'Chế độ thủ công - Không tìm thấy địa điểm - Lấy được IMEI',
+      litres: 0,
+    },
+    {
+      country: 'Chế độ tự động - Tìm thấy địa điểm - Lấy được IMEI',
+      litres: 0,
+    },
+    {
+      country: 'Chế độ tự động - Tìm thấy địa điểm - Không lấy được IMEI',
+      litres: 0,
+    },
+    {
+      country: 'Chế độ tự động - Không tìm thấy địa điểm - Lấy được IMEI',
+      litres: 0,
+    },
+  ]
+
   constructor(private router: Router) {}
   navigateToAddKPI() {
     this.router.navigate([RouteConstant.KPI_MANAGEMENT, RouteConstant.ADD_KPI]);

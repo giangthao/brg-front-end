@@ -1,6 +1,6 @@
-<main style="padding: 24px;">
+<main>
   <div style="display: flex; justify-content: space-between">
-    <h1>List KPI</h1>
+    <h2 style="margin-bottom: 24px;">Dashboard KPI</h2>
     <div
       style="
         display: flex;
@@ -9,7 +9,7 @@
         gap: 42px;
       "
     >
-      <button
+      <!-- <button
         (click)="navigateToAddKPI()"
         style="cursor: pointer; text-decoration: underline"
       >
@@ -20,7 +20,7 @@
         style="cursor: pointer; text-decoration: underline"
       >
         Edit KPI (with id = 1)
-      </button>
+      </button> -->
     </div>
   </div>
   
@@ -58,15 +58,32 @@
     </table>
   </div> -->
   
-  <button (click)="toggleLoading()" >Show Loading</button>
-  
+  <!-- <button (click)="toggleLoading()" >Show Loading</button> -->
+  <div class="statistic">
+    <div style="border-top-left-radius: 12px;">
+      <h3 style="text-align: center;">Tổng số IMSI lấy được trong 1s (max)</h3>
+      <p>343545</p>
+    </div>
+    <div>
+      <h3 style="text-align: center;">Tổng số IMEI lấy được trong 1s (max)</h3>
+      <p>789</p>
+    </div>
+    <div style="border-top-right-radius: 12px;">
+      <h3 style="text-align: center;">Số IMEI thu thập được / IMSI</h3>
+      <p>2323/4570</p>
+    </div>
+  </div>
   <div class="grid-charts">
     <div class="chart">
-      <app-line-chart></app-line-chart>
+      <h3>Số lượng thu thập</h3>
+      <app-pie-chart [id]="'pie-chart-1'" [chartData]="catchingData"></app-pie-chart>
     </div>
-    
-
+    <div class="chart">
+      <h3>Số lượng dò tìm</h3>
+      <app-pie-chart [id]="'pie-chart-2'" [chartData]="locateData"></app-pie-chart>
+    </div>
   </div>
-  
-  
+  <div class="table-grids">
+    <h3>Showing 20/1300 results</h3>
+  </div>
 </main>

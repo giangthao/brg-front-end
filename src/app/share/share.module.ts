@@ -12,6 +12,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { OverflowTooltipDirective } from "./directives/over-flow-tooltip.directive";
 import { LineChartComponent } from "./components/charts/line-chart/line-chart.component";
 import { PdfViewerModule } from "ng2-pdf-viewer";
+import { PieChartComponent } from "./components/charts/pie-chart/pie-chart.component";
 
 @NgModule({
     declarations: [
@@ -21,7 +22,8 @@ import { PdfViewerModule } from "ng2-pdf-viewer";
       DropDownMenuComponent,
       KPIFormComponent,
       OverflowTooltipDirective,
-      LineChartComponent
+      LineChartComponent,
+      PieChartComponent
     ],
     imports: [
         CommonModule,
@@ -47,7 +49,8 @@ import { PdfViewerModule } from "ng2-pdf-viewer";
         NgSelectModule,
         OverflowTooltipDirective,
         LineChartComponent,
-        PdfViewerModule
+        PdfViewerModule,
+        PieChartComponent
     ]
 })
 export class ShareModule{

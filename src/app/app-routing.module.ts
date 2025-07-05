@@ -18,7 +18,7 @@ import { KPIManagementComponent } from './home/modules/kpi-management/kpi-manage
 import { ReportKPIComponent } from './home/modules/report-kpi/report-kpi.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: RouteConstant.KPI_MANAGEMENT, pathMatch: 'full' },
+  { path: '', redirectTo: RouteConstant.REPORT_KPI, pathMatch: 'full' },
   {
     path: '',
     component: HomeComponent,

@@ -1,0 +1,27 @@
+<form [formGroup]="formGroup" style="margin: 60px">
+    <p style="margin-bottom: 10px">Custom multi ng-select</p>
+    <ng-select formControlName="user" style="width: 350px" [items]="users" [multiple]="true"
+        [placeholder]="'Select users'" [bindLabel]="'label'" [bindValue]="'value'">
+        <ng-template ng-multi-label-tmp let-items="items" let-remove="remove">
+            <div *ngIf="items?.length" class="selected-items">
+                <ng-container *ngFor="let value of items.slice(0, 2)">
+                    <span class="custom-selected-item">
+                        <span tooltipIfOverflow="{{value.label}}" class="item-label">{{value.label}}</span>
+                        <span class="remove-icon" (click)="remove(value)" aria-hidden="true">×</span>
+                    </span>
+                </ng-container>
+                <div class="ng-value custom-selected-item" *ngIf="items.length > 2">
+                    <span class="ng-value-label item-label">+{{items.length - 2}}</span>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template ng-option-tmp let-item="item" let-index="index">
+            <div class="custom-selected-item">
+                <span class="option-label" tooltipIfOverflow="{{ item.label }}">{{
+                    item.label
+                    }}</span>
+            </div>
+        </ng-template>
+    </ng-select>
+</form>

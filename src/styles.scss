@@ -1,48 +1,95 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@ng-select/ng-select/themes/default.theme.css";
-
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
 .legend {
-    margin-left: 24px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 6px;
-  }
-  
-  .legend .legend-item {
-    font-size: 12px;
-    line-height: 16px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    text-align: left;
-  }
-  
-  .legend .legend-item .legend-value {
-    font-size: 12px;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    word-break: break-all;
-  }
-  
-  .legend .legend-item .legend-marker {
-    width: 12px;
-    height: 12px;
-    border: 1px solid #ccc;
-    flex-shrink: 0;
-  }
-  
-  .legend .legend-item.disabled .legend-marker {
-    opacity: 0.5;
-    background: #ddd;
-  }
+  margin-left: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+}
+
+.legend .legend-item {
+  font-size: 12px;
+  line-height: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+}
+
+.legend .legend-item .legend-value {
+  font-size: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-all;
+}
+
+.legend .legend-item .legend-marker {
+  width: 12px;
+  height: 12px;
+  border: 1px solid #ccc;
+  flex-shrink: 0;
+}
+
+.legend .legend-item.disabled .legend-marker {
+  opacity: 0.5;
+  background: #ddd;
+}
 
 /* number-animation.component.css */
 #number {
-  transition: color 0.1s ease; /* Example transition */
+  transition: color 0.1s ease;
+  /* Example transition */
 }
-  
+
+// Custom style ng-select
+.custom-selected-item {
+  display: inline-flex;
+  align-items: center;
+  background-color: #f2f2f2;
+  border-radius: 12px;
+  padding: 2px 6px;
+  margin: 2px;
+  max-width: 100%;
+}
+
+.custom-selected-item .item-label {
+  display: inline-block;
+  max-width: 100px;
+  /* Giới hạn chiều rộng label */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+.custom-selected-item .option-label{
+  display: inline-block;
+  max-width: 250px;
+  /* Giới hạn chiều rộng label */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+
+}
+
+.custom-selected-item .remove-icon {
+  font-weight: bold;
+  color: #666;
+  cursor: pointer;
+  margin-left: 4px;
+}
+
+.custom-selected-item .remove-icon:hover {
+  color: #d9534f;
+}
+
+.cdk-overlay-container{
+  z-index: 99999999;
+}

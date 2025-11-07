@@ -14,12 +14,12 @@ import { TranslateLoader } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { createTranslateLoader } from './translate-loader';
 import { TranslateModule } from '@ngx-translate/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule,
     ShareModule,
@@ -34,9 +34,9 @@ import { TranslateModule } from '@ngx-translate/core';
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: createTranslateLoader,  // Reference the factory function correctly
-        deps: [HttpClient]
-      }
+        useFactory: createTranslateLoader, // Reference the factory function correctly
+        deps: [HttpClient],
+      },
     }),
   ],
   providers: [],
@@ -50,8 +50,7 @@ import { TranslateModule } from '@ngx-translate/core';
     RuleManagementModule,
     DeployedHistoryModule,
     LoginModule,
-    ReportKPIModule
-    
-  ]
+    ReportKPIModule,
+  ],
 })
-export class AppModule { }
+export class AppModule {}

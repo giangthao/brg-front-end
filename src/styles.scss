@@ -1,6 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@ng-select/ng-select/themes/default.theme.css";
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import '~@swimlane/ngx-datatable/index.css';
+@import '~@swimlane/ngx-datatable/themes/material.scss';
+@import '~@swimlane/ngx-datatable/assets/icons.css';
+
+ngx-datatable.material {
+  width: 100% !important;
+}
 
 .legend {
   margin-left: 24px;
@@ -92,4 +99,19 @@
 
 .cdk-overlay-container{
   z-index: 99999999;
+}
+
+.ng-dropdown-panel .ng-dropdown-footer{
+  border: none !important;
+}
+
+.view-more {
+  text-align: center;
+  padding: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #007bff;
+  &:hover {
+    text-decoration: underline;
+  }
 }

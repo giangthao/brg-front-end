@@ -1,23 +1,7 @@
-export const USERS = [
-  {
-    label:
-      'user01 user01 user01 user01 user01 user01 user01 user01 user01 user01 user01 user01 user01',
-    value: 'user01',
-  },
-  {
-    label: 'user02',
-    value: 'user02',
-  },
-  {
-    label: 'user03',
-    value: 'user03',
-  },
-  {
-    label: 'user04',
-    value: 'user04',
-  },
-  {
-    label: 'user05',
-    value: 'user05',
-  },
-];
+export const USERS = Array.from({ length: 50 }, (_, i) => {
+  const num = (i + 1).toString().padStart(2, '0');
+  return {
+    label: `user${num}`,
+    value: `user${num}`,
+  };
+});

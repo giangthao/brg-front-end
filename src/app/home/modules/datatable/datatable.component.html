@@ -1,0 +1,22 @@
+<div class="app-all">
+  <ngx-datatable class="material" [rows]="rows" [columnMode]="'flex'" [headerHeight]="45" [rowHeight]="'auto'"
+    [footerHeight]="45" [limit]="10" [scrollbarH]="false">
+
+    <ngx-datatable-column *ngFor="let col of columns" [name]="col.name" [prop]="col.prop" [width]="col.width || 100"
+      [minWidth]="col.minWidth || 100" [resizeable]="false" [canAutoResize]="col.flexGrow ? true : false"
+      [flexGrow]="col.flexGrow || 0">
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex" let-value="value">
+        <ng-container *ngIf="col.prop === 'stt'">
+          {{ rowIndex + 1 }}
+        </ng-container>
+        <ng-container *ngIf="col.prop === 'action'">
+          <button class="btn btn-sm btn-primary me-1" (click)="edit(row)">Edit</button>
+          <button class="btn btn-sm btn-danger" (click)="delete(row)">Delete</button>
+        </ng-container>
+        <ng-container *ngIf="col.prop !== 'stt' && col.prop !== 'action'">
+          {{ value }}
+        </ng-container>
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+</div>

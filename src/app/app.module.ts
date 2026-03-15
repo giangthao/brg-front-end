@@ -15,6 +15,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { createTranslateLoader } from './translate-loader';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { DatatableModule } from './home/modules/datatable/datatable.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,6 +33,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     KPIManagementModule,
     ReportKPIModule,
     HttpClientModule,
+    NgxDatatableModule,
+    DatatableModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -51,6 +55,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     DeployedHistoryModule,
     LoginModule,
     ReportKPIModule,
+    NgxDatatableModule,
+    DatatableModule,
   ],
 })
 export class AppModule {}

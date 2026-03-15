@@ -16,9 +16,18 @@ import { AddKPIComponent } from './home/modules/kpi-management/add-kpi/add-kpi.c
 import { EditKPIComponent } from './home/modules/kpi-management/edit-kpi/edit-kpi.component';
 import { KPIManagementComponent } from './home/modules/kpi-management/kpi-management.component';
 import { ReportKPIComponent } from './home/modules/report-kpi/report-kpi.component';
+import { DatatableComponent } from './home/modules/datatable/datatable.component';
+
+const allowsKeycap = [
+  'a',
+  'b',
+  'c',
+  'd',
+  'nếu như mà tôi cần cọmkjhjkhjkjhkjhhkjkhjg',
+];
 
 const routes: Routes = [
-  { path: '', redirectTo: RouteConstant.KPI_MANAGEMENT, pathMatch: 'full' },
+  { path: '', redirectTo: RouteConstant.DATATABLE, pathMatch: 'full' },
   {
     path: '',
     component: HomeComponent,
@@ -72,6 +81,10 @@ const routes: Routes = [
     ],
   },
   {
+    path: RouteConstant.DATATABLE,
+    component: DatatableComponent,
+  },
+  {
     path: RouteConstant.KPI_MANAGEMENT,
     component: KPIManagementComponent,
     children: [
@@ -96,8 +109,9 @@ const routes: Routes = [
   },
   { path: RouteConstant.LOGIN, component: LoginComponent },
   {
-    path: RouteConstant.REPORT_KPI, component: ReportKPIComponent
-  }
+    path: RouteConstant.REPORT_KPI,
+    component: ReportKPIComponent,
+  },
 ];
 
 @NgModule({

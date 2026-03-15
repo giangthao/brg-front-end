@@ -17,6 +17,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { DatatableModule } from './home/modules/datatable/datatable.module';
+import { MapOfflineModule } from './home/modules/map-offline/map-offline.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -35,6 +36,7 @@ import { DatatableModule } from './home/modules/datatable/datatable.module';
     HttpClientModule,
     NgxDatatableModule,
     DatatableModule,
+    MapOfflineModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -57,6 +59,7 @@ import { DatatableModule } from './home/modules/datatable/datatable.module';
     ReportKPIModule,
     NgxDatatableModule,
     DatatableModule,
+    MapOfflineModule,
   ],
 })
 export class AppModule {}

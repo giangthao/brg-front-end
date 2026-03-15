@@ -30,6 +30,7 @@
     "@swimlane/ngx-datatable": "^19.0.0",
     "exceljs": "^4.4.0",
     "file-saver": "^2.0.5",
+    "maplibre-gl": "^2.4.0",
     "ng2-pdf-viewer": "^7.0.0",
     "pdfmake": "^0.2.12",
     "rxjs": "~6.6.0",

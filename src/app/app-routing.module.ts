@@ -17,6 +17,7 @@ import { EditKPIComponent } from './home/modules/kpi-management/edit-kpi/edit-kp
 import { KPIManagementComponent } from './home/modules/kpi-management/kpi-management.component';
 import { ReportKPIComponent } from './home/modules/report-kpi/report-kpi.component';
 import { DatatableComponent } from './home/modules/datatable/datatable.component';
+import { MapOfflineComponent } from './home/modules/map-offline/map-offline.component';
 
 const allowsKeycap = [
   'a',
@@ -27,7 +28,7 @@ const allowsKeycap = [
 ];
 
 const routes: Routes = [
-  { path: '', redirectTo: RouteConstant.DATATABLE, pathMatch: 'full' },
+  { path: '', redirectTo: RouteConstant.MAP_OFFLINE, pathMatch: 'full' },
   {
     path: '',
     component: HomeComponent,
@@ -111,6 +112,10 @@ const routes: Routes = [
   {
     path: RouteConstant.REPORT_KPI,
     component: ReportKPIComponent,
+  },
+  {
+    path: RouteConstant.MAP_OFFLINE,
+    component: MapOfflineComponent,
   },
 ];
 

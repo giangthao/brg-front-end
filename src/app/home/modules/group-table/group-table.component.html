@@ -1,0 +1,83 @@
+<div class="container">
+    <div class="inner">
+        <h2>Filter search</h2>
+        <div class="group-table__selected-count">
+            {{totalSelected}} phần tử được chọn
+        </div>
+        <div class="group-table" [class.is-loading-table]="isLoading" #tableContainer
+            (scroll)="onElementScroll($event)">
+            <div class="group-table__header" [class.is-scrolled]="isScrolled">
+                <div class="group-table__header--group">
+                    <div class="group-table__header--group-item">
+                        <button class="group-table__icon-btn" (click)="toggleAllGroups()"
+                            [class.is-expanded]="isAllExpanded">
+                            <img alt="" src="assets/images/icons/arrow-down.svg" />
+                        </button>
+                        <input type="checkbox" [checked]="isAllSelected" [indeterminate]="isMasterIndeterminate"
+                            (change)="onClickMasterCheckbox($event)" />
+                        <span class="group-table__title">LIID</span>
+                    </div>
+                    <ng-container *ngFor="let col of groupColumns.slice(1)">
+                        <div class="group-table__header--group-item">
+                            <span class="group-table__title">{{ col.label }}</span>
+                        </div>
+                    </ng-container>
+                    <div class="group-table__header--group-item group-table__flex-end">
+                        <span class="group-table__title">Action</span>
+                    </div>
+                </div>
+                <div class="group-table__header--child">
+                    <div *ngFor="let subItem of subColumns" class="group-table__header--child-item">
+                        <span class="group-table__sub-title">{{subItem.label.toUpperCase()}}</span>
+                    </div>
+                    <div class="group-table__header--child-item group-table__flex-end"></div>
+                </div>
+            </div>
+            <div class="group-table__content">
+                <div *ngFor="let group of rows" class="group-table__wrapper">
+                    <div class="group-table__group-data" [class.group-table__checked-item]="group.checked"
+                        [class.border-bottom]="!group.expanded">
+                        <div class="group-table__group-value loader-cell" [class.is-loading]="isLoading">
+                            <button class="group-table__icon-btn" (click)="toggleGroup(group)"
+                                [class.is-expanded]="group.expanded">
+                                <img alt="" src="assets/images/icons/arrow-down.svg" />
+                            </button>
+                            <input type="checkbox" [checked]="group.checked" [indeterminate]="group.indeterminate"
+                                (change)="onClickCheckboxGroup(group, $event)" />
+                            <span class="group-table__label">{{ group.parent.liid }}</span>
+                        </div>
+                        <ng-container *ngFor="let col of groupColumns.slice(1)">
+                            <div class="group-table__group-value loader-cell" [class.is-loading]="isLoading">
+                                <span class="group-table__label">{{ group.parent[col.key] }}</span>
+                            </div>
+                        </ng-container>
+                        <ng-container
+                            *ngTemplateOutlet="actionButtons; context: { $implicit: isLoading }"></ng-container>
+                    </div>
+                    <div [@expandCollapse]="group.expanded ? 'expanded' : 'collapsed'" style="overflow: hidden;">
+                        <div *ngFor="let child of group.children" class="group-table__children-data"
+                            [class.group-table__checked-item]="child.checked">
+                            <div class="group-table__child-value loader-cell" [class.is-loading]="isLoading">
+                                <input type="checkbox" [checked]="child.checked"
+                                    (change)="onClickCheckboxChild(child, group.parent.id, $event)" />
+                                <span class="group-table__label group-table__label--profile">{{ child.profile }}</span>
+                            </div>
+                            <div class="group-table__child-value loader-cell" [class.is-loading]="isLoading">
+                                <span class="group-table__label">{{ child.endTime }}</span>
+                            </div>
+                            <ng-container
+                                *ngTemplateOutlet="actionButtons; context: { $implicit: isLoading, isChild: true }"></ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ng-template #actionButtons let-loading let-isChild="isChild">
+            <div [class]="(isChild ? 'group-table__child-value' : 'group-table__group-value') + ' group-table__flex-end loader-cell'"
+                [class.is-loading]="loading">
+                <button class="group-table__action-btn"><img alt="" src="assets/images/icons/upload.svg" /></button>
+                <button class="group-table__action-btn"><img alt="" src="assets/images/icons/trash.svg" /></button>
+            </div>
+        </ng-template>
+    </div>
+</div>

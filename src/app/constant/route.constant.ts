@@ -12,4 +12,5 @@ export class RouteConstant {
   public static readonly REPORT_KPI = 'report-kpi';
   public static readonly DATATABLE = 'datatable';
   public static readonly MAP_OFFLINE = 'map-offline';
+  public static readonly GROUP_TABLE = 'group-table';
 }

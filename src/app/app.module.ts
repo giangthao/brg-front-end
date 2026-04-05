@@ -4,11 +4,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ShareModule } from './share/share.module';
 import { HomeModule } from './home/home.module';
-import { DatasetManagementModule } from './home/modules/dataset-management/dataset-management.module';
-import { RuleManagementModule } from './home/modules/rule-management/rule-management.module';
-import { DeployedHistoryModule } from './home/modules/deployed-history-management/deployed-history-management.module';
-import { LoginModule } from './login/login.module';
-import { KPIManagementModule } from './home/modules/kpi-management/kpi-management.module';
+// import { DatasetManagementModule } from './home/modules/dataset-management/dataset-management.module';
+// import { RuleManagementModule } from './home/modules/rule-management/rule-management.module';
+// import { DeployedHistoryModule } from './home/modules/deployed-history-management/deployed-history-management.module';
+// import { LoginModule } from './login/login.module';
+// import { KPIManagementModule } from './home/modules/kpi-management/kpi-management.module';
 import { ReportKPIModule } from './home/modules/report-kpi/report-kpi.module';
 import { TranslateLoader } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -17,7 +17,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { DatatableModule } from './home/modules/datatable/datatable.module';
-import { MapOfflineModule } from './home/modules/map-offline/map-offline.module';
+// import { MapOfflineModule } from './home/modules/map-offline/map-offline.module';
+import { GroupTableModule } from './home/modules/group-table/group-table.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,16 +28,17 @@ import { MapOfflineModule } from './home/modules/map-offline/map-offline.module'
     AppRoutingModule,
     ShareModule,
     HomeModule,
-    DatasetManagementModule,
-    RuleManagementModule,
-    DeployedHistoryModule,
-    LoginModule,
-    KPIManagementModule,
+    // DatasetManagementModule,
+    // RuleManagementModule,
+    // DeployedHistoryModule,
+    // LoginModule,
+    // KPIManagementModule,
     ReportKPIModule,
     HttpClientModule,
     NgxDatatableModule,
     DatatableModule,
-    MapOfflineModule,
+    // MapOfflineModule,
+    GroupTableModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -52,14 +54,14 @@ import { MapOfflineModule } from './home/modules/map-offline/map-offline.module'
     AppRoutingModule,
     ShareModule,
     HomeModule,
-    DatasetManagementModule,
-    RuleManagementModule,
-    DeployedHistoryModule,
-    LoginModule,
+    // DatasetManagementModule,
+    // RuleManagementModule,
+    // DeployedHistoryModule,
+    // LoginModule,
     ReportKPIModule,
     NgxDatatableModule,
     DatatableModule,
-    MapOfflineModule,
+    // MapOfflineModule,
   ],
 })
 export class AppModule {}

@@ -75,7 +75,7 @@ ngx-datatable.material {
   vertical-align: middle;
 }
 
-.custom-selected-item .option-label{
+.custom-selected-item .option-label {
   display: inline-block;
   max-width: 250px;
   /* Giới hạn chiều rộng label */
@@ -97,11 +97,11 @@ ngx-datatable.material {
   color: #d9534f;
 }
 
-.cdk-overlay-container{
+.cdk-overlay-container {
   z-index: 99999999;
 }
 
-.ng-dropdown-panel .ng-dropdown-footer{
+.ng-dropdown-panel .ng-dropdown-footer {
   border: none !important;
 }
 
@@ -111,7 +111,30 @@ ngx-datatable.material {
   cursor: pointer;
   font-size: 13px;
   color: #007bff;
+
   &:hover {
     text-decoration: underline;
   }
+}
+
+
+.custom-popup {
+  background: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  min-width: 380px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.maplibregl-popup.custom-wide-popup {
+  max-width: none !important;
+}
+
+.maplibregl-popup-content {
+  padding: 0 !important;
+}
+
+.maplibregl-popup-tip {
+  display: none !important;
 }

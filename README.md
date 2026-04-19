@@ -35,6 +35,9 @@ Nhược điểm:
 ## Với yêu cầu hiện tại:
 
 Không thể vừa chính xác theo bán kính địa lý vừa có gradient mượt vừa tối ưu hiệu năng
+
 Nếu fake bằng nhiều lớp thì sẽ bị vỡ gradient và rất nặng.
+
 Nếu dùng canvas thì lại không đảm bảo chính xác theo bán kính địa lý và phải xử lý lại mỗi lần zoom.
+
 Nên nếu giữ yêu cầu chính xác theo map thì em đề xuất dùng màu solid thay vì gradient.

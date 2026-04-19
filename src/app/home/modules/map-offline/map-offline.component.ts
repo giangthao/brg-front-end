@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, OnInit } from '@angular/core';
 import * as maplibregl from 'maplibre-gl';
+import * as turf from '@turf/turf';
 import { fakePreviousDetections, TargetDetection } from './map-offline.default';
 
 @Component({
@@ -328,7 +329,7 @@ export class MapOfflineComponent implements AfterViewInit, OnInit {
     }
   }
 
-  generateRingSector(target: TargetDetection) {
+  generateRawSector(target: TargetDetection) {
     const coords: any[] = [];
 
     const TA_TO_METER = 78;
@@ -375,7 +376,80 @@ export class MapOfflineComponent implements AfterViewInit, OnInit {
 
     coords.push(coords[0]);
 
+    return coords;
+
+    // const color = target.isNew ? '#ff0000' : '#999999';
+
+    // return {
+    //   type: 'Feature',
+    //   properties: {
+    //     detectionId: target._detectionId,
+    //     targetId: target.id,
+    //     isNew: target.isNew ?? false,
+    //     color,
+    //   },
+    //   geometry: {
+    //     type: 'Polygon',
+    //     coordinates: [coords],
+    //   },
+    // };
+  }
+
+  generateRingSector(target: TargetDetection) {
+    const rawCoords = this.generateRawSector(target);
+    const polygon = turf.polygon([rawCoords]);
+
+    const TA_TO_METER = 78;
+    const r1 = target.timing_advance_start * TA_TO_METER;
+
     const color = target.isNew ? '#ff0000' : '#999999';
+
+    // 👉 CASE 1: hình quạt (r1 = 0) → KHÔNG bo góc
+    if (r1 === 0) {
+      return {
+        type: 'Feature',
+        properties: {
+          detectionId: target._detectionId,
+          targetId: target.id,
+          isNew: target.isNew ?? false,
+          color,
+        },
+        geometry: polygon.geometry,
+      };
+    }
+
+    // 👉 CASE 2: donut → có bo góc
+    const radius = 4;
+
+    // giới hạn radius để tránh lỗi hình học
+    const r2 = target.timing_advance_end * TA_TO_METER;
+    const maxRadius = Math.max(1, (r2 - r1) / 2);
+    const safeRadius = Math.min(radius, maxRadius);
+
+    // shrink → expand
+    const shrink = turf.buffer(polygon, -safeRadius, {
+      units: 'meters',
+      steps: 16,
+    });
+
+    // fallback nếu shrink fail
+    if (!shrink || !shrink.geometry) {
+      return {
+        type: 'Feature',
+        properties: {
+          detectionId: target._detectionId,
+          targetId: target.id,
+          isNew: target.isNew ?? false,
+          color,
+        },
+        geometry: polygon.geometry,
+      };
+    }
+
+    const rounded = turf.buffer(shrink, safeRadius, {
+      units: 'meters',
+      steps: 16,
+    });
 
     return {
       type: 'Feature',
@@ -385,10 +459,7 @@ export class MapOfflineComponent implements AfterViewInit, OnInit {
         isNew: target.isNew ?? false,
         color,
       },
-      geometry: {
-        type: 'Polygon',
-        coordinates: [coords],
-      },
+      geometry: rounded.geometry,
     };
   }
 

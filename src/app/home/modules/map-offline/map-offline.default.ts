@@ -25,7 +25,7 @@ export const fakePreviousDetections: TargetDetection[] = (() => {
     {
       id: 1,
       name: 'Device 1',
-      timing_advance_start: 1,
+      timing_advance_start: 0,
       timing_advance_end: 2,
       azimuth: 30,
       beamwidth: 60,

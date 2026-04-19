@@ -1,27 +1,40 @@
-# AngularVersionEleven
+## Chi tiết
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.7.
+Hiện tại cần hiển thị vùng phủ sóng (sector / circle) theo bán kính địa lý (mét) trên bản đồ.
 
-## Development server
+## Vấn đề với gradient
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Thư viện bản đồ không hỗ trợ gradient cho polygon
+MapLibre/Mapbox chỉ hỗ trợ: `fill-color` `fill-opacity`
+Không có gradient fill (linear / radial / conic)
 
-## Code scaffolding
+## Giải pháp 1: Cách workaround (chia slice) không đạt yêu cầu
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Để giả lập gradient, phải: chia hình thành nhiều polygon nhỏ (slice), mỗi slice một màu
 
-## Build
+Nhược điểm:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+- Không tạo được gradient mượt → bị banding (nhìn thấy từng khối màu)
+- Khi zoom sẽ thấy rõ lỗi hơn
+- Tăng số slice để mượt hơn → tốn tài nguyên (CPU + render)
 
-## Running unit tests
+## Giải pháp 2: Dùng Canvas để vẽ gradient
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Có thể dùng: `createConicGradient()` (gradient theo góc)
+Nhưng lại phát sinh vấn đề:
 
-## Running end-to-end tests
+- Bản đồ dùng hệ tọa độ địa lý (lat/lng)
+- Canvas dùng pixel: phải convert: `mét → pixel` (theo zoom)
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Nhược điểm:
 
-## Further help
+- Không đảm bảo chính xác 100% bán kính địa lý
+- Phải recalculation mỗi lần zoom/move
+- Khó maintain, dễ lệch so với dữ liệu thật
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Với yêu cầu hiện tại:
+
+Không thể vừa chính xác theo bán kính địa lý vừa có gradient mượt vừa tối ưu hiệu năng
+Nếu fake bằng nhiều lớp thì sẽ bị vỡ gradient và rất nặng.
+Nếu dùng canvas thì lại không đảm bảo chính xác theo bán kính địa lý và phải xử lý lại mỗi lần zoom.
+Nên nếu giữ yêu cầu chính xác theo map thì em đề xuất dùng màu solid thay vì gradient.

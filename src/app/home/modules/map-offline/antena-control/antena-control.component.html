@@ -1,0 +1,65 @@
+<div class="antena-control">
+    <div class="antena-control__inner">
+        <header class="antena-control__header">
+            <div class="antena-control__header--row">
+                <span>Ăng-ten</span>
+                <div class="antena-control__header--status">
+                    <span class="antena-control__dot"></span>
+                    <span class="antena-control__header--text">Sẵn sàng</span>
+
+                </div>
+                <div class="antena-control__header--temp">
+                    <span class="antena-control__icon">
+                        <img alt="" src="assets/images/icons/temp.svg" />
+                    </span>
+                    <span class="antena-control__header--text">28 °C</span>
+
+                </div>
+
+            </div>
+            <button class="antena-control__icon antena-control__close-btn">
+                <img alt="" src="assets/images/icons/minus.svg" />
+            </button>
+
+        </header>
+
+        <form [formGroup]="formGroup" class="antena-control__content">
+            <div class="antena-control__viewer">
+                <canvas #viewerCanvas width="350" height="350"></canvas>
+            </div>
+            <div class="antena-control__control-btns">
+                <!-- Mode -->
+                <div class="switch">
+                    <input type="checkbox" id="switch" formControlName="isAutoMode" hidden />
+                    <label for="switch"><span>Xoay tự động</span></label>
+
+                </div>
+                <!-- Rotate angle -->
+                <div class="antena-control__group-control">
+                    <label for="rotate-angle">Xoay đến</label>
+                    <div>
+                        <input id="rotate-angle" formControlName="rotateAngle" maxlength="3" />
+                        <span>°</span>
+                    </div>
+                </div>
+
+                <!-- Speed -->
+                <div class="antena-control__group-control" *ngIf="isAutoMode">
+                    <label for="speed">Tốc độ</label>
+                    <div>
+                        <input id="speed" formControlName="speed" maxlength="3" />
+                        <span>°/s</span>
+                    </div>
+                </div>
+
+                <!-- Btns -->
+                <div class="antena-control__btns-control">
+                    <button (click)="rotateLeft()">Xoay trái</button>
+                    <button (click)="rotateRight()">Xoay phải</button>
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+</div>

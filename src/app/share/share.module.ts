@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   HttpClientModule,
-  HttpClient,
   HTTP_INTERCEPTORS,
 } from '@angular/common/http';
 import { AuthInterceptor } from '../interceptors/auth.interceptor';
@@ -11,7 +10,6 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { DateTimePickerComponent } from './components/date-time-picker/date-time-picker.component';
 import { SelectComponent } from './components/select/select.component';
 import { DropDownMenuComponent } from './components/drop-down-menu/drop-down-menu.component';
-import { KPIFormComponent } from './components/kpi-form/kpi-form.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TooltipIfOverflowDirective } from './directives/over-flow-tooltip.directive';
 import { LineChartComponent } from './components/charts/line-chart/line-chart.component';
@@ -26,7 +24,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     ClickOutsideDirective,
     DateTimePickerComponent,
     DropDownMenuComponent,
-    KPIFormComponent,
     TooltipIfOverflowDirective,
     LineChartComponent,
     PieChartComponent,
@@ -52,7 +49,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     ClickOutsideDirective,
     DateTimePickerComponent,
     DropDownMenuComponent,
-    KPIFormComponent,
     SelectComponent,
     NgSelectModule,
     TooltipIfOverflowDirective,
@@ -63,4 +59,4 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatTooltipModule,
   ],
 })
-export class ShareModule {}
+export class ShareModule { }

@@ -7,4 +7,4 @@ import { MapOfflineComponent } from './map-offline.component';
   imports: [ShareModule],
   exports: [MapOfflineComponent, ShareModule],
 })
-export class MapOfflineModule {}
+export class MapOfflineModule { }
